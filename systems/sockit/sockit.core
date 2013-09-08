@@ -1,0 +1,34 @@
+CAPI=1
+[main]
+depend =
+ jtag_tap
+ wb_intercon
+ adv_debug_sys
+ mor1kx
+ uart16550
+ or1k-elf-loader
+ vlog_tb_utils
+ jtag_vpi
+
+simulators =
+ icarus
+
+[verilog]
+src_files =
+ rtl/verilog/altera_virtual_jtag.v
+ rtl/verilog/clkgen.v
+ rtl/verilog/gpio.v
+ rtl/verilog/orpsoc_top.v
+ rtl/verilog/pll.v
+ rtl/verilog/pll/pll_0002.v
+ rtl/verilog/rom.v
+
+tb_private_src_files =
+ bench/orpsoc_tb.v
+ bench/uart_decoder.v
+
+include_files =
+ rtl/verilog/include/orpsoc-defines.v
+ rtl/verilog/include/orpsoc-params.v
+ rtl/verilog/include/timescale.v
+ rtl/verilog/include/uart_defines.v
