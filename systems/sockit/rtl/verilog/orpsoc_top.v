@@ -746,11 +746,61 @@ assign	wb_rom0_dat_o = 0;
 assign	wb_rom0_ack_o = 0;
 `endif
 
-assign	wb_mc0_ibus_err = 0;
-assign	wb_mc0_ibus_rty = 0;
+////////////////////////////////////////////////////////////////////////
+//
+// Internal SRAM
+//
+////////////////////////////////////////////////////////////////////////
 
-assign	wb_mc0_dbus_err = 0;
-assign	wb_mc0_dbus_rty = 0;
+ram_wb #(
+	.aw(wb_aw),
+	.dw(wb_dw),
+	.mem_size_bytes(8192), // 8KB
+	.mem_adr_width($clog2(8192))
+) ram_wb0 (
+	// Wishbone slave interface 0
+	.wbm0_dat_i		(wb_ibus_dat),
+	.wbm0_adr_i		(wb_ibus_adr),
+	.wbm0_sel_i		(wb_ibus_sel),
+	.wbm0_cti_i		(wb_ibus_cti),
+	.wbm0_bte_i		(wb_ibus_bte),
+	.wbm0_we_i		(wb_ibus_we ),
+	.wbm0_cyc_i		(wb_ibus_cyc[mc0_ibus_slave_nr]),
+	.wbm0_stb_i		(wb_ibus_stb),
+	.wbm0_dat_o		(wb_mc0_ibus_sdt),
+	.wbm0_ack_o		(wb_mc0_ibus_ack),
+	.wbm0_err_o		(wb_mc0_ibus_err),
+	.wbm0_rty_o		(wb_mc0_ibus_rty),
+	// Wishbone slave interface 1
+	.wbm1_dat_i		(wb_dbus_dat),
+	.wbm1_adr_i		(wb_dbus_adr),
+	.wbm1_sel_i		(wb_dbus_sel),
+	.wbm1_cti_i		(wb_dbus_cti),
+	.wbm1_bte_i		(wb_dbus_bte),
+	.wbm1_we_i		(wb_dbus_we),
+	.wbm1_cyc_i		(wb_dbus_cyc[mc0_dbus_slave_nr]),
+	.wbm1_stb_i		(wb_dbus_stb),
+	.wbm1_dat_o		(wb_mc0_dbus_sdt),
+	.wbm1_ack_o		(wb_mc0_dbus_ack),
+	.wbm1_err_o		(wb_mc0_dbus_err),
+	.wbm1_rty_o		(wb_mc0_dbus_rty),
+	// Wishbone slave interface 2
+	.wbm2_dat_i		(32'd0),
+	.wbm2_adr_i		(32'd0),
+	.wbm2_sel_i		(4'd0),
+	.wbm2_cti_i		(3'd0),
+	.wbm2_bte_i		(2'd0),
+	.wbm2_we_i		(1'd0),
+	.wbm2_cyc_i		(1'd0),
+	.wbm2_stb_i		(1'd0),
+	.wbm2_dat_o		(),
+	.wbm2_ack_o		(),
+	.wbm2_err_o		(),
+	.wbm2_rty_o		(),
+	// Clock, reset
+	.wb_clk_i		(wb_clk),
+	.wb_rst_i		(wb_rst)
+);
 
 ////////////////////////////////////////////////////////////////////////
 //

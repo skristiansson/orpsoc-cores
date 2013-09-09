@@ -9,6 +9,7 @@ depend =
  or1k-elf-loader
  vlog_tb_utils
  jtag_vpi
+ ram_wb
 
 simulators =
  icarus
