@@ -58,7 +58,8 @@ module rom
 	 0 : wb_dat_o <= 32'h18000000;
 	 1 : wb_dat_o <= 32'hA8200000;
 	 2 : wb_dat_o <= 32'hA8C00100;
-	 3 : wb_dat_o <= 32'h44003000;
+//	 3 : wb_dat_o <= 32'h44003000;
+	 3 : wb_dat_o <= 32'h00000000; // l.j 0
 	 4 : wb_dat_o <= 32'h15000000;
 	 
 	 default:
