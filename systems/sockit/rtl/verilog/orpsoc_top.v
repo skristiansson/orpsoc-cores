@@ -46,8 +46,6 @@ module orpsoc_top (
 
 	inout [7:0] 	   gpio0_io,
 
-	input		uart0_srx_pad_i,
-	output		uart0_stx_pad_o
 );
 
 `include "orpsoc-params.v"
@@ -172,6 +170,9 @@ wire	[7:0]		wb_uart_sdt;
 wire			wb_uart_ack;
 wire			wb_uart_err;
 wire			wb_uart_rty;
+wire			uart0_rxd;
+wire			uart0_txd;
+
 // intgen wires
 wire	[7:0]		wb_intgen_sdt;
 wire			wb_intgen_ack;
@@ -823,12 +824,12 @@ uart_top uart16550_0 (
 
 	// Outputs
 	.int_o		(uart0_irq),
-	.stx_pad_o	(uart0_stx_pad_o),
+	.stx_pad_o	(uart0_txd),
 	.rts_pad_o	(),
 	.dtr_pad_o	(),
 
 	// Inputs
-	.srx_pad_i	(uart0_srx_pad_i),
+	.srx_pad_i	(uart0_rxd),
 	.cts_pad_i	(1'b0),
 	.dsr_pad_i	(1'b0),
 	.ri_pad_i	(1'b0),
