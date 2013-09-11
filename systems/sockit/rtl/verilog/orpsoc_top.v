@@ -188,7 +188,7 @@ wire			wb_cpu_i_stb;
 wire	[2:0]		wb_cpu_i_cti;
 wire	[1:0]		wb_cpu_i_bte;
 
-wire	[wb_dw-1:0]	wb_cpu_i_sdt;
+wire	[wb_dw-1:0]	wb_cpu_i_rdt;
 wire			wb_cpu_i_ack;
 wire			wb_cpu_i_err;
 wire			wb_cpu_i_rty;
@@ -203,7 +203,7 @@ wire			wb_cpu_d_stb;
 wire	[2:0]		wb_cpu_d_cti;
 wire	[1:0]		wb_cpu_d_bte;
 
-wire	[wb_dw-1:0]	wb_cpu_d_sdt;
+wire	[wb_dw-1:0]	wb_cpu_d_rdt;
 wire			wb_cpu_d_ack;
 wire			wb_cpu_d_err;
 wire			wb_cpu_d_rty;
@@ -218,7 +218,7 @@ wire			wb_dbg_stb;
 wire	[2:0]		wb_dbg_cti;
 wire	[1:0]		wb_dbg_bte;
 
-wire	[wb_dw-1:0]	wb_dbg_sdt;
+wire	[wb_dw-1:0]	wb_dbg_rdt;
 wire			wb_dbg_ack;
 wire			wb_dbg_err;
 wire			wb_dbg_rty;
@@ -232,13 +232,13 @@ wire			wbm_dbus_stb;
 wire	[2:0]		wbm_dbus_cti;
 wire	[1:0]		wbm_dbus_bte;
 
-wire	[wb_dw-1:0]	wbm_dbus_sdt;
+wire	[wb_dw-1:0]	wbm_dbus_rdt;
 wire			wbm_dbus_ack;
 wire			wbm_dbus_err;
 wire			wbm_dbus_rty;
 
 // Byte bus bridge master signals
-wire	[wb_dw-1:0]	wb_bbus_sdt;
+wire	[wb_dw-1:0]	wb_bbus_rdt;
 wire			wb_bbus_ack;
 wire			wb_bbus_err;
 wire			wb_bbus_rty;
@@ -246,17 +246,17 @@ wire			wb_bbus_rty;
 // Instruction bus slave wires //
 
 // rom0 instruction bus wires
-wire	[31:0]		wb_rom0_sdt;
+wire	[31:0]		wb_rom0_rdt;
 wire			wb_rom0_ack;
 wire			wb_rom0_err;
 wire			wb_rom0_rty;
 // mc0 instruction bus wires
-wire	[31:0]		wb_mc0_ibus_sdt;
+wire	[31:0]		wb_mc0_ibus_rdt;
 wire			wb_mc0_ibus_ack;
 wire			wb_mc0_ibus_err;
 wire			wb_mc0_ibus_rty;
 // mc0 data bus wires
-wire	[31:0]		wb_mc0_dbus_sdt;
+wire	[31:0]		wb_mc0_dbus_rdt;
 wire			wb_mc0_dbus_ack;
 wire			wb_mc0_dbus_err;
 wire			wb_mc0_dbus_rty;
@@ -264,7 +264,7 @@ wire			wb_mc0_dbus_rty;
 // Data bus slave wires //
 
 // uart0 wires
-wire	[7:0]		wb_uart_sdt;
+wire	[7:0]		wb_uart_rdt;
 wire			wb_uart_ack;
 wire			wb_uart_err;
 wire			wb_uart_rty;
@@ -272,12 +272,12 @@ wire			uart0_rxd;
 wire			uart0_txd;
 
 // intgen wires
-wire	[7:0]		wb_intgen_sdt;
+wire	[7:0]		wb_intgen_rdt;
 wire			wb_intgen_ack;
 wire			wb_intgen_err;
 wire			wb_intgen_rty;
 // gpio wires
-wire	[7:0]		wb_gpio_sdt;
+wire	[7:0]		wb_gpio_rdt;
 wire			wb_gpio_ack;
 wire			wb_gpio_err;
 wire			wb_gpio_rty;
@@ -286,11 +286,8 @@ wire			wb_gpio_rty;
 // Wishbone instruction address decoder
 //
 
-// 0x00000000 to 0xefffffff is mapped to the SDRAM
-// 0xf0000000 to 0xffffffff is mapped to the ROM
-wire	[ibus_slaves-1:0] ibus_slave_sel =
-		{wb_cpu_i_adr[31:28] != 4'hf,
-		wb_cpu_i_adr[31:28] == 4'hf};
+// 0x00000000 to 0x7fffffff is mapped to RAM
+// 0xf0000000 to 0xffffffff is mapped to ROM
 
 wire	[31:0]			wb_ibus_adr;
 wire	[31:0]			wb_ibus_dat;
@@ -301,11 +298,13 @@ wire				wb_ibus_stb;
 wire	[2:0] 			wb_ibus_cti;
 wire	[1:0] 			wb_ibus_bte;
 
-wb_mux #(.num_slaves(ibus_slaves))
-wb_mux_ibus (
-	.wb_clk		(wb_clk),
-	.wb_rst		(wb_rst),
-	.slave_sel_i	(ibus_slave_sel),
+wb_mux #(
+	.num_slaves(ibus_slaves),
+	.MATCH_ADDR ({32'h00000000, 32'hf0000000}),
+	.MATCH_MASK ({32'h80000000, 32'hf0000000})
+) wb_mux_ibus (
+	.wb_clk_i	(wb_clk),
+	.wb_rst_i	(wb_rst),
 	// Master Interface
 	.wbm_adr_i	(wb_cpu_i_adr),
 	.wbm_dat_i	(wb_cpu_i_dat),
@@ -315,7 +314,7 @@ wb_mux_ibus (
 	.wbm_stb_i	(wb_cpu_i_stb),
 	.wbm_cti_i	(wb_cpu_i_cti),
 	.wbm_bte_i	(wb_cpu_i_bte),
-	.wbm_sdt_o	(wb_cpu_i_sdt),
+	.wbm_rdt_o	(wb_cpu_i_rdt),
 	.wbm_ack_o	(wb_cpu_i_ack),
 	.wbm_err_o	(wb_cpu_i_err),
 	.wbm_rty_o	(wb_cpu_i_rty),
@@ -328,7 +327,7 @@ wb_mux_ibus (
 	.wbs_stb_o	(wb_ibus_stb),
 	.wbs_cti_o	(wb_ibus_cti),
 	.wbs_bte_o	(wb_ibus_bte),
-	.wbs_sdt_i	({wb_mc0_ibus_sdt, wb_rom0_sdt}),
+	.wbs_rdt_i	({wb_mc0_ibus_rdt, wb_rom0_rdt}),
 	.wbs_ack_i	({wb_mc0_ibus_ack, wb_rom0_ack}),
 	.wbs_err_i	({wb_mc0_ibus_err, wb_rom0_err}),
 	.wbs_rty_i	({wb_mc0_ibus_rty, wb_rom0_rty})
@@ -362,7 +361,7 @@ wb_arbiter_dbus (
 	.wbm_stb_i	({wb_dbg_stb, wb_cpu_d_stb}),
 	.wbm_cti_i	({wb_dbg_cti, wb_cpu_d_cti}),
 	.wbm_bte_i	({wb_dbg_bte, wb_cpu_d_bte}),
-	.wbm_dat_o	({wb_dbg_sdt, wb_cpu_d_sdt}),
+	.wbm_rdt_o	({wb_dbg_rdt, wb_cpu_d_rdt}),
 	.wbm_ack_o	({wb_dbg_ack, wb_cpu_d_ack}),
 	.wbm_err_o	({wb_dbg_err, wb_cpu_d_err}),
 	.wbm_rty_o	({wb_dbg_rty, wb_cpu_d_rty}),
@@ -375,7 +374,7 @@ wb_arbiter_dbus (
 	.wbs_stb_o	(wbm_dbus_stb),
 	.wbs_cti_o	(wbm_dbus_cti),
 	.wbs_bte_o	(wbm_dbus_bte),
-	.wbs_dat_i	(wbm_dbus_sdt),
+	.wbs_rdt_i	(wbm_dbus_rdt),
 	.wbs_ack_i	(wbm_dbus_ack),
 	.wbs_err_i	(wbm_dbus_err),
 	.wbs_rty_i	(wbm_dbus_rty)
@@ -385,17 +384,15 @@ wb_arbiter_dbus (
 // Wishbone data address decoder
 //
 
-// 0x00000000 to 0x0fffffff is mapped to the SDRAM
-// 0x10000000 to 0xffffffff is mapped to the peripherals
-wire	[dbus_slaves-1:0] dbus_slave_sel =
-		{wbm_dbus_adr[31:28] != 4'h0,
-		wbm_dbus_adr[31:28] == 4'h0};
-
-wb_mux #(.num_slaves(dbus_slaves))
-wb_mux_dbus (
-	.wb_clk		(wb_clk),
-	.wb_rst		(wb_rst),
-	.slave_sel_i	(dbus_slave_sel),
+// 0x00000000 to 0x7fffffff is mapped to RAM
+// 0x80000000 to 0xffffffff is mapped to peripherals
+wb_mux #(
+	.num_slaves(dbus_slaves),
+	.MATCH_ADDR ({32'h80000000, 32'h00000000}),
+	.MATCH_MASK ({32'h80000000, 32'h80000000})
+) wb_mux_dbus (
+	.wb_clk_i	(wb_clk),
+	.wb_rst_i	(wb_rst),
 	// Master Interface
 	.wbm_adr_i	(wbm_dbus_adr),
 	.wbm_dat_i	(wbm_dbus_dat),
@@ -405,7 +402,7 @@ wb_mux_dbus (
 	.wbm_stb_i	(wbm_dbus_stb),
 	.wbm_cti_i	(wbm_dbus_cti),
 	.wbm_bte_i	(wbm_dbus_bte),
-	.wbm_sdt_o	(wbm_dbus_sdt),
+	.wbm_rdt_o	(wbm_dbus_rdt),
 	.wbm_ack_o	(wbm_dbus_ack),
 	.wbm_err_o	(wbm_dbus_err),
 	.wbm_rty_o	(wbm_dbus_rty),
@@ -418,7 +415,7 @@ wb_mux_dbus (
 	.wbs_stb_o	(wb_dbus_stb),
 	.wbs_cti_o	(wb_dbus_cti),
 	.wbs_bte_o	(wb_dbus_bte),
-	.wbs_sdt_i	({wb_bbus_sdt, wb_mc0_dbus_sdt}),
+	.wbs_rdt_i	({wb_bbus_rdt, wb_mc0_dbus_rdt}),
 	.wbs_ack_i	({wb_bbus_ack, wb_mc0_dbus_ack}),
 	.wbs_err_i	({wb_bbus_err, wb_mc0_dbus_err}),
 	.wbs_rty_i	({wb_bbus_rty, wb_mc0_dbus_rty}));
@@ -434,7 +431,7 @@ wire				wb_s_bbus_cyc;
 wire				wb_s_bbus_stb;
 wire	[2:0]			wb_s_bbus_cti;
 wire	[1:0]			wb_s_bbus_bte;
-wire	[7:0]			wb_s_bbus_sdt;
+wire	[7:0]			wb_s_bbus_rdt;
 wire				wb_s_bbus_ack;
 wire				wb_s_bbus_err;
 wire				wb_s_bbus_rty;
@@ -452,7 +449,7 @@ wb_data_resize_bbus
 	.wbm_stb_i(wb_dbus_stb),
 	.wbm_cti_i(wb_dbus_cti),
 	.wbm_bte_i(wb_dbus_bte),
-	.wbm_sdt_o(wb_bbus_sdt),
+	.wbm_sdt_o(wb_bbus_rdt),
 	.wbm_ack_o(wb_bbus_ack),
 	.wbm_err_o(wb_bbus_err),
 	.wbm_rty_o(wb_bbus_rty),
@@ -464,7 +461,7 @@ wb_data_resize_bbus
 	.wbs_stb_o(wb_s_bbus_stb),
 	.wbs_cti_o(wb_s_bbus_cti),
 	.wbs_bte_o(wb_s_bbus_bte),
-	.wbs_sdt_i(wb_s_bbus_sdt),
+	.wbs_sdt_i(wb_s_bbus_rdt),
 	.wbs_ack_i(wb_s_bbus_ack),
 	.wbs_err_i(wb_s_bbus_err),
 	.wbs_rty_i(wb_s_bbus_rty)
@@ -473,12 +470,6 @@ wb_data_resize_bbus
 //
 // Wishbone byte-wide address decoder
 //
-
-// 0xe1000000 to 0xe1ffffff is mapped to the intgen
-// 0x90000000 to 0x90ffffff is mapped to the uart
-wire	[bbus_slaves-1:0] bbus_slave_sel =
-		{wb_dbus_adr[31:24] == gpio_wb_adr,
-		 wb_dbus_adr[31:24] == uart0_wb_adr};
 
 wire	[31:0]			wb_bbus_adr;
 wire	[7:0]			wb_bbus_dat;
@@ -489,23 +480,27 @@ wire				wb_bbus_stb;
 wire	[2:0]			wb_bbus_cti;
 wire	[1:0]			wb_bbus_bte;
 
-wb_mux	#(.dw(8),
-	  .num_slaves(bbus_slaves))
-
-wb_mux_bbus (
-	.wb_clk		(wb_clk),
-	.wb_rst		(wb_rst),
-	.slave_sel_i	(bbus_slave_sel),
+wb_mux	#(
+	.dw(8),
+	.num_slaves(bbus_slaves),
+	.MATCH_ADDR ({
+			{gpio_wb_adr, 24'h0},
+			{uart0_wb_adr, 24'h0}
+	}),
+	.MATCH_MASK ({32'hfff000000, 32'hfff00000})
+) wb_mux_bbus (
+	.wb_clk_i	(wb_clk),
+	.wb_rst_i	(wb_rst),
 	//Master interface
 	.wbm_adr_i	(wb_s_bbus_adr),
 	.wbm_dat_i	(wb_s_bbus_dat),
-	.wbm_sel_i	(1'b1),
+	.wbm_sel_i	(4'b1),
 	.wbm_we_i	(wb_s_bbus_we),
 	.wbm_cyc_i	(wb_s_bbus_cyc),
 	.wbm_stb_i	(wb_s_bbus_stb),
 	.wbm_cti_i	(wb_s_bbus_cti),
 	.wbm_bte_i	(wb_s_bbus_bte),
-	.wbm_sdt_o	(wb_s_bbus_sdt),
+	.wbm_rdt_o	(wb_s_bbus_rdt),
 	.wbm_ack_o	(wb_s_bbus_ack),
 	.wbm_err_o	(wb_s_bbus_err),
 	.wbm_rty_o	(wb_s_bbus_rty),
@@ -518,10 +513,10 @@ wb_mux_bbus (
 	.wbs_stb_o	(wb_bbus_stb),
 	.wbs_cti_o	(wb_bbus_cti),
 	.wbs_bte_o	(wb_bbus_bte),
-	.wbs_sdt_i	({wb_gpio_sdt, wb_intgen_sdt, wb_uart_sdt}),
-	.wbs_ack_i	({wb_gpio_ack, wb_intgen_ack, wb_uart_ack}),
-	.wbs_err_i	({wb_gpio_err, wb_intgen_err, wb_uart_err}),
-	.wbs_rty_i	({wb_gpio_rty, wb_intgen_rty, wb_uart_rty})
+	.wbs_rdt_i	({wb_gpio_rdt, wb_uart_rdt}),
+	.wbs_ack_i	({wb_gpio_ack, wb_uart_ack}),
+	.wbs_err_i	({wb_gpio_err, wb_uart_err}),
+	.wbs_rty_i	({wb_gpio_rty, wb_uart_rty})
 );
 
 `ifdef SIM
@@ -760,7 +755,7 @@ or1200_top0 (
 	.iwb_ack_i			(wb_cpu_i_ack),
 	.iwb_err_i			(wb_cpu_i_err),
 	.iwb_rty_i			(wb_cpu_i_rty),
-	.iwb_dat_i			(wb_cpu_i_sdt),
+	.iwb_dat_i			(wb_cpu_i_rdt),
 
 	.iwb_cyc_o			(wb_cpu_i_cyc),
 	.iwb_adr_o			(wb_cpu_i_adr),
@@ -777,7 +772,7 @@ or1200_top0 (
 	.dwb_ack_i			(wb_cpu_d_ack),
 	.dwb_err_i			(wb_cpu_d_err),
 	.dwb_rty_i			(wb_cpu_d_rty),
-	.dwb_dat_i			(wb_cpu_d_sdt),
+	.dwb_dat_i			(wb_cpu_d_rdt),
 
 	.dwb_cyc_o			(wb_cpu_d_cyc),
 	.dwb_adr_o			(wb_cpu_d_adr),
@@ -871,12 +866,12 @@ mor1kx #(
 
 	.iwbm_err_i(wb_cpu_i_err),
 	.iwbm_ack_i(wb_cpu_i_ack),
-	.iwbm_dat_i(wb_cpu_i_sdt),
+	.iwbm_dat_i(wb_cpu_i_rdt),
 	.iwbm_rty_i(wb_cpu_i_rty),
 
 	.dwbm_err_i(wb_cpu_d_err),
 	.dwbm_ack_i(wb_cpu_d_ack),
-	.dwbm_dat_i(wb_cpu_d_sdt),
+	.dwbm_dat_i(wb_cpu_d_rdt),
 	.dwbm_rty_i(wb_cpu_d_rty),
 
 	.irq_i(cpu_irq),
@@ -924,7 +919,7 @@ adbg_top dbg_if0 (
 
 	// Wishbone debug master
 	.wb_clk_i	(wb_clk),
-	.wb_dat_i	(wb_dbg_sdt),
+	.wb_dat_i	(wb_dbg_rdt),
 	.wb_ack_i	(wb_dbg_ack),
 	.wb_err_i	(wb_dbg_err),
 
@@ -957,7 +952,7 @@ rom0 (
 	.wb_stb_i	(wb_ibus_stb),
 	.wb_cti_i	(wb_ibus_cti),
 	.wb_bte_i	(wb_ibus_bte),
-	.wb_dat_o	(wb_rom0_sdt),
+	.wb_dat_o	(wb_rom0_rdt),
 	.wb_ack_o	(wb_rom0_ack)
 );
 `else
@@ -986,7 +981,7 @@ ram_wb #(
 	.wbm0_we_i		(wb_ibus_we ),
 	.wbm0_cyc_i		(wb_ibus_cyc[mc0_ibus_slave_nr]),
 	.wbm0_stb_i		(wb_ibus_stb),
-	.wbm0_dat_o		(wb_mc0_ibus_sdt),
+	.wbm0_dat_o		(wb_mc0_ibus_rdt),
 	.wbm0_ack_o		(wb_mc0_ibus_ack),
 	.wbm0_err_o		(wb_mc0_ibus_err),
 	.wbm0_rty_o		(wb_mc0_ibus_rty),
@@ -999,7 +994,7 @@ ram_wb #(
 	.wbm1_we_i		(wb_dbus_we),
 	.wbm1_cyc_i		(wb_dbus_cyc[mc0_dbus_slave_nr]),
 	.wbm1_stb_i		(wb_dbus_stb),
-	.wbm1_dat_o		(wb_mc0_dbus_sdt),
+	.wbm1_dat_o		(wb_mc0_dbus_rdt),
 	.wbm1_ack_o		(wb_mc0_dbus_ack),
 	.wbm1_err_o		(wb_mc0_dbus_err),
 	.wbm1_rty_o		(wb_mc0_dbus_rty),
@@ -1042,7 +1037,7 @@ uart_top uart16550_0 (
 	.wb_stb_i	(wb_bbus_stb),
 	.wb_cyc_i	(wb_bbus_cyc[uart_slave_nr]),
 	.wb_sel_i	(),
-	.wb_dat_o	(wb_uart_sdt),
+	.wb_dat_o	(wb_uart_rdt),
 	.wb_ack_o	(wb_uart_ack),
 
 	// Outputs
@@ -1094,7 +1089,7 @@ gpio gpio0 (
 	.wb_stb_i	(wb_bbus_stb),
 	.wb_cti_i	(),
 	.wb_bte_i	(),
-	.wb_dat_o	(wb_gpio_sdt),
+	.wb_dat_o	(wb_gpio_rdt),
 	.wb_ack_o	(wb_gpio_ack),
 	.wb_err_o	(wb_gpio_err),
 	.wb_rty_o	(wb_gpio_rty),

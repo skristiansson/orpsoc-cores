@@ -94,7 +94,6 @@ parameter bbus_slave_nr = 1;
 // Byte-wide peripheral bus  //
 //                           //
 ///////////////////////////////
-parameter bbus_slaves = 3;
+parameter bbus_slaves = 2;
 parameter uart_slave_nr = 0;
-parameter intgen_slave_nr = 1;
-parameter gpio_slave_nr = 2;
+parameter gpio_slave_nr = 1;
