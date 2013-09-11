@@ -68,14 +68,12 @@ clkgen clkgen0 (
 	.sys_clk_pad_i	(sys_clk_pad_i),
 	.rst_n_pad_i	(rst_n_pad_i),
 	.async_rst_o	(async_rst),
-	.wb_clk_o	(wb_clk),
-	.wb_rst_o	(wb_rst),
 `ifdef SIM
 	.tck_pad_i	(tck_pad_i),
 	.dbg_tck_o	(dbg_tck),
 `endif
-	.sdram_clk_o	(sdram_clk),
-	.sdram_rst_o	(sdram_rst)
+	.wb_clk_o	(wb_clk),
+	.wb_rst_o	(wb_rst)
 );
 
 ////////////////////////////////////////////////////////////////////////
