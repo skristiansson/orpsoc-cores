@@ -20,8 +20,6 @@ src_files =
  rtl/verilog/clkgen.v
  rtl/verilog/gpio.v
  rtl/verilog/orpsoc_top.v
- rtl/verilog/pll.v
- rtl/verilog/pll/pll_0002.v
  rtl/verilog/rom.v
 
 tb_private_src_files =
