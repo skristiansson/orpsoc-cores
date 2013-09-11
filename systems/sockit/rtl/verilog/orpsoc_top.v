@@ -34,17 +34,17 @@
 `include "orpsoc-defines.v"
 
 module orpsoc_top (
-	input		sys_clk_pad_i,
-	input		rst_n_pad_i,
+	input 		   sys_clk_pad_i,
+	input 		   rst_n_pad_i,
 
 `ifdef SIM
-	output		tdo_pad_o,
-	input		tms_pad_i,
-	input		tck_pad_i,
-	input		tdi_pad_i,
+	output 		   tdo_pad_o,
+	input 		   tms_pad_i,
+	input 		   tck_pad_i,
+	input 		   tdi_pad_i,
 `endif
 
-	inout [7:0]	gpio0_io,
+	inout [7:0] 	   gpio0_io,
 
 	input		uart0_srx_pad_i,
 	output		uart0_stx_pad_o
