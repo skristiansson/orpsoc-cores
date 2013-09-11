@@ -379,7 +379,6 @@ wb_data_resize_bbus
 // 0x90000000 to 0x90ffffff is mapped to the uart
 wire	[bbus_slaves-1:0] bbus_slave_sel =
 		{wb_dbus_adr[31:24] == gpio_wb_adr,
-		 wb_dbus_adr[31:24] == intgen_wb_adr,
 		 wb_dbus_adr[31:24] == uart0_wb_adr};
 
 // *************** BUG OLOFK **************
