@@ -750,8 +750,8 @@ assign	wb_rom0_ack_o = 0;
 ram_wb #(
 	.aw(wb_aw),
 	.dw(wb_dw),
-	.mem_size_bytes(8192), // 8KB
-	.mem_adr_width($clog2(8192))
+	.mem_size_bytes(65536), // 64KB
+	.mem_adr_width($clog2(65536))
 ) ram_wb0 (
 	// Wishbone slave interface 0
 	.wbm0_dat_i		(wb_ibus_dat),
