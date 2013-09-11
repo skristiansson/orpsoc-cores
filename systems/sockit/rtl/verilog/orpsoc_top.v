@@ -600,73 +600,70 @@ or1200_top0 (
 	.pm_cpustall_i			(1'b0)
 );
 `else // !`ifdef OR1200
-   mor1kx
-     #(
-       .FEATURE_DEBUGUNIT("ENABLED"),
-       .FEATURE_CMOV("ENABLED"),
-       .FEATURE_INSTRUCTIONCACHE("ENABLED"),
-       .OPTION_ICACHE_BLOCK_WIDTH(5),
-       .OPTION_ICACHE_SET_WIDTH(8),
-       .OPTION_ICACHE_WAYS(2),
-       .OPTION_ICACHE_LIMIT_WIDTH(32),
-       .FEATURE_IMMU("ENABLED"),
-       .FEATURE_DATACACHE("ENABLED"),
-       .OPTION_DCACHE_BLOCK_WIDTH(5),
-       .OPTION_DCACHE_SET_WIDTH(8),
-       .OPTION_DCACHE_WAYS(2),
-       .OPTION_DCACHE_LIMIT_WIDTH(31),
-       .FEATURE_DMMU("ENABLED"),
-       .OPTION_PIC_TRIGGER("LATCHED_LEVEL"),
+mor1kx #(
+	.FEATURE_DEBUGUNIT("ENABLED"),
+	.FEATURE_CMOV("ENABLED"),
+	.FEATURE_INSTRUCTIONCACHE("ENABLED"),
+	.OPTION_ICACHE_BLOCK_WIDTH(5),
+	.OPTION_ICACHE_SET_WIDTH(8),
+	.OPTION_ICACHE_WAYS(2),
+	.OPTION_ICACHE_LIMIT_WIDTH(32),
+	.FEATURE_IMMU("ENABLED"),
+	.FEATURE_DATACACHE("ENABLED"),
+	.OPTION_DCACHE_BLOCK_WIDTH(5),
+	.OPTION_DCACHE_SET_WIDTH(8),
+	.OPTION_DCACHE_WAYS(2),
+	.OPTION_DCACHE_LIMIT_WIDTH(31),
+	.FEATURE_DMMU("ENABLED"),
+	.OPTION_PIC_TRIGGER("LATCHED_LEVEL"),
 
-       .IBUS_WB_TYPE("B3_REGISTERED_FEEDBACK"),
-       .DBUS_WB_TYPE("B3_REGISTERED_FEEDBACK"),
-       .OPTION_CPU0("CAPPUCCINO"),
-       .OPTION_RESET_PC(32'hf0000100)
-       )
-   mor1kx0
-     (
-      .iwbm_adr_o(wb_cpu_i_adr),
-      .iwbm_stb_o(wb_cpu_i_stb),
-      .iwbm_cyc_o(wb_cpu_i_cyc),
-      .iwbm_sel_o(wb_cpu_i_sel),
-      .iwbm_we_o (wb_cpu_i_we),
-      .iwbm_cti_o(wb_cpu_i_cti),
-      .iwbm_bte_o(wb_cpu_i_bte),
-      .iwbm_dat_o(wb_cpu_i_dat),
+	.IBUS_WB_TYPE("B3_REGISTERED_FEEDBACK"),
+	.DBUS_WB_TYPE("B3_REGISTERED_FEEDBACK"),
+	.OPTION_CPU0("CAPPUCCINO"),
+	.OPTION_RESET_PC(32'hf0000100)
+) mor1kx0 (
+	.iwbm_adr_o(wb_cpu_i_adr),
+	.iwbm_stb_o(wb_cpu_i_stb),
+	.iwbm_cyc_o(wb_cpu_i_cyc),
+	.iwbm_sel_o(wb_cpu_i_sel),
+	.iwbm_we_o (wb_cpu_i_we),
+	.iwbm_cti_o(wb_cpu_i_cti),
+	.iwbm_bte_o(wb_cpu_i_bte),
+	.iwbm_dat_o(wb_cpu_i_dat),
 
-      .dwbm_adr_o(wb_cpu_d_adr),
-      .dwbm_stb_o(wb_cpu_d_stb),
-      .dwbm_cyc_o(wb_cpu_d_cyc),
-      .dwbm_sel_o(wb_cpu_d_sel),
-      .dwbm_we_o (wb_cpu_d_we ),
-      .dwbm_cti_o(wb_cpu_d_cti),
-      .dwbm_bte_o(wb_cpu_d_bte),
-      .dwbm_dat_o(wb_cpu_d_dat),
+	.dwbm_adr_o(wb_cpu_d_adr),
+	.dwbm_stb_o(wb_cpu_d_stb),
+	.dwbm_cyc_o(wb_cpu_d_cyc),
+	.dwbm_sel_o(wb_cpu_d_sel),
+	.dwbm_we_o (wb_cpu_d_we ),
+	.dwbm_cti_o(wb_cpu_d_cti),
+	.dwbm_bte_o(wb_cpu_d_bte),
+	.dwbm_dat_o(wb_cpu_d_dat),
 
-      .clk(wb_clk),
-      .rst(wb_rst),
+	.clk(wb_clk),
+	.rst(wb_rst),
 
-      .iwbm_err_i(wb_cpu_i_err),
-      .iwbm_ack_i(wb_cpu_i_ack),
-      .iwbm_dat_i(wb_cpu_i_sdt),
-      .iwbm_rty_i(wb_cpu_i_rty),
+	.iwbm_err_i(wb_cpu_i_err),
+	.iwbm_ack_i(wb_cpu_i_ack),
+	.iwbm_dat_i(wb_cpu_i_sdt),
+	.iwbm_rty_i(wb_cpu_i_rty),
 
-      .dwbm_err_i(wb_cpu_d_err),
-      .dwbm_ack_i(wb_cpu_d_ack),
-      .dwbm_dat_i(wb_cpu_d_sdt),
-      .dwbm_rty_i(wb_cpu_d_rty),
+	.dwbm_err_i(wb_cpu_d_err),
+	.dwbm_ack_i(wb_cpu_d_ack),
+	.dwbm_dat_i(wb_cpu_d_sdt),
+	.dwbm_rty_i(wb_cpu_d_rty),
 
-      .irq_i(cpu_irq),
+	.irq_i(cpu_irq),
 
-      .du_addr_i(cpu_dbg_adr_i[15:0]),
-      .du_stb_i(cpu_dbg_stb_i),
-      .du_dat_i(cpu_dbg_dat_i),
-      .du_we_i(cpu_dbg_we_i),
-      .du_dat_o(cpu_dbg_dat_o),
-      .du_ack_o(cpu_dbg_ack_o),
-      .du_stall_i(cpu_dbg_stall_i),
-      .du_stall_o(cpu_dbg_bp_o)
-      );
+	.du_addr_i(cpu_dbg_adr_i[15:0]),
+	.du_stb_i(cpu_dbg_stb_i),
+	.du_dat_i(cpu_dbg_dat_i),
+	.du_we_i(cpu_dbg_we_i),
+	.du_dat_o(cpu_dbg_dat_o),
+	.du_ack_o(cpu_dbg_ack_o),
+	.du_stall_i(cpu_dbg_stall_i),
+	.du_stall_o(cpu_dbg_bp_o)
+);
 
 `endif
 ////////////////////////////////////////////////////////////////////////
