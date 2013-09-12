@@ -178,345 +178,223 @@ clkgen clkgen0 (
 //
 ////////////////////////////////////////////////////////////////////////
 
-// CPU instruction bus wires
-wire	[wb_aw-1:0]	wb_cpu_i_adr;
-wire	[wb_dw-1:0]	wb_cpu_i_dat;
-wire	[3:0]		wb_cpu_i_sel;
-wire			wb_cpu_i_we;
-wire			wb_cpu_i_cyc;
-wire			wb_cpu_i_stb;
-wire	[2:0]		wb_cpu_i_cti;
-wire	[1:0]		wb_cpu_i_bte;
+wire 			uart0_txd;
+wire 			uart0_rxd;
 
-wire	[wb_dw-1:0]	wb_cpu_i_rdt;
-wire			wb_cpu_i_ack;
-wire			wb_cpu_i_err;
-wire			wb_cpu_i_rty;
+wire [31:0]		wb_m2s_gpio0_adr;
+wire [1:0]		wb_m2s_gpio0_bte;
+wire [2:0]		wb_m2s_gpio0_cti;
+wire			wb_m2s_gpio0_cyc;
+wire [31:0]		wb_m2s_gpio0_dat;
+wire [3:0]		wb_m2s_gpio0_sel;
+wire			wb_m2s_gpio0_stb;
+wire			wb_m2s_gpio0_we;
+wire [31:0] 		wb_s2m_gpio0_dat;
+wire			wb_s2m_gpio0_ack;
+wire			wb_s2m_gpio0_err;
+wire			wb_s2m_gpio0_rty;
 
-// CPU data bus wires
-wire	[wb_aw-1:0]	wb_cpu_d_adr;
-wire	[wb_dw-1:0]	wb_cpu_d_dat;
-wire	[3:0] 		wb_cpu_d_sel;
-wire			wb_cpu_d_we;
-wire			wb_cpu_d_cyc;
-wire			wb_cpu_d_stb;
-wire	[2:0]		wb_cpu_d_cti;
-wire	[1:0]		wb_cpu_d_bte;
+wire [31:0]		wb_m2s_mem0_d_adr;
+wire [1:0]		wb_m2s_mem0_d_bte;
+wire [2:0]		wb_m2s_mem0_d_cti;
+wire			wb_m2s_mem0_d_cyc;
+wire [31:0]		wb_m2s_mem0_d_dat;
+wire [3:0]		wb_m2s_mem0_d_sel;
+wire			wb_m2s_mem0_d_stb;
+wire			wb_m2s_mem0_d_we;
+wire [31:0]		wb_s2m_mem0_d_dat;
+wire			wb_s2m_mem0_d_ack;
+wire			wb_s2m_mem0_d_err;
+wire			wb_s2m_mem0_d_rty;
 
-wire	[wb_dw-1:0]	wb_cpu_d_rdt;
-wire			wb_cpu_d_ack;
-wire			wb_cpu_d_err;
-wire			wb_cpu_d_rty;
 
-// Debug interface bus wires
-wire	[wb_aw-1:0]	wb_dbg_adr;
-wire	[wb_dw-1:0]	wb_dbg_dat;
-wire	[3:0]		wb_dbg_sel;
-wire			wb_dbg_we;
-wire			wb_dbg_cyc;
-wire			wb_dbg_stb;
-wire	[2:0]		wb_dbg_cti;
-wire	[1:0]		wb_dbg_bte;
+wire [31:0]		wb_m2s_mem0_i_adr;
+wire [1:0]		wb_m2s_mem0_i_bte;
+wire [2:0]		wb_m2s_mem0_i_cti;
+wire			wb_m2s_mem0_i_cyc;
+wire [31:0]		wb_m2s_mem0_i_dat;
+wire [3:0]		wb_m2s_mem0_i_sel;
+wire			wb_m2s_mem0_i_stb;
+wire			wb_m2s_mem0_i_we;
+wire [31:0]		wb_s2m_mem0_i_dat;
+wire			wb_s2m_mem0_i_ack;
+wire			wb_s2m_mem0_i_err;
+wire			wb_s2m_mem0_i_rty;
 
-wire	[wb_dw-1:0]	wb_dbg_rdt;
-wire			wb_dbg_ack;
-wire			wb_dbg_err;
-wire			wb_dbg_rty;
 
-wire	[wb_aw-1:0]	wbm_dbus_adr;
-wire	[wb_dw-1:0]	wbm_dbus_dat;
-wire	[3:0]		wbm_dbus_sel;
-wire			wbm_dbus_we;
-wire			wbm_dbus_cyc;
-wire			wbm_dbus_stb;
-wire	[2:0]		wbm_dbus_cti;
-wire	[1:0]		wbm_dbus_bte;
+wire [31:0]		wb_m2s_rom0_adr;
+wire [1:0]		wb_m2s_rom0_bte;
+wire [2:0]		wb_m2s_rom0_cti;
+wire			wb_m2s_rom0_cyc;
+wire [31:0]		wb_m2s_rom0_dat;
+wire [3:0]		wb_m2s_rom0_sel;
+wire			wb_m2s_rom0_stb;
+wire			wb_m2s_rom0_we;
+wire [31:0]		wb_s2m_rom0_dat;
+wire			wb_s2m_rom0_ack;
+wire			wb_s2m_rom0_err;
+wire			wb_s2m_rom0_rty;
 
-wire	[wb_dw-1:0]	wbm_dbus_rdt;
-wire			wbm_dbus_ack;
-wire			wbm_dbus_err;
-wire			wbm_dbus_rty;
 
-// Byte bus bridge master signals
-wire	[wb_dw-1:0]	wb_bbus_rdt;
-wire			wb_bbus_ack;
-wire			wb_bbus_err;
-wire			wb_bbus_rty;
+wire [31:0]		wb_m2s_uart0_adr;
+wire [1:0]		wb_m2s_uart0_bte;
+wire [2:0]		wb_m2s_uart0_cti;
+wire			wb_m2s_uart0_cyc;
+wire [31:0]		wb_m2s_uart0_dat;
+wire [3:0]		wb_m2s_uart0_sel;
+wire			wb_m2s_uart0_stb;
+wire			wb_m2s_uart0_we;
+wire [31:0] 		wb_s2m_uart0_dat;
+wire			wb_s2m_uart0_ack;
+wire			wb_s2m_uart0_err;
+wire			wb_s2m_uart0_rty;
 
-// Instruction bus slave wires //
 
-// rom0 instruction bus wires
-wire	[31:0]		wb_rom0_rdt;
-wire			wb_rom0_ack;
-wire			wb_rom0_err;
-wire			wb_rom0_rty;
-// mc0 instruction bus wires
-wire	[31:0]		wb_mc0_ibus_rdt;
-wire			wb_mc0_ibus_ack;
-wire			wb_mc0_ibus_err;
-wire			wb_mc0_ibus_rty;
-// mc0 data bus wires
-wire	[31:0]		wb_mc0_dbus_rdt;
-wire			wb_mc0_dbus_ack;
-wire			wb_mc0_dbus_err;
-wire			wb_mc0_dbus_rty;
+wire [31:0]		wb_m2s_dbg_adr;
+wire [31:0]		wb_m2s_dbg_dat;
+wire [3:0]		wb_m2s_dbg_sel;
+wire			wb_m2s_dbg_we;
+wire			wb_m2s_dbg_cyc;
+wire			wb_m2s_dbg_stb;
+wire [2:0]		wb_m2s_dbg_cti;
+wire [1:0]		wb_m2s_dbg_bte;
+wire			wb_s2m_dbg_ack;
+wire [31:0]		wb_s2m_dbg_dat;
+wire			wb_s2m_dbg_err;
+wire			wb_s2m_dbg_rty;
 
-// Data bus slave wires //
+wire [31:0]		wb_m2s_or1k_d_adr;
+wire [31:0]		wb_m2s_or1k_d_dat;
+wire [3:0]		wb_m2s_or1k_d_sel;
+wire			wb_m2s_or1k_d_we;
+wire			wb_m2s_or1k_d_cyc;
+wire			wb_m2s_or1k_d_stb;
+wire [2:0]		wb_m2s_or1k_d_cti;
+wire [1:0]		wb_m2s_or1k_d_bte;
+wire			wb_s2m_or1k_d_ack;
+wire [31:0]		wb_s2m_or1k_d_dat;
+wire			wb_s2m_or1k_d_err;
+wire			wb_s2m_or1k_d_rty;
 
-// uart0 wires
-wire	[7:0]		wb_uart_rdt;
-wire			wb_uart_ack;
-wire			wb_uart_err;
-wire			wb_uart_rty;
-wire			uart0_rxd;
-wire			uart0_txd;
+wire [31:0]		wb_m2s_or1k_i_adr;
+wire [31:0]		wb_m2s_or1k_i_dat;
+wire [3:0]		wb_m2s_or1k_i_sel;
+wire			wb_m2s_or1k_i_we;
+wire			wb_m2s_or1k_i_cyc;
+wire			wb_m2s_or1k_i_stb;
+wire [2:0]		wb_m2s_or1k_i_cti;
+wire [1:0]		wb_m2s_or1k_i_bte;
+wire			wb_s2m_or1k_i_ack;
+wire [31:0]		wb_s2m_or1k_i_dat;
+wire			wb_s2m_or1k_i_err;
+wire			wb_s2m_or1k_i_rty;
 
-// intgen wires
-wire	[7:0]		wb_intgen_rdt;
-wire			wb_intgen_ack;
-wire			wb_intgen_err;
-wire			wb_intgen_rty;
-// gpio wires
-wire	[7:0]		wb_gpio_rdt;
-wire			wb_gpio_ack;
-wire			wb_gpio_err;
-wire			wb_gpio_rty;
-
-//
-// Wishbone instruction address decoder
-//
-
-// 0x00000000 to 0x7fffffff is mapped to RAM
-// 0xf0000000 to 0xffffffff is mapped to ROM
-
-wire	[31:0]			wb_ibus_adr;
-wire	[31:0]			wb_ibus_dat;
-wire	[3:0]			wb_ibus_sel;
-wire				wb_ibus_we;
-wire	[ibus_slaves-1:0]	wb_ibus_cyc;
-wire				wb_ibus_stb;
-wire	[2:0] 			wb_ibus_cti;
-wire	[1:0] 			wb_ibus_bte;
-
-wb_mux #(
-	.num_slaves(ibus_slaves),
-	.MATCH_ADDR ({32'h00000000, 32'hf0000000}),
-	.MATCH_MASK ({32'h80000000, 32'hf0000000})
-) wb_mux_ibus (
-	.wb_clk_i	(wb_clk),
-	.wb_rst_i	(wb_rst),
-	// Master Interface
-	.wbm_adr_i	(wb_cpu_i_adr),
-	.wbm_dat_i	(wb_cpu_i_dat),
-	.wbm_sel_i	(wb_cpu_i_sel),
-	.wbm_we_i	(wb_cpu_i_we),
-	.wbm_cyc_i	(wb_cpu_i_cyc),
-	.wbm_stb_i	(wb_cpu_i_stb),
-	.wbm_cti_i	(wb_cpu_i_cti),
-	.wbm_bte_i	(wb_cpu_i_bte),
-	.wbm_rdt_o	(wb_cpu_i_rdt),
-	.wbm_ack_o	(wb_cpu_i_ack),
-	.wbm_err_o	(wb_cpu_i_err),
-	.wbm_rty_o	(wb_cpu_i_rty),
-	//Slave interface
-	.wbs_adr_o	(wb_ibus_adr),
-	.wbs_dat_o	(wb_ibus_dat),
-	.wbs_sel_o	(wb_ibus_sel),
-	.wbs_we_o	(wb_ibus_we),
-	.wbs_cyc_o	(wb_ibus_cyc),
-	.wbs_stb_o	(wb_ibus_stb),
-	.wbs_cti_o	(wb_ibus_cti),
-	.wbs_bte_o	(wb_ibus_bte),
-	.wbs_rdt_i	({wb_mc0_ibus_rdt, wb_rom0_rdt}),
-	.wbs_ack_i	({wb_mc0_ibus_ack, wb_rom0_ack}),
-	.wbs_err_i	({wb_mc0_ibus_err, wb_rom0_err}),
-	.wbs_rty_i	({wb_mc0_ibus_rty, wb_rom0_rty})
-);
-
-//
-// Wishbone data bus arbiter
-//
-
-parameter num_d_masters = 2;
-
-wire	[31:0]			wb_dbus_adr;
-wire	[31:0]			wb_dbus_dat;
-wire	[3:0]			wb_dbus_sel;
-wire				wb_dbus_we;
-wire	[num_d_masters-1:0]	wb_dbus_cyc;
-wire				wb_dbus_stb;
-wire	[2:0]			wb_dbus_cti;
-wire	[1:0]			wb_dbus_bte;
-
-wb_arbiter #(.num_masters(num_d_masters))
-wb_arbiter_dbus (
-	.wb_clk_i	(wb_clk),
-	.wb_rst_i	(wb_rst),
-	// Master Interface
-	.wbm_adr_i	({wb_dbg_adr, wb_cpu_d_adr}),
-	.wbm_dat_i	({wb_dbg_dat, wb_cpu_d_dat}),
-	.wbm_sel_i	({wb_dbg_sel, wb_cpu_d_sel}),
-	.wbm_we_i	({wb_dbg_we , wb_cpu_d_we }),
-	.wbm_cyc_i	({wb_dbg_cyc, wb_cpu_d_cyc}),
-	.wbm_stb_i	({wb_dbg_stb, wb_cpu_d_stb}),
-	.wbm_cti_i	({wb_dbg_cti, wb_cpu_d_cti}),
-	.wbm_bte_i	({wb_dbg_bte, wb_cpu_d_bte}),
-	.wbm_rdt_o	({wb_dbg_rdt, wb_cpu_d_rdt}),
-	.wbm_ack_o	({wb_dbg_ack, wb_cpu_d_ack}),
-	.wbm_err_o	({wb_dbg_err, wb_cpu_d_err}),
-	.wbm_rty_o	({wb_dbg_rty, wb_cpu_d_rty}),
-	//Slave interface
-	.wbs_adr_o	(wbm_dbus_adr),
-	.wbs_dat_o	(wbm_dbus_dat),
-	.wbs_sel_o	(wbm_dbus_sel),
-	.wbs_we_o	(wbm_dbus_we),
-	.wbs_cyc_o	(wbm_dbus_cyc),
-	.wbs_stb_o	(wbm_dbus_stb),
-	.wbs_cti_o	(wbm_dbus_cti),
-	.wbs_bte_o	(wbm_dbus_bte),
-	.wbs_rdt_i	(wbm_dbus_rdt),
-	.wbs_ack_i	(wbm_dbus_ack),
-	.wbs_err_i	(wbm_dbus_err),
-	.wbs_rty_i	(wbm_dbus_rty)
-);
-
-//
-// Wishbone data address decoder
-//
-
-// 0x00000000 to 0x7fffffff is mapped to RAM
-// 0x80000000 to 0xffffffff is mapped to peripherals
-wb_mux #(
-	.num_slaves(dbus_slaves),
-	.MATCH_ADDR ({32'h80000000, 32'h00000000}),
-	.MATCH_MASK ({32'h80000000, 32'h80000000})
-) wb_mux_dbus (
-	.wb_clk_i	(wb_clk),
-	.wb_rst_i	(wb_rst),
-	// Master Interface
-	.wbm_adr_i	(wbm_dbus_adr),
-	.wbm_dat_i	(wbm_dbus_dat),
-	.wbm_sel_i	(wbm_dbus_sel),
-	.wbm_we_i	(wbm_dbus_we),
-	.wbm_cyc_i	(wbm_dbus_cyc),
-	.wbm_stb_i	(wbm_dbus_stb),
-	.wbm_cti_i	(wbm_dbus_cti),
-	.wbm_bte_i	(wbm_dbus_bte),
-	.wbm_rdt_o	(wbm_dbus_rdt),
-	.wbm_ack_o	(wbm_dbus_ack),
-	.wbm_err_o	(wbm_dbus_err),
-	.wbm_rty_o	(wbm_dbus_rty),
-	//Slave interface
-	.wbs_adr_o	(wb_dbus_adr),
-	.wbs_dat_o	(wb_dbus_dat),
-	.wbs_sel_o	(wb_dbus_sel),
-	.wbs_we_o	(wb_dbus_we),
-	.wbs_cyc_o	(wb_dbus_cyc),
-	.wbs_stb_o	(wb_dbus_stb),
-	.wbs_cti_o	(wb_dbus_cti),
-	.wbs_bte_o	(wb_dbus_bte),
-	.wbs_rdt_i	({wb_bbus_rdt, wb_mc0_dbus_rdt}),
-	.wbs_ack_i	({wb_bbus_ack, wb_mc0_dbus_ack}),
-	.wbs_err_i	({wb_bbus_err, wb_mc0_dbus_err}),
-	.wbs_rty_i	({wb_bbus_rty, wb_mc0_dbus_rty}));
-
-//
-// Wishbone data address decoder
-//
-
-wire	[31:0]			wb_s_bbus_adr;
-wire	[7:0]			wb_s_bbus_dat;
-wire				wb_s_bbus_we;
-wire				wb_s_bbus_cyc;
-wire				wb_s_bbus_stb;
-wire	[2:0]			wb_s_bbus_cti;
-wire	[1:0]			wb_s_bbus_bte;
-wire	[7:0]			wb_s_bbus_rdt;
-wire				wb_s_bbus_ack;
-wire				wb_s_bbus_err;
-wire				wb_s_bbus_rty;
-
-wb_data_resize #(.sdw(8))
-
-wb_data_resize_bbus
-(
-	// Wishbone Master interface
-	.wbm_adr_i(wb_dbus_adr),
-	.wbm_dat_i(wb_dbus_dat),
-	.wbm_sel_i(wb_dbus_sel),
-	.wbm_we_i(wb_dbus_we),
-	.wbm_cyc_i(wb_dbus_cyc[bbus_slave_nr]),
-	.wbm_stb_i(wb_dbus_stb),
-	.wbm_cti_i(wb_dbus_cti),
-	.wbm_bte_i(wb_dbus_bte),
-	.wbm_sdt_o(wb_bbus_rdt),
-	.wbm_ack_o(wb_bbus_ack),
-	.wbm_err_o(wb_bbus_err),
-	.wbm_rty_o(wb_bbus_rty),
-	// Wishbone Slave interface
-	.wbs_adr_o(wb_s_bbus_adr),
-	.wbs_dat_o(wb_s_bbus_dat),
-	.wbs_we_o(wb_s_bbus_we),
-	.wbs_cyc_o(wb_s_bbus_cyc),
-	.wbs_stb_o(wb_s_bbus_stb),
-	.wbs_cti_o(wb_s_bbus_cti),
-	.wbs_bte_o(wb_s_bbus_bte),
-	.wbs_sdt_i(wb_s_bbus_rdt),
-	.wbs_ack_i(wb_s_bbus_ack),
-	.wbs_err_i(wb_s_bbus_err),
-	.wbs_rty_i(wb_s_bbus_rty)
-);
-
-//
-// Wishbone byte-wide address decoder
-//
-
-wire	[31:0]			wb_bbus_adr;
-wire	[7:0]			wb_bbus_dat;
-wire	[3:0]			wb_bbus_sel;
-wire				wb_bbus_we;
-wire	[bbus_slaves-1:0]	wb_bbus_cyc;
-wire				wb_bbus_stb;
-wire	[2:0]			wb_bbus_cti;
-wire	[1:0]			wb_bbus_bte;
-
-wb_mux	#(
-	.dw(8),
-	.num_slaves(bbus_slaves),
-	.MATCH_ADDR ({
-			{gpio_wb_adr, 24'h0},
-			{uart0_wb_adr, 24'h0}
-	}),
-	.MATCH_MASK ({32'hfff000000, 32'hfff00000})
-) wb_mux_bbus (
-	.wb_clk_i	(wb_clk),
-	.wb_rst_i	(wb_rst),
-	//Master interface
-	.wbm_adr_i	(wb_s_bbus_adr),
-	.wbm_dat_i	(wb_s_bbus_dat),
-	.wbm_sel_i	(4'b1),
-	.wbm_we_i	(wb_s_bbus_we),
-	.wbm_cyc_i	(wb_s_bbus_cyc),
-	.wbm_stb_i	(wb_s_bbus_stb),
-	.wbm_cti_i	(wb_s_bbus_cti),
-	.wbm_bte_i	(wb_s_bbus_bte),
-	.wbm_rdt_o	(wb_s_bbus_rdt),
-	.wbm_ack_o	(wb_s_bbus_ack),
-	.wbm_err_o	(wb_s_bbus_err),
-	.wbm_rty_o	(wb_s_bbus_rty),
-	//Slave interface
-	.wbs_adr_o	(wb_bbus_adr),
-	.wbs_dat_o	(wb_bbus_dat),
-	.wbs_sel_o	(),
-	.wbs_we_o	(wb_bbus_we),
-	.wbs_cyc_o	(wb_bbus_cyc),
-	.wbs_stb_o	(wb_bbus_stb),
-	.wbs_cti_o	(wb_bbus_cti),
-	.wbs_bte_o	(wb_bbus_bte),
-	.wbs_rdt_i	({wb_gpio_rdt, wb_uart_rdt}),
-	.wbs_ack_i	({wb_gpio_ack, wb_uart_ack}),
-	.wbs_err_i	({wb_gpio_err, wb_uart_err}),
-	.wbs_rty_i	({wb_gpio_rty, wb_uart_rty})
+/* wb_intercon AUTO_TEMPLATE (
+	.wb_clk_i			(wb_clk),
+	.wb_rst_i			(wb_rst),
+);*/
+wb_intercon wb_intercon0 (
+	/*AUTOINST*/
+	// Outputs
+	.wb_s2m_or1k_i_dat		(wb_s2m_or1k_i_dat[31:0]),
+	.wb_s2m_or1k_i_ack		(wb_s2m_or1k_i_ack),
+	.wb_s2m_or1k_i_err		(wb_s2m_or1k_i_err),
+	.wb_s2m_or1k_i_rty		(wb_s2m_or1k_i_rty),
+	.wb_s2m_or1k_d_dat		(wb_s2m_or1k_d_dat[31:0]),
+	.wb_s2m_or1k_d_ack		(wb_s2m_or1k_d_ack),
+	.wb_s2m_or1k_d_err		(wb_s2m_or1k_d_err),
+	.wb_s2m_or1k_d_rty		(wb_s2m_or1k_d_rty),
+	.wb_s2m_dbg_dat			(wb_s2m_dbg_dat[31:0]),
+	.wb_s2m_dbg_ack			(wb_s2m_dbg_ack),
+	.wb_s2m_dbg_err			(wb_s2m_dbg_err),
+	.wb_s2m_dbg_rty			(wb_s2m_dbg_rty),
+	.wb_m2s_uart0_adr		(wb_m2s_uart0_adr[31:0]),
+	.wb_m2s_uart0_dat		(wb_m2s_uart0_dat[31:0]),
+	.wb_m2s_uart0_sel		(wb_m2s_uart0_sel[3:0]),
+	.wb_m2s_uart0_we		(wb_m2s_uart0_we),
+	.wb_m2s_uart0_cyc		(wb_m2s_uart0_cyc),
+	.wb_m2s_uart0_stb		(wb_m2s_uart0_stb),
+	.wb_m2s_uart0_cti		(wb_m2s_uart0_cti[2:0]),
+	.wb_m2s_uart0_bte		(wb_m2s_uart0_bte[1:0]),
+	.wb_m2s_gpio0_adr		(wb_m2s_gpio0_adr[31:0]),
+	.wb_m2s_gpio0_dat		(wb_m2s_gpio0_dat[31:0]),
+	.wb_m2s_gpio0_sel		(wb_m2s_gpio0_sel[3:0]),
+	.wb_m2s_gpio0_we		(wb_m2s_gpio0_we),
+	.wb_m2s_gpio0_cyc		(wb_m2s_gpio0_cyc),
+	.wb_m2s_gpio0_stb		(wb_m2s_gpio0_stb),
+	.wb_m2s_gpio0_cti		(wb_m2s_gpio0_cti[2:0]),
+	.wb_m2s_gpio0_bte		(wb_m2s_gpio0_bte[1:0]),
+	.wb_m2s_mem0_i_adr		(wb_m2s_mem0_i_adr[31:0]),
+	.wb_m2s_mem0_i_dat		(wb_m2s_mem0_i_dat[31:0]),
+	.wb_m2s_mem0_i_sel		(wb_m2s_mem0_i_sel[3:0]),
+	.wb_m2s_mem0_i_we		(wb_m2s_mem0_i_we),
+	.wb_m2s_mem0_i_cyc		(wb_m2s_mem0_i_cyc),
+	.wb_m2s_mem0_i_stb		(wb_m2s_mem0_i_stb),
+	.wb_m2s_mem0_i_cti		(wb_m2s_mem0_i_cti[2:0]),
+	.wb_m2s_mem0_i_bte		(wb_m2s_mem0_i_bte[1:0]),
+	.wb_m2s_mem0_d_adr		(wb_m2s_mem0_d_adr[31:0]),
+	.wb_m2s_mem0_d_dat		(wb_m2s_mem0_d_dat[31:0]),
+	.wb_m2s_mem0_d_sel		(wb_m2s_mem0_d_sel[3:0]),
+	.wb_m2s_mem0_d_we		(wb_m2s_mem0_d_we),
+	.wb_m2s_mem0_d_cyc		(wb_m2s_mem0_d_cyc),
+	.wb_m2s_mem0_d_stb		(wb_m2s_mem0_d_stb),
+	.wb_m2s_mem0_d_cti		(wb_m2s_mem0_d_cti[2:0]),
+	.wb_m2s_mem0_d_bte		(wb_m2s_mem0_d_bte[1:0]),
+	.wb_m2s_rom0_adr		(wb_m2s_rom0_adr[31:0]),
+	.wb_m2s_rom0_dat		(wb_m2s_rom0_dat[31:0]),
+	.wb_m2s_rom0_sel		(wb_m2s_rom0_sel[3:0]),
+	.wb_m2s_rom0_we			(wb_m2s_rom0_we),
+	.wb_m2s_rom0_cyc		(wb_m2s_rom0_cyc),
+	.wb_m2s_rom0_stb		(wb_m2s_rom0_stb),
+	.wb_m2s_rom0_cti		(wb_m2s_rom0_cti[2:0]),
+	.wb_m2s_rom0_bte		(wb_m2s_rom0_bte[1:0]),
+	// Inputs
+	.wb_clk_i			(wb_clk),		 // Templated
+	.wb_rst_i			(wb_rst),		 // Templated
+	.wb_m2s_or1k_i_adr		(wb_m2s_or1k_i_adr[31:0]),
+	.wb_m2s_or1k_i_dat		(wb_m2s_or1k_i_dat[31:0]),
+	.wb_m2s_or1k_i_sel		(wb_m2s_or1k_i_sel[3:0]),
+	.wb_m2s_or1k_i_we		(wb_m2s_or1k_i_we),
+	.wb_m2s_or1k_i_cyc		(wb_m2s_or1k_i_cyc),
+	.wb_m2s_or1k_i_stb		(wb_m2s_or1k_i_stb),
+	.wb_m2s_or1k_i_cti		(wb_m2s_or1k_i_cti[2:0]),
+	.wb_m2s_or1k_i_bte		(wb_m2s_or1k_i_bte[1:0]),
+	.wb_m2s_or1k_d_adr		(wb_m2s_or1k_d_adr[31:0]),
+	.wb_m2s_or1k_d_dat		(wb_m2s_or1k_d_dat[31:0]),
+	.wb_m2s_or1k_d_sel		(wb_m2s_or1k_d_sel[3:0]),
+	.wb_m2s_or1k_d_we		(wb_m2s_or1k_d_we),
+	.wb_m2s_or1k_d_cyc		(wb_m2s_or1k_d_cyc),
+	.wb_m2s_or1k_d_stb		(wb_m2s_or1k_d_stb),
+	.wb_m2s_or1k_d_cti		(wb_m2s_or1k_d_cti[2:0]),
+	.wb_m2s_or1k_d_bte		(wb_m2s_or1k_d_bte[1:0]),
+	.wb_m2s_dbg_adr			(wb_m2s_dbg_adr[31:0]),
+	.wb_m2s_dbg_dat			(wb_m2s_dbg_dat[31:0]),
+	.wb_m2s_dbg_sel			(wb_m2s_dbg_sel[3:0]),
+	.wb_m2s_dbg_we			(wb_m2s_dbg_we),
+	.wb_m2s_dbg_cyc			(wb_m2s_dbg_cyc),
+	.wb_m2s_dbg_stb			(wb_m2s_dbg_stb),
+	.wb_m2s_dbg_cti			(wb_m2s_dbg_cti[2:0]),
+	.wb_m2s_dbg_bte			(wb_m2s_dbg_bte[1:0]),
+	.wb_s2m_uart0_dat		(wb_s2m_uart0_dat[31:0]),
+	.wb_s2m_uart0_ack		(wb_s2m_uart0_ack),
+	.wb_s2m_uart0_err		(wb_s2m_uart0_err),
+	.wb_s2m_uart0_rty		(wb_s2m_uart0_rty),
+	.wb_s2m_gpio0_dat		(wb_s2m_gpio0_dat[31:0]),
+	.wb_s2m_gpio0_ack		(wb_s2m_gpio0_ack),
+	.wb_s2m_gpio0_err		(wb_s2m_gpio0_err),
+	.wb_s2m_gpio0_rty		(wb_s2m_gpio0_rty),
+	.wb_s2m_mem0_i_dat		(wb_s2m_mem0_i_dat[31:0]),
+	.wb_s2m_mem0_i_ack		(wb_s2m_mem0_i_ack),
+	.wb_s2m_mem0_i_err		(wb_s2m_mem0_i_err),
+	.wb_s2m_mem0_i_rty		(wb_s2m_mem0_i_rty),
+	.wb_s2m_mem0_d_dat		(wb_s2m_mem0_d_dat[31:0]),
+	.wb_s2m_mem0_d_ack		(wb_s2m_mem0_d_ack),
+	.wb_s2m_mem0_d_err		(wb_s2m_mem0_d_err),
+	.wb_s2m_mem0_d_rty		(wb_s2m_mem0_d_rty),
+	.wb_s2m_rom0_dat		(wb_s2m_rom0_dat[31:0]),
+	.wb_s2m_rom0_ack		(wb_s2m_rom0_ack),
+	.wb_s2m_rom0_err		(wb_s2m_rom0_err),
+	.wb_s2m_rom0_rty		(wb_s2m_rom0_rty)
 );
 
 `ifdef SIM
@@ -720,83 +598,84 @@ sockit hps (
 
 ////////////////////////////////////////////////////////////////////////
 //
-// CPU
+// OR1K CPU
 //
 ////////////////////////////////////////////////////////////////////////
 
-wire	[31:0]	cpu_irq;
+wire	[31:0]	or1k_irq;
 
-wire	[31:0]	cpu_dbg_dat_i;
-wire	[31:0]	cpu_dbg_adr_i;
-wire		cpu_dbg_we_i;
-wire		cpu_dbg_stb_i;
-wire		cpu_dbg_ack_o;
-wire	[31:0]	cpu_dbg_dat_o;
+wire	[31:0]	or1k_dbg_dat_i;
+wire	[31:0]	or1k_dbg_adr_i;
+wire		or1k_dbg_we_i;
+wire		or1k_dbg_stb_i;
+wire		or1k_dbg_ack_o;
+wire	[31:0]	or1k_dbg_dat_o;
 
-wire		cpu_dbg_stall_i;
-wire		cpu_dbg_ewt_i;
-wire	[3:0]	cpu_dbg_lss_o;
-wire	[1:0]	cpu_dbg_is_o;
-wire	[10:0]	cpu_dbg_wp_o;
-wire		cpu_dbg_bp_o;
-wire		cpu_dbg_rst;
+wire		or1k_dbg_stall_i;
+wire		or1k_dbg_ewt_i;
+wire	[3:0]	or1k_dbg_lss_o;
+wire	[1:0]	or1k_dbg_is_o;
+wire	[10:0]	or1k_dbg_wp_o;
+wire		or1k_dbg_bp_o;
+wire		or1k_dbg_rst;
 
 wire		sig_tick;
-wire		cpu_rst;
-
-assign	cpu_rst= wb_rst | cpu_dbg_rst;
 
 `ifdef OR1200
+wire		or1k_rst;
+
+assign	or1k_rst= wb_rst | or1k_dbg_rst;
+
 or1200_top #(.boot_adr(32'hf0000100))
 or1200_top0 (
 	// Instruction bus, clocks, reset
 	.iwb_clk_i			(wb_clk),
 	.iwb_rst_i			(wb_rst),
-	.iwb_ack_i			(wb_cpu_i_ack),
-	.iwb_err_i			(wb_cpu_i_err),
-	.iwb_rty_i			(wb_cpu_i_rty),
-	.iwb_dat_i			(wb_cpu_i_rdt),
+	.iwb_ack_i			(wb_s2m_or1k_i_ack),
+	.iwb_err_i			(wb_s2m_or1k_i_err),
+	.iwb_rty_i			(wb_s2m_or1k_i_rty),
+	.iwb_dat_i			(wb_s2m_or1k_i_dat),
 
-	.iwb_cyc_o			(wb_cpu_i_cyc),
-	.iwb_adr_o			(wb_cpu_i_adr),
-	.iwb_stb_o			(wb_cpu_i_stb),
-	.iwb_we_o			(wb_cpu_i_we),
-	.iwb_sel_o			(wb_cpu_i_sel),
-	.iwb_dat_o			(wb_cpu_i_dat),
-	.iwb_cti_o			(wb_cpu_i_cti),
-	.iwb_bte_o			(wb_cpu_i_bte),
+	.iwb_cyc_o			(wb_m2s_or1k_i_cyc),
+	.iwb_adr_o			(wb_m2s_or1k_i_adr),
+	.iwb_stb_o			(wb_m2s_or1k_i_stb),
+	.iwb_we_o			(wb_m2s_or1k_i_we),
+	.iwb_sel_o			(wb_m2s_or1k_i_sel),
+	.iwb_dat_o			(wb_m2s_or1k_i_dat),
+	.iwb_cti_o			(wb_m2s_or1k_i_cti),
+	.iwb_bte_o			(wb_m2s_or1k_i_bte),
 
 	// Data bus, clocks, reset
 	.dwb_clk_i			(wb_clk),
 	.dwb_rst_i			(wb_rst),
-	.dwb_ack_i			(wb_cpu_d_ack),
-	.dwb_err_i			(wb_cpu_d_err),
-	.dwb_rty_i			(wb_cpu_d_rty),
-	.dwb_dat_i			(wb_cpu_d_rdt),
+	.dwb_ack_i			(wb_s2m_or1k_d_ack),
+	.dwb_err_i			(wb_s2m_or1k_d_err),
+	.dwb_rty_i			(wb_s2m_or1k_d_rty),
+	.dwb_dat_i			(wb_s2m_or1k_d_dat),
 
-	.dwb_cyc_o			(wb_cpu_d_cyc),
-	.dwb_adr_o			(wb_cpu_d_adr),
-	.dwb_stb_o			(wb_cpu_d_stb),
-	.dwb_we_o			(wb_cpu_d_we),
-	.dwb_sel_o			(wb_cpu_d_sel),
-	.dwb_dat_o			(wb_cpu_d_dat),
-	.dwb_cti_o			(wb_cpu_d_cti),
-	.dwb_bte_o			(wb_cpu_d_bte),
+	.dwb_cyc_o			(wb_m2s_or1k_d_cyc_i),
+	.dwb_adr_o			(wb_m2s_or1k_d_adr_i),
+	.dwb_stb_o			(wb_m2s_or1k_d_stb_i),
+	.dwb_we_o			(wb_m2s_or1k_d_we_i),
+	.dwb_sel_o			(wb_m2s_or1k_d_sel_i),
+	.dwb_dat_o			(wb_m2s_or1k_d_dat_i),
+	.dwb_cti_o			(wb_m2s_or1k_d_cti_i),
+	.dwb_bte_o			(wb_m2s_or1k_d_bte_i),
 
 	// Debug interface ports
-	.dbg_stall_i			(cpu_dbg_stall_i),
+	.dbg_stall_i			(or1k_dbg_stall_i),
 	.dbg_ewt_i			(1'b0),
-	.dbg_lss_o			(cpu_dbg_lss_o),
-	.dbg_is_o			(cpu_dbg_is_o),
-	.dbg_wp_o			(cpu_dbg_wp_o),
-	.dbg_bp_o			(cpu_dbg_bp_o),
+	.dbg_lss_o			(or1k_dbg_lss_o),
+	.dbg_is_o			(or1k_dbg_is_o),
+	.dbg_wp_o			(or1k_dbg_wp_o),
+	.dbg_bp_o			(or1k_dbg_bp_o),
 
-	.dbg_adr_i			(cpu_dbg_adr_i),
-	.dbg_we_i			(cpu_dbg_we_i),
-	.dbg_stb_i			(cpu_dbg_stb_i),
-	.dbg_dat_i			(cpu_dbg_dat_i),
-	.dbg_dat_o			(cpu_dbg_dat_o),
-	.dbg_ack_o			(cpu_dbg_ack_o),
+	.dbg_adr_i			(or1k_dbg_adr_i),
+	.dbg_we_i			(or1k_dbg_we_i),
+	.dbg_stb_i			(or1k_dbg_stb_i),
+	.dbg_dat_i			(or1k_dbg_dat_i),
+	.dbg_dat_o			(or1k_dbg_dat_o),
+	.dbg_ack_o			(or1k_dbg_ack_o),
 
 	.pm_clksd_o			(),
 	.pm_dc_gate_o			(),
@@ -810,12 +689,12 @@ or1200_top0 (
 
 	// Core clocks, resets
 	.clk_i				(wb_clk),
-	.rst_i				(cpu_rst),
+	.rst_i				(or1k_rst),
 
 	.clmode_i			(2'b00),
 
 	// Interrupts
-	.pic_ints_i			(cpu_irq}),
+	.pic_ints_i			(or1k_irq}),
 	.sig_tick			(sig_tick),
 
 	.pm_cpustall_i			(1'b0)
@@ -843,47 +722,47 @@ mor1kx #(
 	.OPTION_CPU0("CAPPUCCINO"),
 	.OPTION_RESET_PC(32'hf0000100)
 ) mor1kx0 (
-	.iwbm_adr_o(wb_cpu_i_adr),
-	.iwbm_stb_o(wb_cpu_i_stb),
-	.iwbm_cyc_o(wb_cpu_i_cyc),
-	.iwbm_sel_o(wb_cpu_i_sel),
-	.iwbm_we_o (wb_cpu_i_we),
-	.iwbm_cti_o(wb_cpu_i_cti),
-	.iwbm_bte_o(wb_cpu_i_bte),
-	.iwbm_dat_o(wb_cpu_i_dat),
+	.iwbm_adr_o(wb_m2s_or1k_i_adr),
+	.iwbm_stb_o(wb_m2s_or1k_i_stb),
+	.iwbm_cyc_o(wb_m2s_or1k_i_cyc),
+	.iwbm_sel_o(wb_m2s_or1k_i_sel),
+	.iwbm_we_o (wb_m2s_or1k_i_we),
+	.iwbm_cti_o(wb_m2s_or1k_i_cti),
+	.iwbm_bte_o(wb_m2s_or1k_i_bte),
+	.iwbm_dat_o(wb_m2s_or1k_i_dat),
 
-	.dwbm_adr_o(wb_cpu_d_adr),
-	.dwbm_stb_o(wb_cpu_d_stb),
-	.dwbm_cyc_o(wb_cpu_d_cyc),
-	.dwbm_sel_o(wb_cpu_d_sel),
-	.dwbm_we_o (wb_cpu_d_we ),
-	.dwbm_cti_o(wb_cpu_d_cti),
-	.dwbm_bte_o(wb_cpu_d_bte),
-	.dwbm_dat_o(wb_cpu_d_dat),
+	.dwbm_adr_o(wb_m2s_or1k_d_adr),
+	.dwbm_stb_o(wb_m2s_or1k_d_stb),
+	.dwbm_cyc_o(wb_m2s_or1k_d_cyc),
+	.dwbm_sel_o(wb_m2s_or1k_d_sel),
+	.dwbm_we_o (wb_m2s_or1k_d_we ),
+	.dwbm_cti_o(wb_m2s_or1k_d_cti),
+	.dwbm_bte_o(wb_m2s_or1k_d_bte),
+	.dwbm_dat_o(wb_m2s_or1k_d_dat),
 
 	.clk(wb_clk),
 	.rst(wb_rst),
 
-	.iwbm_err_i(wb_cpu_i_err),
-	.iwbm_ack_i(wb_cpu_i_ack),
-	.iwbm_dat_i(wb_cpu_i_rdt),
-	.iwbm_rty_i(wb_cpu_i_rty),
+	.iwbm_err_i(wb_s2m_or1k_i_err),
+	.iwbm_ack_i(wb_s2m_or1k_i_ack),
+	.iwbm_dat_i(wb_s2m_or1k_i_dat),
+	.iwbm_rty_i(wb_s2m_or1k_i_rty),
 
-	.dwbm_err_i(wb_cpu_d_err),
-	.dwbm_ack_i(wb_cpu_d_ack),
-	.dwbm_dat_i(wb_cpu_d_rdt),
-	.dwbm_rty_i(wb_cpu_d_rty),
+	.dwbm_err_i(wb_s2m_or1k_d_err),
+	.dwbm_ack_i(wb_s2m_or1k_d_ack),
+	.dwbm_dat_i(wb_s2m_or1k_d_dat),
+	.dwbm_rty_i(wb_s2m_or1k_d_rty),
 
-	.irq_i(cpu_irq),
+	.irq_i(or1k_irq),
 
-	.du_addr_i(cpu_dbg_adr_i[15:0]),
-	.du_stb_i(cpu_dbg_stb_i),
-	.du_dat_i(cpu_dbg_dat_i),
-	.du_we_i(cpu_dbg_we_i),
-	.du_dat_o(cpu_dbg_dat_o),
-	.du_ack_o(cpu_dbg_ack_o),
-	.du_stall_i(cpu_dbg_stall_i),
-	.du_stall_o(cpu_dbg_bp_o)
+	.du_addr_i(or1k_dbg_adr_i[15:0]),
+	.du_stb_i(or1k_dbg_stb_i),
+	.du_dat_i(or1k_dbg_dat_i),
+	.du_we_i(or1k_dbg_we_i),
+	.du_dat_o(or1k_dbg_dat_o),
+	.du_ack_o(or1k_dbg_ack_o),
+	.du_stall_i(or1k_dbg_stall_i),
+	.du_stall_o(or1k_dbg_bp_o)
 );
 
 `endif
@@ -894,17 +773,17 @@ mor1kx #(
 ////////////////////////////////////////////////////////////////////////
 
 adbg_top dbg_if0 (
-	// OR1200 interface
+	// OR1K interface
 	.cpu0_clk_i	(wb_clk),
-	.cpu0_rst_o	(cpu_dbg_rst),
-	.cpu0_addr_o	(cpu_dbg_adr_i),
-	.cpu0_data_o	(cpu_dbg_dat_i),
-	.cpu0_stb_o	(cpu_dbg_stb_i),
-	.cpu0_we_o	(cpu_dbg_we_i),
-	.cpu0_data_i	(cpu_dbg_dat_o),
-	.cpu0_ack_i	(cpu_dbg_ack_o),
-	.cpu0_stall_o	(cpu_dbg_stall_i),
-	.cpu0_bp_i	(cpu_dbg_bp_o),
+	.cpu0_rst_o	(or1k_dbg_rst),
+	.cpu0_addr_o	(or1k_dbg_adr_i),
+	.cpu0_data_o	(or1k_dbg_dat_i),
+	.cpu0_stb_o	(or1k_dbg_stb_i),
+	.cpu0_we_o	(or1k_dbg_we_i),
+	.cpu0_data_i	(or1k_dbg_dat_o),
+	.cpu0_ack_i	(or1k_dbg_ack_o),
+	.cpu0_stall_o	(or1k_dbg_stall_i),
+	.cpu0_bp_i	(or1k_dbg_bp_o),
 
 	// TAP interface
 	.tck_i		(dbg_tck),
@@ -919,18 +798,18 @@ adbg_top dbg_if0 (
 
 	// Wishbone debug master
 	.wb_clk_i	(wb_clk),
-	.wb_dat_i	(wb_dbg_rdt),
-	.wb_ack_i	(wb_dbg_ack),
-	.wb_err_i	(wb_dbg_err),
+	.wb_dat_i	(wb_s2m_dbg_dat),
+	.wb_ack_i	(wb_s2m_dbg_ack),
+	.wb_err_i	(wb_s2m_dbg_err),
 
-	.wb_adr_o	(wb_dbg_adr),
-	.wb_dat_o	(wb_dbg_dat),
-	.wb_cyc_o	(wb_dbg_cyc),
-	.wb_stb_o	(wb_dbg_stb),
-	.wb_sel_o	(wb_dbg_sel),
-	.wb_we_o	(wb_dbg_we),
-	.wb_cti_o	(wb_dbg_cti),
-	.wb_bte_o	(wb_dbg_bte)
+	.wb_adr_o	(wb_m2s_dbg_adr),
+	.wb_dat_o	(wb_m2s_dbg_dat),
+	.wb_cyc_o	(wb_m2s_dbg_cyc),
+	.wb_stb_o	(wb_m2s_dbg_stb),
+	.wb_sel_o	(wb_m2s_dbg_sel),
+	.wb_we_o	(wb_m2s_dbg_we),
+	.wb_cti_o	(wb_m2s_dbg_cti),
+	.wb_bte_o	(wb_m2s_dbg_bte)
 );
 
 ////////////////////////////////////////////////////////////////////////
@@ -939,25 +818,25 @@ adbg_top dbg_if0 (
 //
 ////////////////////////////////////////////////////////////////////////
 
-assign	wb_rom0_err = 1'b0;
-assign	wb_rom0_rty = 1'b0;
+assign	wb_s2m_rom0_err = 1'b0;
+assign	wb_s2m_rom0_rty = 1'b0;
 
 `ifdef BOOTROM
 rom #(.addr_width(rom0_aw))
 rom0 (
 	.wb_clk		(wb_clk),
 	.wb_rst		(wb_rst),
-	.wb_adr_i	(wb_ibus_adr[(rom0_aw + 2) - 1 : 2]),
-	.wb_cyc_i	(wb_ibus_cyc[rom0_slave_nr]),
-	.wb_stb_i	(wb_ibus_stb),
-	.wb_cti_i	(wb_ibus_cti),
-	.wb_bte_i	(wb_ibus_bte),
-	.wb_dat_o	(wb_rom0_rdt),
-	.wb_ack_o	(wb_rom0_ack)
+	.wb_adr_i	(wb_m2s_rom0_adr[(rom0_aw + 2) - 1 : 2]),
+	.wb_cyc_i	(wb_m2s_rom0_cyc),
+	.wb_stb_i	(wb_m2s_rom0_stb),
+	.wb_cti_i	(wb_m2s_rom0_cti),
+	.wb_bte_i	(wb_m2s_rom0_bte),
+	.wb_dat_o	(wb_s2m_rom0_dat),
+	.wb_ack_o	(wb_s2m_rom0_ack)
 );
 `else
-assign	wb_rom0_dat_o = 0;
-assign	wb_rom0_ack_o = 0;
+assign	wb_s2m_rom0_dat_o = 0;
+assign	wb_s2m_rom0_ack_o = 0;
 `endif
 
 ////////////////////////////////////////////////////////////////////////
@@ -973,31 +852,31 @@ ram_wb #(
 	.mem_adr_width($clog2(65536))
 ) ram_wb0 (
 	// Wishbone slave interface 0
-	.wbm0_dat_i		(wb_ibus_dat),
-	.wbm0_adr_i		(wb_ibus_adr),
-	.wbm0_sel_i		(wb_ibus_sel),
-	.wbm0_cti_i		(wb_ibus_cti),
-	.wbm0_bte_i		(wb_ibus_bte),
-	.wbm0_we_i		(wb_ibus_we ),
-	.wbm0_cyc_i		(wb_ibus_cyc[mc0_ibus_slave_nr]),
-	.wbm0_stb_i		(wb_ibus_stb),
-	.wbm0_dat_o		(wb_mc0_ibus_rdt),
-	.wbm0_ack_o		(wb_mc0_ibus_ack),
-	.wbm0_err_o		(wb_mc0_ibus_err),
-	.wbm0_rty_o		(wb_mc0_ibus_rty),
+	.wbm0_dat_i		(wb_m2s_mem0_i_dat),
+	.wbm0_adr_i		(wb_m2s_mem0_i_adr),
+	.wbm0_sel_i		(wb_m2s_mem0_i_sel),
+	.wbm0_cti_i		(wb_m2s_mem0_i_cti),
+	.wbm0_bte_i		(wb_m2s_mem0_i_bte),
+	.wbm0_we_i		(wb_m2s_mem0_i_we),
+	.wbm0_cyc_i		(wb_m2s_mem0_i_cyc),
+	.wbm0_stb_i		(wb_m2s_mem0_i_stb),
+	.wbm0_dat_o		(wb_s2m_mem0_i_dat),
+	.wbm0_ack_o		(wb_s2m_mem0_i_ack),
+	.wbm0_err_o		(wb_s2m_mem0_i_err),
+	.wbm0_rty_o		(wb_s2m_mem0_i_rty),
 	// Wishbone slave interface 1
-	.wbm1_dat_i		(wb_dbus_dat),
-	.wbm1_adr_i		(wb_dbus_adr),
-	.wbm1_sel_i		(wb_dbus_sel),
-	.wbm1_cti_i		(wb_dbus_cti),
-	.wbm1_bte_i		(wb_dbus_bte),
-	.wbm1_we_i		(wb_dbus_we),
-	.wbm1_cyc_i		(wb_dbus_cyc[mc0_dbus_slave_nr]),
-	.wbm1_stb_i		(wb_dbus_stb),
-	.wbm1_dat_o		(wb_mc0_dbus_rdt),
-	.wbm1_ack_o		(wb_mc0_dbus_ack),
-	.wbm1_err_o		(wb_mc0_dbus_err),
-	.wbm1_rty_o		(wb_mc0_dbus_rty),
+	.wbm1_dat_i		(wb_m2s_mem0_d_dat),
+	.wbm1_adr_i		(wb_m2s_mem0_d_adr),
+	.wbm1_sel_i		(wb_m2s_mem0_d_sel),
+	.wbm1_cti_i		(wb_m2s_mem0_d_cti),
+	.wbm1_bte_i		(wb_m2s_mem0_d_bte),
+	.wbm1_we_i		(wb_m2s_mem0_d_we),
+	.wbm1_cyc_i		(wb_m2s_mem0_d_cyc),
+	.wbm1_stb_i		(wb_m2s_mem0_d_stb),
+	.wbm1_dat_o		(wb_s2m_mem0_d_dat),
+	.wbm1_ack_o		(wb_s2m_mem0_d_ack),
+	.wbm1_err_o		(wb_s2m_mem0_d_err),
+	.wbm1_rty_o		(wb_s2m_mem0_d_rty),
 	// Wishbone slave interface 2
 	.wbm2_dat_i		(32'd0),
 	.wbm2_adr_i		(32'd0),
@@ -1024,21 +903,33 @@ ram_wb #(
 
 wire	uart0_irq;
 
-assign	wb_uart_err = 0;
-assign	wb_uart_rty = 0;
+wire [31:0]	wb8_m2s_uart0_adr;
+wire [1:0]	wb8_m2s_uart0_bte;
+wire [2:0]	wb8_m2s_uart0_cti;
+wire		wb8_m2s_uart0_cyc;
+wire [7:0]	wb8_m2s_uart0_dat;
+wire		wb8_m2s_uart0_stb;
+wire		wb8_m2s_uart0_we;
+wire [7:0] 	wb8_s2m_uart0_dat;
+wire		wb8_s2m_uart0_ack;
+wire		wb8_s2m_uart0_err;
+wire		wb8_s2m_uart0_rty;
+
+assign	wb8_s2m_uart0_err = 0;
+assign	wb8_s2m_uart0_rty = 0;
 
 uart_top uart16550_0 (
 	// Wishbone slave interface
 	.wb_clk_i	(wb_clk),
 	.wb_rst_i	(wb_rst),
-	.wb_adr_i	(wb_bbus_adr[uart0_aw-1:0]),
-	.wb_dat_i	(wb_bbus_dat),
-	.wb_we_i	(wb_bbus_we),
-	.wb_stb_i	(wb_bbus_stb),
-	.wb_cyc_i	(wb_bbus_cyc[uart_slave_nr]),
-	.wb_sel_i	(),
-	.wb_dat_o	(wb_uart_rdt),
-	.wb_ack_o	(wb_uart_ack),
+	.wb_adr_i	(wb8_m2s_uart0_adr[uart0_aw-1:0]),
+	.wb_dat_i	(wb8_m2s_uart0_dat),
+	.wb_we_i	(wb8_m2s_uart0_we),
+	.wb_stb_i	(wb8_m2s_uart0_stb),
+	.wb_cyc_i	(wb8_m2s_uart0_cyc),
+	.wb_sel_i	(4'b0), // Not used in 8-bit mode
+	.wb_dat_o	(wb8_s2m_uart0_dat),
+	.wb_ack_o	(wb8_s2m_uart0_ack),
 
 	// Outputs
 	.int_o		(uart0_irq),
@@ -1054,27 +945,68 @@ uart_top uart16550_0 (
 	.dcd_pad_i	(1'b0)
 );
 
+// 32-bit to 8-bit wishbone bus resize
+wb_data_resize wb_data_resize_uart0 (
+	// Wishbone Master interface
+	.wbm_adr_i	(wb_m2s_uart0_adr),
+	.wbm_dat_i	(wb_m2s_uart0_dat),
+	.wbm_sel_i	(wb_m2s_uart0_sel),
+	.wbm_we_i	(wb_m2s_uart0_we ),
+	.wbm_cyc_i	(wb_m2s_uart0_cyc),
+	.wbm_stb_i	(wb_m2s_uart0_stb),
+	.wbm_cti_i	(wb_m2s_uart0_cti),
+	.wbm_bte_i	(wb_m2s_uart0_bte),
+	.wbm_sdt_o	(wb_s2m_uart0_dat),
+	.wbm_ack_o	(wb_s2m_uart0_ack),
+	.wbm_err_o	(wb_s2m_uart0_err),
+	.wbm_rty_o	(wb_s2m_uart0_rty),
+	// Wishbone Slave interface
+	.wbs_adr_o	(wb8_m2s_uart0_adr),
+	.wbs_dat_o	(wb8_m2s_uart0_dat),
+	.wbs_we_o 	(wb8_m2s_uart0_we ),
+	.wbs_cyc_o	(wb8_m2s_uart0_cyc),
+	.wbs_stb_o	(wb8_m2s_uart0_stb),
+	.wbs_cti_o	(wb8_m2s_uart0_cti),
+	.wbs_bte_o	(wb8_m2s_uart0_bte),
+	.wbs_sdt_i	(wb8_s2m_uart0_dat),
+	.wbs_ack_i	(wb8_s2m_uart0_ack),
+	.wbs_err_i	(wb8_s2m_uart0_err),
+	.wbs_rty_i	(wb8_s2m_uart0_rty)
+);
+
 ////////////////////////////////////////////////////////////////////////
 //
 // GPIO 0
 //
 ////////////////////////////////////////////////////////////////////////
 
-	localparam gpio0_io_width = 8;
+localparam gpio0_io_width = 8;
 
-	wire [gpio0_io_width-1:0] gpio0_in;
-	wire [gpio0_io_width-1:0] gpio0_out;
-	wire [gpio0_io_width-1:0] gpio0_dir;
+wire [gpio0_io_width-1:0] gpio0_in;
+wire [gpio0_io_width-1:0] gpio0_out;
+wire [gpio0_io_width-1:0] gpio0_dir;
 
-	// Tristate logic for IO
-	// 0 = input, 1 = output
-	genvar                    i;
-	generate
+wire [31:0]	wb8_m2s_gpio0_adr;
+wire [1:0]	wb8_m2s_gpio0_bte;
+wire [2:0]	wb8_m2s_gpio0_cti;
+wire		wb8_m2s_gpio0_cyc;
+wire [7:0]	wb8_m2s_gpio0_dat;
+wire		wb8_m2s_gpio0_stb;
+wire		wb8_m2s_gpio0_we;
+wire [7:0] 	wb8_s2m_gpio0_dat;
+wire		wb8_s2m_gpio0_ack;
+wire		wb8_s2m_gpio0_err;
+wire		wb8_s2m_gpio0_rty;
+
+// Tristate logic for IO
+// 0 = input, 1 = output
+genvar                    i;
+generate
 	for (i = 0; i < gpio0_io_width; i = i+1) begin: gpio0_tris
-	    assign gpio0_io[i] = gpio0_dir[i] ? gpio0_out[i] : 1'bz;
-	    assign gpio0_in[i] = gpio0_dir[i] ? gpio0_out[i] : gpio0_io[i];
+		assign gpio0_io[i] = gpio0_dir[i] ? gpio0_out[i] : 1'bz;
+		assign gpio0_in[i] = gpio0_dir[i] ? gpio0_out[i] : gpio0_io[i];
 	end
-	endgenerate
+endgenerate
 
 gpio gpio0 (
 	// GPIO bus
@@ -1082,20 +1014,49 @@ gpio gpio0 (
 	.gpio_o		(gpio0_out),
 	.gpio_dir_o	(gpio0_dir),
 	// Wishbone slave interface
-	.wb_adr_i	(wb_bbus_adr[gpio_addr_width-1:0]),
-	.wb_dat_i	(wb_bbus_dat),
-	.wb_we_i	(wb_bbus_we),
-	.wb_cyc_i	(wb_bbus_cyc[gpio_slave_nr]),
-	.wb_stb_i	(wb_bbus_stb),
-	.wb_cti_i	(),
-	.wb_bte_i	(),
-	.wb_dat_o	(wb_gpio_rdt),
-	.wb_ack_o	(wb_gpio_ack),
-	.wb_err_o	(wb_gpio_err),
-	.wb_rty_o	(wb_gpio_rty),
+	.wb_adr_i	(wb8_m2s_gpio0_adr[gpio_addr_width-1:0]),
+	.wb_dat_i	(wb8_m2s_gpio0_dat),
+	.wb_we_i	(wb8_m2s_gpio0_we),
+	.wb_cyc_i	(wb8_m2s_gpio0_cyc),
+	.wb_stb_i	(wb8_m2s_gpio0_stb),
+	.wb_cti_i	(wb8_m2s_gpio0_cti),
+	.wb_bte_i	(wb8_m2s_gpio0_bte),
+	.wb_dat_o	(wb8_s2m_gpio0_dat),
+	.wb_ack_o	(wb8_s2m_gpio0_ack),
+	.wb_err_o	(wb8_s2m_gpio0_err),
+	.wb_rty_o	(wb8_s2m_gpio0_rty),
 
 	.wb_clk		(wb_clk),
 	.wb_rst		(wb_rst)
+);
+
+// 32-bit to 8-bit wishbone bus resize
+wb_data_resize wb_data_resize_gpio0 (
+	// Wishbone Master interface
+	.wbm_adr_i	(wb_m2s_gpio0_adr),
+	.wbm_dat_i	(wb_m2s_gpio0_dat),
+	.wbm_sel_i	(wb_m2s_gpio0_sel),
+	.wbm_we_i	(wb_m2s_gpio0_we ),
+	.wbm_cyc_i	(wb_m2s_gpio0_cyc),
+	.wbm_stb_i	(wb_m2s_gpio0_stb),
+	.wbm_cti_i	(wb_m2s_gpio0_cti),
+	.wbm_bte_i	(wb_m2s_gpio0_bte),
+	.wbm_sdt_o	(wb_s2m_gpio0_dat),
+	.wbm_ack_o	(wb_s2m_gpio0_ack),
+	.wbm_err_o	(wb_s2m_gpio0_err),
+	.wbm_rty_o	(wb_s2m_gpio0_rty),
+	// Wishbone Slave interface
+	.wbs_adr_o	(wb8_m2s_gpio0_adr),
+	.wbs_dat_o	(wb8_m2s_gpio0_dat),
+	.wbs_we_o	(wb8_m2s_gpio0_we ),
+	.wbs_cyc_o	(wb8_m2s_gpio0_cyc),
+	.wbs_stb_o	(wb8_m2s_gpio0_stb),
+	.wbs_cti_o	(wb8_m2s_gpio0_cti),
+	.wbs_bte_o	(wb8_m2s_gpio0_bte),
+	.wbs_sdt_i	(wb8_s2m_gpio0_dat),
+	.wbs_ack_i	(wb8_s2m_gpio0_ack),
+	.wbs_err_i	(wb8_s2m_gpio0_err),
+	.wbs_rty_i	(wb8_s2m_gpio0_rty)
 );
 
 ////////////////////////////////////////////////////////////////////////
@@ -1104,37 +1065,37 @@ gpio gpio0 (
 //
 ////////////////////////////////////////////////////////////////////////
 
-assign cpu_irq[0] = 0; // Non-maskable inside OR1200
-assign cpu_irq[1] = 0; // Non-maskable inside OR1200
-assign cpu_irq[2] = uart0_irq;
-assign cpu_irq[3] = 0;
-assign cpu_irq[4] = 0;
-assign cpu_irq[5] = 0;
-assign cpu_irq[6] = 0;
-assign cpu_irq[7] = 0;
-assign cpu_irq[8] = 0;
-assign cpu_irq[9] = 0;
-assign cpu_irq[10] = 0;
-assign cpu_irq[11] = 0;
-assign cpu_irq[12] = 0;
-assign cpu_irq[13] = 0;
-assign cpu_irq[14] = 0;
-assign cpu_irq[15] = 0;
-assign cpu_irq[16] = 0;
-assign cpu_irq[17] = 0;
-assign cpu_irq[18] = 0;
-assign cpu_irq[19] = 0;
-assign cpu_irq[20] = 0;
-assign cpu_irq[21] = 0;
-assign cpu_irq[22] = 0;
-assign cpu_irq[23] = 0;
-assign cpu_irq[24] = 0;
-assign cpu_irq[25] = 0;
-assign cpu_irq[26] = 0;
-assign cpu_irq[27] = 0;
-assign cpu_irq[28] = 0;
-assign cpu_irq[29] = 0;
-assign cpu_irq[30] = 0;
-assign cpu_irq[31] = 0;
+assign or1k_irq[0] = 0; // Non-maskable inside OR1K
+assign or1k_irq[1] = 0; // Non-maskable inside OR1K
+assign or1k_irq[2] = uart0_irq;
+assign or1k_irq[3] = 0;
+assign or1k_irq[4] = 0;
+assign or1k_irq[5] = 0;
+assign or1k_irq[6] = 0;
+assign or1k_irq[7] = 0;
+assign or1k_irq[8] = 0;
+assign or1k_irq[9] = 0;
+assign or1k_irq[10] = 0;
+assign or1k_irq[11] = 0;
+assign or1k_irq[12] = 0;
+assign or1k_irq[13] = 0;
+assign or1k_irq[14] = 0;
+assign or1k_irq[15] = 0;
+assign or1k_irq[16] = 0;
+assign or1k_irq[17] = 0;
+assign or1k_irq[18] = 0;
+assign or1k_irq[19] = 0;
+assign or1k_irq[20] = 0;
+assign or1k_irq[21] = 0;
+assign or1k_irq[22] = 0;
+assign or1k_irq[23] = 0;
+assign or1k_irq[24] = 0;
+assign or1k_irq[25] = 0;
+assign or1k_irq[26] = 0;
+assign or1k_irq[27] = 0;
+assign or1k_irq[28] = 0;
+assign or1k_irq[29] = 0;
+assign or1k_irq[30] = 0;
+assign or1k_irq[31] = 0;
 
 endmodule // orpsoc_top
