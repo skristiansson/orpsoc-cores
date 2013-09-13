@@ -221,6 +221,18 @@ wire			wb_s2m_mem0_i_ack;
 wire			wb_s2m_mem0_i_err;
 wire			wb_s2m_mem0_i_rty;
 
+wire [31:0]		wb_m2s_mem1_adr;
+wire [1:0]		wb_m2s_mem1_bte;
+wire [2:0]		wb_m2s_mem1_cti;
+wire			wb_m2s_mem1_cyc;
+wire [31:0]		wb_m2s_mem1_dat;
+wire [3:0]		wb_m2s_mem1_sel;
+wire			wb_m2s_mem1_stb;
+wire			wb_m2s_mem1_we;
+wire [31:0]		wb_s2m_mem1_dat;
+wire			wb_s2m_mem1_ack;
+wire			wb_s2m_mem1_err;
+wire			wb_s2m_mem1_rty;
 
 wire [31:0]		wb_m2s_rom0_adr;
 wire [1:0]		wb_m2s_rom0_bte;
@@ -308,14 +320,6 @@ wb_intercon wb_intercon0 (
 	.wb_s2m_dbg_ack			(wb_s2m_dbg_ack),
 	.wb_s2m_dbg_err			(wb_s2m_dbg_err),
 	.wb_s2m_dbg_rty			(wb_s2m_dbg_rty),
-	.wb_m2s_uart0_adr		(wb_m2s_uart0_adr[31:0]),
-	.wb_m2s_uart0_dat		(wb_m2s_uart0_dat[31:0]),
-	.wb_m2s_uart0_sel		(wb_m2s_uart0_sel[3:0]),
-	.wb_m2s_uart0_we		(wb_m2s_uart0_we),
-	.wb_m2s_uart0_cyc		(wb_m2s_uart0_cyc),
-	.wb_m2s_uart0_stb		(wb_m2s_uart0_stb),
-	.wb_m2s_uart0_cti		(wb_m2s_uart0_cti[2:0]),
-	.wb_m2s_uart0_bte		(wb_m2s_uart0_bte[1:0]),
 	.wb_m2s_gpio0_adr		(wb_m2s_gpio0_adr[31:0]),
 	.wb_m2s_gpio0_dat		(wb_m2s_gpio0_dat[31:0]),
 	.wb_m2s_gpio0_sel		(wb_m2s_gpio0_sel[3:0]),
@@ -324,22 +328,6 @@ wb_intercon wb_intercon0 (
 	.wb_m2s_gpio0_stb		(wb_m2s_gpio0_stb),
 	.wb_m2s_gpio0_cti		(wb_m2s_gpio0_cti[2:0]),
 	.wb_m2s_gpio0_bte		(wb_m2s_gpio0_bte[1:0]),
-	.wb_m2s_mem0_i_adr		(wb_m2s_mem0_i_adr[31:0]),
-	.wb_m2s_mem0_i_dat		(wb_m2s_mem0_i_dat[31:0]),
-	.wb_m2s_mem0_i_sel		(wb_m2s_mem0_i_sel[3:0]),
-	.wb_m2s_mem0_i_we		(wb_m2s_mem0_i_we),
-	.wb_m2s_mem0_i_cyc		(wb_m2s_mem0_i_cyc),
-	.wb_m2s_mem0_i_stb		(wb_m2s_mem0_i_stb),
-	.wb_m2s_mem0_i_cti		(wb_m2s_mem0_i_cti[2:0]),
-	.wb_m2s_mem0_i_bte		(wb_m2s_mem0_i_bte[1:0]),
-	.wb_m2s_mem0_d_adr		(wb_m2s_mem0_d_adr[31:0]),
-	.wb_m2s_mem0_d_dat		(wb_m2s_mem0_d_dat[31:0]),
-	.wb_m2s_mem0_d_sel		(wb_m2s_mem0_d_sel[3:0]),
-	.wb_m2s_mem0_d_we		(wb_m2s_mem0_d_we),
-	.wb_m2s_mem0_d_cyc		(wb_m2s_mem0_d_cyc),
-	.wb_m2s_mem0_d_stb		(wb_m2s_mem0_d_stb),
-	.wb_m2s_mem0_d_cti		(wb_m2s_mem0_d_cti[2:0]),
-	.wb_m2s_mem0_d_bte		(wb_m2s_mem0_d_bte[1:0]),
 	.wb_m2s_rom0_adr		(wb_m2s_rom0_adr[31:0]),
 	.wb_m2s_rom0_dat		(wb_m2s_rom0_dat[31:0]),
 	.wb_m2s_rom0_sel		(wb_m2s_rom0_sel[3:0]),
@@ -348,6 +336,38 @@ wb_intercon wb_intercon0 (
 	.wb_m2s_rom0_stb		(wb_m2s_rom0_stb),
 	.wb_m2s_rom0_cti		(wb_m2s_rom0_cti[2:0]),
 	.wb_m2s_rom0_bte		(wb_m2s_rom0_bte[1:0]),
+	.wb_m2s_mem0_d_adr		(wb_m2s_mem0_d_adr[31:0]),
+	.wb_m2s_mem0_d_dat		(wb_m2s_mem0_d_dat[31:0]),
+	.wb_m2s_mem0_d_sel		(wb_m2s_mem0_d_sel[3:0]),
+	.wb_m2s_mem0_d_we		(wb_m2s_mem0_d_we),
+	.wb_m2s_mem0_d_cyc		(wb_m2s_mem0_d_cyc),
+	.wb_m2s_mem0_d_stb		(wb_m2s_mem0_d_stb),
+	.wb_m2s_mem0_d_cti		(wb_m2s_mem0_d_cti[2:0]),
+	.wb_m2s_mem0_d_bte		(wb_m2s_mem0_d_bte[1:0]),
+	.wb_m2s_mem0_i_adr		(wb_m2s_mem0_i_adr[31:0]),
+	.wb_m2s_mem0_i_dat		(wb_m2s_mem0_i_dat[31:0]),
+	.wb_m2s_mem0_i_sel		(wb_m2s_mem0_i_sel[3:0]),
+	.wb_m2s_mem0_i_we		(wb_m2s_mem0_i_we),
+	.wb_m2s_mem0_i_cyc		(wb_m2s_mem0_i_cyc),
+	.wb_m2s_mem0_i_stb		(wb_m2s_mem0_i_stb),
+	.wb_m2s_mem0_i_cti		(wb_m2s_mem0_i_cti[2:0]),
+	.wb_m2s_mem0_i_bte		(wb_m2s_mem0_i_bte[1:0]),
+	.wb_m2s_uart0_adr		(wb_m2s_uart0_adr[31:0]),
+	.wb_m2s_uart0_dat		(wb_m2s_uart0_dat[31:0]),
+	.wb_m2s_uart0_sel		(wb_m2s_uart0_sel[3:0]),
+	.wb_m2s_uart0_we		(wb_m2s_uart0_we),
+	.wb_m2s_uart0_cyc		(wb_m2s_uart0_cyc),
+	.wb_m2s_uart0_stb		(wb_m2s_uart0_stb),
+	.wb_m2s_uart0_cti		(wb_m2s_uart0_cti[2:0]),
+	.wb_m2s_uart0_bte		(wb_m2s_uart0_bte[1:0]),
+	.wb_m2s_mem1_adr		(wb_m2s_mem1_adr[31:0]),
+	.wb_m2s_mem1_dat		(wb_m2s_mem1_dat[31:0]),
+	.wb_m2s_mem1_sel		(wb_m2s_mem1_sel[3:0]),
+	.wb_m2s_mem1_we			(wb_m2s_mem1_we),
+	.wb_m2s_mem1_cyc		(wb_m2s_mem1_cyc),
+	.wb_m2s_mem1_stb		(wb_m2s_mem1_stb),
+	.wb_m2s_mem1_cti		(wb_m2s_mem1_cti[2:0]),
+	.wb_m2s_mem1_bte		(wb_m2s_mem1_bte[1:0]),
 	// Inputs
 	.wb_clk_i			(wb_clk),		 // Templated
 	.wb_rst_i			(wb_rst),		 // Templated
@@ -375,27 +395,30 @@ wb_intercon wb_intercon0 (
 	.wb_m2s_dbg_stb			(wb_m2s_dbg_stb),
 	.wb_m2s_dbg_cti			(wb_m2s_dbg_cti[2:0]),
 	.wb_m2s_dbg_bte			(wb_m2s_dbg_bte[1:0]),
-	.wb_s2m_uart0_dat		(wb_s2m_uart0_dat[31:0]),
-	.wb_s2m_uart0_ack		(wb_s2m_uart0_ack),
-	.wb_s2m_uart0_err		(wb_s2m_uart0_err),
-	.wb_s2m_uart0_rty		(wb_s2m_uart0_rty),
 	.wb_s2m_gpio0_dat		(wb_s2m_gpio0_dat[31:0]),
 	.wb_s2m_gpio0_ack		(wb_s2m_gpio0_ack),
 	.wb_s2m_gpio0_err		(wb_s2m_gpio0_err),
 	.wb_s2m_gpio0_rty		(wb_s2m_gpio0_rty),
-	.wb_s2m_mem0_i_dat		(wb_s2m_mem0_i_dat[31:0]),
-	.wb_s2m_mem0_i_ack		(wb_s2m_mem0_i_ack),
-	.wb_s2m_mem0_i_err		(wb_s2m_mem0_i_err),
-	.wb_s2m_mem0_i_rty		(wb_s2m_mem0_i_rty),
+	.wb_s2m_rom0_dat		(wb_s2m_rom0_dat[31:0]),
+	.wb_s2m_rom0_ack		(wb_s2m_rom0_ack),
+	.wb_s2m_rom0_err		(wb_s2m_rom0_err),
+	.wb_s2m_rom0_rty		(wb_s2m_rom0_rty),
 	.wb_s2m_mem0_d_dat		(wb_s2m_mem0_d_dat[31:0]),
 	.wb_s2m_mem0_d_ack		(wb_s2m_mem0_d_ack),
 	.wb_s2m_mem0_d_err		(wb_s2m_mem0_d_err),
 	.wb_s2m_mem0_d_rty		(wb_s2m_mem0_d_rty),
-	.wb_s2m_rom0_dat		(wb_s2m_rom0_dat[31:0]),
-	.wb_s2m_rom0_ack		(wb_s2m_rom0_ack),
-	.wb_s2m_rom0_err		(wb_s2m_rom0_err),
-	.wb_s2m_rom0_rty		(wb_s2m_rom0_rty)
-);
+	.wb_s2m_mem0_i_dat		(wb_s2m_mem0_i_dat[31:0]),
+	.wb_s2m_mem0_i_ack		(wb_s2m_mem0_i_ack),
+	.wb_s2m_mem0_i_err		(wb_s2m_mem0_i_err),
+	.wb_s2m_mem0_i_rty		(wb_s2m_mem0_i_rty),
+	.wb_s2m_uart0_dat		(wb_s2m_uart0_dat[31:0]),
+	.wb_s2m_uart0_ack		(wb_s2m_uart0_ack),
+	.wb_s2m_uart0_err		(wb_s2m_uart0_err),
+	.wb_s2m_uart0_rty		(wb_s2m_uart0_rty),
+	.wb_s2m_mem1_dat		(wb_s2m_mem1_dat[31:0]),
+	.wb_s2m_mem1_ack		(wb_s2m_mem1_ack),
+	.wb_s2m_mem1_err		(wb_s2m_mem1_err),
+	.wb_s2m_mem1_rty		(wb_s2m_mem1_rty));
 
 `ifdef SIM
 ////////////////////////////////////////////////////////////////////////
@@ -472,6 +495,16 @@ altera_virtual_jtag jtag_tap0 (
 // Hard Processor System (HPS)
 //
 ////////////////////////////////////////////////////////////////////////
+
+wire [29:0] hps_0_f2h_sdram0_data_address;
+wire [7:0]  hps_0_f2h_sdram0_data_burstcount;
+wire        hps_0_f2h_sdram0_data_waitrequest;
+wire [31:0] hps_0_f2h_sdram0_data_readdata;
+wire        hps_0_f2h_sdram0_data_readdatavalid;
+wire        hps_0_f2h_sdram0_data_read;
+wire [31:0] hps_0_f2h_sdram0_data_writedata;
+wire [3:0]  hps_0_f2h_sdram0_data_byteenable;
+wire        hps_0_f2h_sdram0_data_write;
 
 // Instantiate the qsys generated system.
 sockit hps (
@@ -584,17 +617,34 @@ sockit hps (
 	.hps_0_emac0_rx_reset_reset_n(),
 	.hps_0_emac_ptp_ref_clock_clk(),
 	.clk_0_clk_reset_reset_n(),
-	.hps_0_f2h_sdram0_data_address(),
-	.hps_0_f2h_sdram0_data_burstcount(),
-	.hps_0_f2h_sdram0_data_waitrequest(),
-	.hps_0_f2h_sdram0_data_readdata(),
-	.hps_0_f2h_sdram0_data_readdatavalid(),
-	.hps_0_f2h_sdram0_data_read(),
-	.hps_0_f2h_sdram0_data_writedata(),
-	.hps_0_f2h_sdram0_data_byteenable(),
-	.hps_0_f2h_sdram0_data_write(),
+	// 32-bit avalon interface to HPS DDR3
+	.hps_0_f2h_sdram0_data_address(hps_0_f2h_sdram0_data_address),
+	.hps_0_f2h_sdram0_data_burstcount(hps_0_f2h_sdram0_data_burstcount),
+	.hps_0_f2h_sdram0_data_waitrequest(hps_0_f2h_sdram0_data_waitrequest),
+	.hps_0_f2h_sdram0_data_readdata(hps_0_f2h_sdram0_data_readdata),
+	.hps_0_f2h_sdram0_data_readdatavalid(hps_0_f2h_sdram0_data_readdatavalid),
+	.hps_0_f2h_sdram0_data_read(hps_0_f2h_sdram0_data_read),
+	.hps_0_f2h_sdram0_data_writedata(hps_0_f2h_sdram0_data_writedata),
+	.hps_0_f2h_sdram0_data_byteenable(hps_0_f2h_sdram0_data_byteenable),
+	.hps_0_f2h_sdram0_data_write(hps_0_f2h_sdram0_data_write),
 	.hps_0_f2h_cold_reset_req_reset_n(!wb_rst)
 );
+
+// TODO: support for burst accesses (and possibly create a seperate wb<->avalon
+// bridge with resize capabilities)
+assign hps_0_f2h_sdram0_data_address = {2'h0, wb_m2s_mem1_adr[29:2]};
+assign hps_0_f2h_sdram0_data_burstcount = 8'h1;
+assign hps_0_f2h_sdram0_data_byteenable = wb_m2s_mem1_sel;
+assign hps_0_f2h_sdram0_data_write = wb_m2s_mem1_cyc & wb_m2s_mem1_stb &
+				     wb_m2s_mem1_we;
+assign hps_0_f2h_sdram0_data_writedata = wb_m2s_mem1_dat;
+assign hps_0_f2h_sdram0_data_read = wb_m2s_mem1_cyc & wb_m2s_mem1_stb &
+				    !wb_m2s_mem1_we;
+assign wb_s2m_mem1_dat = hps_0_f2h_sdram0_data_readdata;
+assign wb_s2m_mem1_ack = !hps_0_f2h_sdram0_data_waitrequest &
+			 (hps_0_f2h_sdram0_data_readdatavalid | wb_m2s_mem1_we);
+assign wb_s2m_mem1_i_err = 0;
+assign wb_s2m_mem1_i_rty = 0;
 
 ////////////////////////////////////////////////////////////////////////
 //
