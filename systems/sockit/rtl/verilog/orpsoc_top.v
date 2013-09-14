@@ -1030,11 +1030,9 @@ wb_data_resize wb_data_resize_uart0 (
 //
 ////////////////////////////////////////////////////////////////////////
 
-localparam gpio0_io_width = 8;
-
-wire [gpio0_io_width-1:0] gpio0_in;
-wire [gpio0_io_width-1:0] gpio0_out;
-wire [gpio0_io_width-1:0] gpio0_dir;
+wire [7:0]	gpio0_in;
+wire [7:0]	gpio0_out;
+wire [7:0]	gpio0_dir;
 
 wire [31:0]	wb8_m2s_gpio0_adr;
 wire [1:0]	wb8_m2s_gpio0_bte;
@@ -1052,7 +1050,7 @@ wire		wb8_s2m_gpio0_rty;
 // 0 = input, 1 = output
 genvar                    i;
 generate
-	for (i = 0; i < gpio0_io_width; i = i+1) begin: gpio0_tris
+	for (i = 0; i < 8; i = i+1) begin: gpio0_tris
 		assign gpio0_io[i] = gpio0_dir[i] ? gpio0_out[i] : 1'bz;
 		assign gpio0_in[i] = gpio0_dir[i] ? gpio0_out[i] : gpio0_io[i];
 	end
@@ -1064,7 +1062,7 @@ gpio gpio0 (
 	.gpio_o		(gpio0_out),
 	.gpio_dir_o	(gpio0_dir),
 	// Wishbone slave interface
-	.wb_adr_i	(wb8_m2s_gpio0_adr[gpio_addr_width-1:0]),
+	.wb_adr_i	(wb8_m2s_gpio0_adr[0]),
 	.wb_dat_i	(wb8_m2s_gpio0_dat),
 	.wb_we_i	(wb8_m2s_gpio0_we),
 	.wb_cyc_i	(wb8_m2s_gpio0_cyc),
