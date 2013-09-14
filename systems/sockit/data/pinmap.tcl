@@ -27,6 +27,372 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to gpio0_io[3]
 #set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to gpio0_io[7]
 
 #
+# DDR3 SDRAM (FPGA)
+#
+set_location_assignment PIN_AJ14 -to fpga_ddr3_mem_a[0]
+set_location_assignment PIN_AK14 -to fpga_ddr3_mem_a[1]
+set_location_assignment PIN_AH12 -to fpga_ddr3_mem_a[2]
+set_location_assignment PIN_AJ12 -to fpga_ddr3_mem_a[3]
+set_location_assignment PIN_AG15 -to fpga_ddr3_mem_a[4]
+set_location_assignment PIN_AH15 -to fpga_ddr3_mem_a[5]
+set_location_assignment PIN_AK12 -to fpga_ddr3_mem_a[6]
+set_location_assignment PIN_AK13 -to fpga_ddr3_mem_a[7]
+set_location_assignment PIN_AH13 -to fpga_ddr3_mem_a[8]
+set_location_assignment PIN_AH14 -to fpga_ddr3_mem_a[9]
+set_location_assignment PIN_AJ9 -to fpga_ddr3_mem_a[10]
+set_location_assignment PIN_AK9 -to fpga_ddr3_mem_a[11]
+set_location_assignment PIN_AK7 -to fpga_ddr3_mem_a[12]
+set_location_assignment PIN_AK8 -to fpga_ddr3_mem_a[13]
+set_location_assignment PIN_AG12 -to fpga_ddr3_mem_a[14]
+
+set_location_assignment PIN_AH10 -to fpga_ddr3_mem_ba[0]
+set_location_assignment PIN_AJ11 -to fpga_ddr3_mem_ba[1]
+set_location_assignment PIN_AK11 -to fpga_ddr3_mem_ba[2]
+
+set_location_assignment PIN_AH7 -to fpga_ddr3_mem_cas_n[0]
+
+set_location_assignment PIN_AJ21 -to fpga_ddr3_mem_cke[0]
+set_location_assignment PIN_AA15 -to fpga_ddr3_mem_ck_n[0]
+set_location_assignment PIN_AA14 -to fpga_ddr3_mem_ck[0]
+set_location_assignment PIN_AB15 -to fpga_ddr3_mem_cs_n[0]
+
+set_location_assignment PIN_AH17 -to fpga_ddr3_mem_dm[0]
+set_location_assignment PIN_AG23 -to fpga_ddr3_mem_dm[1]
+set_location_assignment PIN_AK23 -to fpga_ddr3_mem_dm[2]
+set_location_assignment PIN_AJ27 -to fpga_ddr3_mem_dm[3]
+
+set_location_assignment PIN_AF18 -to fpga_ddr3_mem_dq[0]
+set_location_assignment PIN_AE17 -to fpga_ddr3_mem_dq[1]
+set_location_assignment PIN_AG16 -to fpga_ddr3_mem_dq[2]
+set_location_assignment PIN_AF16 -to fpga_ddr3_mem_dq[3]
+set_location_assignment PIN_AH20 -to fpga_ddr3_mem_dq[4]
+set_location_assignment PIN_AG21 -to fpga_ddr3_mem_dq[5]
+set_location_assignment PIN_AJ16 -to fpga_ddr3_mem_dq[6]
+set_location_assignment PIN_AH18 -to fpga_ddr3_mem_dq[7]
+set_location_assignment PIN_AK18 -to fpga_ddr3_mem_dq[8]
+set_location_assignment PIN_AJ17 -to fpga_ddr3_mem_dq[9]
+set_location_assignment PIN_AG18 -to fpga_ddr3_mem_dq[10]
+set_location_assignment PIN_AK19 -to fpga_ddr3_mem_dq[11]
+set_location_assignment PIN_AG20 -to fpga_ddr3_mem_dq[12]
+set_location_assignment PIN_AF19 -to fpga_ddr3_mem_dq[13]
+set_location_assignment PIN_AJ20 -to fpga_ddr3_mem_dq[14]
+set_location_assignment PIN_AH24 -to fpga_ddr3_mem_dq[15]
+set_location_assignment PIN_AE19 -to fpga_ddr3_mem_dq[16]
+set_location_assignment PIN_AE18 -to fpga_ddr3_mem_dq[17]
+set_location_assignment PIN_AG22 -to fpga_ddr3_mem_dq[18]
+set_location_assignment PIN_AK22 -to fpga_ddr3_mem_dq[19]
+set_location_assignment PIN_AF21 -to fpga_ddr3_mem_dq[20]
+set_location_assignment PIN_AF20 -to fpga_ddr3_mem_dq[21]
+set_location_assignment PIN_AH23 -to fpga_ddr3_mem_dq[22]
+set_location_assignment PIN_AK24 -to fpga_ddr3_mem_dq[23]
+set_location_assignment PIN_AF24 -to fpga_ddr3_mem_dq[24]
+set_location_assignment PIN_AF23 -to fpga_ddr3_mem_dq[25]
+set_location_assignment PIN_AJ24 -to fpga_ddr3_mem_dq[26]
+set_location_assignment PIN_AK26 -to fpga_ddr3_mem_dq[27]
+set_location_assignment PIN_AE23 -to fpga_ddr3_mem_dq[28]
+set_location_assignment PIN_AE22 -to fpga_ddr3_mem_dq[29]
+set_location_assignment PIN_AG25 -to fpga_ddr3_mem_dq[30]
+set_location_assignment PIN_AK27 -to fpga_ddr3_mem_dq[31]
+
+set_location_assignment PIN_W16 -to fpga_ddr3_mem_dqs_n[0]
+set_location_assignment PIN_W17 -to fpga_ddr3_mem_dqs_n[1]
+set_location_assignment PIN_AA18 -to fpga_ddr3_mem_dqs_n[2]
+set_location_assignment PIN_AD19 -to fpga_ddr3_mem_dqs_n[3]
+
+set_location_assignment PIN_V16 -to fpga_ddr3_mem_dqs[0]
+set_location_assignment PIN_V17 -to fpga_ddr3_mem_dqs[1]
+set_location_assignment PIN_Y17 -to fpga_ddr3_mem_dqs[2]
+set_location_assignment PIN_AC20 -to fpga_ddr3_mem_dqs[3]
+
+set_location_assignment PIN_AE16 -to fpga_ddr3_mem_odt[0]
+
+set_location_assignment PIN_AH8 -to fpga_ddr3_mem_ras_n[0]
+
+set_location_assignment PIN_AK21 -to fpga_ddr3_mem_reset_n[0]
+
+set_location_assignment PIN_AJ6 -to fpga_ddr3_mem_we_n[0]
+
+set_location_assignment PIN_AG17 -to fpga_ddr3_oct_rzqin
+
+set_instance_assignment -name IO_STANDARD "SSTL-15" -to fpga_ddr3_oct_rzqin -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[1] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[1] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[1] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[2] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[2] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[2] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[3] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[3] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[3] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[4] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[4] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[4] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[5] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[5] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[5] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[6] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[6] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[6] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[7] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[7] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[7] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[8] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[8] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[8] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[9] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[9] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[9] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[10] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[10] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[10] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[11] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[11] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[11] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[12] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[12] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[12] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[13] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[13] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[13] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[14] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[14] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[14] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[15] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[15] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[15] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[16] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[16] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[16] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[17] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[17] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[17] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[18] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[18] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[18] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[19] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[19] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[19] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[20] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[20] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[20] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[21] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[21] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[21] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[22] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[22] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[22] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[23] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[23] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[23] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[24] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[24] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[24] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[25] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[25] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[25] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[26] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[26] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[26] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[27] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[27] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[27] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[28] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[28] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[28] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[29] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[29] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[29] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[30] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[30] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[30] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dq[31] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[31] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dq[31] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.5-V SSTL CLASS I" -to fpga_ddr3_mem_dqs[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dqs[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dqs[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.5-V SSTL CLASS I" -to fpga_ddr3_mem_dqs[1] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dqs[1] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dqs[1] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.5-V SSTL CLASS I" -to fpga_ddr3_mem_dqs[2] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dqs[2] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dqs[2] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.5-V SSTL CLASS I" -to fpga_ddr3_mem_dqs[3] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dqs[3] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dqs[3] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.5-V SSTL CLASS I" -to fpga_ddr3_mem_dqs_n[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dqs_n[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dqs_n[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.5-V SSTL CLASS I" -to fpga_ddr3_mem_dqs_n[1] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dqs_n[1] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dqs_n[1] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.5-V SSTL CLASS I" -to fpga_ddr3_mem_dqs_n[2] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dqs_n[2] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dqs_n[2] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.5-V SSTL CLASS I" -to fpga_ddr3_mem_dqs_n[3] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dqs_n[3] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dqs_n[3] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.5-V SSTL CLASS I" -to fpga_ddr3_mem_ck[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITHOUT CALIBRATION" -to fpga_ddr3_mem_ck[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name D5_DELAY 2 -to fpga_ddr3_mem_ck[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.5-V SSTL CLASS I" -to fpga_ddr3_mem_ck_n[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITHOUT CALIBRATION" -to fpga_ddr3_mem_ck_n[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name D5_DELAY 2 -to fpga_ddr3_mem_ck_n[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_a[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to fpga_ddr3_mem_a[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_a[10] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to fpga_ddr3_mem_a[10] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_a[11] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to fpga_ddr3_mem_a[11] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_a[12] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to fpga_ddr3_mem_a[12] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_a[13] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to fpga_ddr3_mem_a[13] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_a[14] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to fpga_ddr3_mem_a[14] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_a[1] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to fpga_ddr3_mem_a[1] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_a[2] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to fpga_ddr3_mem_a[2] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_a[3] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to fpga_ddr3_mem_a[3] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_a[4] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to fpga_ddr3_mem_a[4] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_a[5] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to fpga_ddr3_mem_a[5] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_a[6] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to fpga_ddr3_mem_a[6] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_a[7] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to fpga_ddr3_mem_a[7] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_a[8] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to fpga_ddr3_mem_a[8] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_a[9] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to fpga_ddr3_mem_a[9] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_ba[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to fpga_ddr3_mem_ba[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_ba[1] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to fpga_ddr3_mem_ba[1] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_ba[2] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to fpga_ddr3_mem_ba[2] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_cas_n[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to fpga_ddr3_mem_cas_n[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_cke[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to fpga_ddr3_mem_cke[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_cs_n[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to fpga_ddr3_mem_cs_n[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_odt[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to fpga_ddr3_mem_odt[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_ras_n[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to fpga_ddr3_mem_ras_n[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_we_n[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to fpga_ddr3_mem_we_n[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD 1.5V -to fpga_ddr3_mem_reset_n[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to fpga_ddr3_mem_reset_n[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dm[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dm[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dm[1] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dm[1] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dm[2] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dm[2] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to fpga_ddr3_mem_dm[3] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to fpga_ddr3_mem_dm[3] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[1] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[2] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[3] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[4] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[5] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[6] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[7] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[8] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[9] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[10] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[11] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[12] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[13] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[14] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[15] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[16] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[17] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[18] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[19] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[20] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[21] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[22] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[23] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[24] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[25] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[26] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[27] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[28] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[29] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[30] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dq[31] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dm[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dm[1] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dm[2] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dm[3] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dqs[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dqs[1] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dqs[2] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dqs[3] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dqs_n[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dqs_n[1] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dqs_n[2] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_dqs_n[3] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_a[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_a[10] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_a[11] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_a[12] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_a[13] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_a[14] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_a[1] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_a[2] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_a[3] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_a[4] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_a[5] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_a[6] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_a[7] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_a[8] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_a[9] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_ba[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_ba[1] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_ba[2] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_cas_n[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_cke[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_cs_n[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_odt[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_ras_n[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_we_n[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_reset_n[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_ck[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to fpga_ddr3_mem_ck_n[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name GLOBAL_SIGNAL "DUAL-REGIONAL CLOCK" -to hps|mem_if_ddr3_emif_0|pll0|pll_avl_clk -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name GLOBAL_SIGNAL "DUAL-REGIONAL CLOCK" -to hps|mem_if_ddr3_emif_0|pll0|pll_config_clk -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to hps|mem_if_ddr3_emif_0|p0|umemphy|ureset|phy_reset_mem_stable_n -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to hps|mem_if_ddr3_emif_0|p0|umemphy|ureset|phy_reset_n -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to hps|mem_if_ddr3_emif_0|s0|sequencer_rw_mgr_inst|rw_mgr_inst|rw_mgr_core_inst|rw_soft_reset_n -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to hps|mem_if_ddr3_emif_0|p0|umemphy|uio_pads|dq_ddio[0].read_capture_clk_buffer -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to hps|mem_if_ddr3_emif_0|p0|umemphy|uread_datapath|reset_n_fifo_write_side[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to hps|mem_if_ddr3_emif_0|p0|umemphy|uread_datapath|reset_n_fifo_wraddress[0] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to hps|mem_if_ddr3_emif_0|p0|umemphy|uio_pads|dq_ddio[1].read_capture_clk_buffer -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to hps|mem_if_ddr3_emif_0|p0|umemphy|uread_datapath|reset_n_fifo_write_side[1] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to hps|mem_if_ddr3_emif_0|p0|umemphy|uread_datapath|reset_n_fifo_wraddress[1] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to hps|mem_if_ddr3_emif_0|p0|umemphy|uio_pads|dq_ddio[2].read_capture_clk_buffer -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to hps|mem_if_ddr3_emif_0|p0|umemphy|uread_datapath|reset_n_fifo_write_side[2] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to hps|mem_if_ddr3_emif_0|p0|umemphy|uread_datapath|reset_n_fifo_wraddress[2] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to hps|mem_if_ddr3_emif_0|p0|umemphy|uio_pads|dq_ddio[3].read_capture_clk_buffer -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to hps|mem_if_ddr3_emif_0|p0|umemphy|uread_datapath|reset_n_fifo_write_side[3] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to hps|mem_if_ddr3_emif_0|p0|umemphy|uread_datapath|reset_n_fifo_wraddress[3] -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name ENABLE_BENEFICIAL_SKEW_OPTIMIZATION_FOR_NON_GLOBAL_CLOCKS ON -to hps|mem_if_ddr3_emif_0 -tag __sockit_mem_if_ddr3_emif_0_p0
+set_instance_assignment -name PLL_COMPENSATION_MODE DIRECT -to hps|mem_if_ddr3_emif_0|pll0|fbout -tag __sockit_mem_if_ddr3_emif_0_p0
+set_global_assignment -name UNIPHY_SEQUENCER_DQS_CONFIG_ENABLE ON
+
+
+#
 # HPS (Hard Processor System
 #
 set_instance_assignment -name GLOBAL_SIGNAL OFF -to hps_0|hps_io|border|hps_sdram_inst|p0|umemphy|uio_pads|dq_ddio[1].read_capture_clk_buffer -entity sockit -tag __hps_sdram_p0
