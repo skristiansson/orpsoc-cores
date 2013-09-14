@@ -21,3 +21,4 @@ device = 5CSXFC6D6F31C8ES
 sdc_files = data/sockit.sdc
 tcl_files = data/pinmap.tcl
             data/options.tcl
+quartus_options = --64bit
