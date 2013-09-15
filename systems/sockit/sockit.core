@@ -11,6 +11,7 @@ depend =
  jtag_vpi
  ram_wb
  gpio
+ diila
 
 simulators =
  icarus

@@ -279,6 +279,18 @@ wire			wb_s2m_uart0_ack;
 wire			wb_s2m_uart0_err;
 wire			wb_s2m_uart0_rty;
 
+wire [31:0]		wb_m2s_diila_adr;
+wire [1:0]		wb_m2s_diila_bte;
+wire [2:0]		wb_m2s_diila_cti;
+wire			wb_m2s_diila_cyc;
+wire [31:0]		wb_m2s_diila_dat;
+wire [3:0]		wb_m2s_diila_sel;
+wire			wb_m2s_diila_stb;
+wire			wb_m2s_diila_we;
+wire [31:0] 		wb_s2m_diila_dat;
+wire			wb_s2m_diila_ack;
+wire			wb_s2m_diila_err;
+wire			wb_s2m_diila_rty;
 
 wire [31:0]		wb_m2s_dbg_adr;
 wire [31:0]		wb_m2s_dbg_dat;
@@ -386,6 +398,14 @@ wb_intercon wb_intercon0 (
 	.wb_m2s_sram0_stb		(wb_m2s_sram0_stb),
 	.wb_m2s_sram0_cti		(wb_m2s_sram0_cti[2:0]),
 	.wb_m2s_sram0_bte		(wb_m2s_sram0_bte[1:0]),
+	.wb_m2s_diila_adr		(wb_m2s_diila_adr[31:0]),
+	.wb_m2s_diila_dat		(wb_m2s_diila_dat[31:0]),
+	.wb_m2s_diila_sel		(wb_m2s_diila_sel[3:0]),
+	.wb_m2s_diila_we		(wb_m2s_diila_we),
+	.wb_m2s_diila_cyc		(wb_m2s_diila_cyc),
+	.wb_m2s_diila_stb		(wb_m2s_diila_stb),
+	.wb_m2s_diila_cti		(wb_m2s_diila_cti[2:0]),
+	.wb_m2s_diila_bte		(wb_m2s_diila_bte[1:0]),
 	// Inputs
 	.wb_clk_i			(wb_clk),		 // Templated
 	.wb_rst_i			(wb_rst),		 // Templated
@@ -436,7 +456,11 @@ wb_intercon wb_intercon0 (
 	.wb_s2m_sram0_dat		(wb_s2m_sram0_dat[31:0]),
 	.wb_s2m_sram0_ack		(wb_s2m_sram0_ack),
 	.wb_s2m_sram0_err		(wb_s2m_sram0_err),
-	.wb_s2m_sram0_rty		(wb_s2m_sram0_rty));
+	.wb_s2m_sram0_rty		(wb_s2m_sram0_rty),
+	.wb_s2m_diila_dat		(wb_s2m_diila_dat[31:0]),
+	.wb_s2m_diila_ack		(wb_s2m_diila_ack),
+	.wb_s2m_diila_err		(wb_s2m_diila_err),
+	.wb_s2m_diila_rty		(wb_s2m_diila_rty));
 
 `ifdef SIM
 ////////////////////////////////////////////////////////////////////////
@@ -1270,4 +1294,62 @@ assign or1k_irq[29] = 0;
 assign or1k_irq[30] = 0;
 assign or1k_irq[31] = 0;
 
+////////////////////////////////////////////////////////////////////////
+//
+// diila - Device Independent Integrated Logic Analyzer
+//
+////////////////////////////////////////////////////////////////////////
+wire [31:0] diila_trig;
+wire [31:0] diila_data [5:0];
+
+assign diila_trig = wb_m2s_fpga_ddr3_adr;
+assign diila_data[0] = wb_m2s_fpga_ddr3_dat;
+assign diila_data[1] = wb_s2m_fpga_ddr3_dat;
+assign diila_data[2] = wb_m2s_or1k_d_adr;
+assign diila_data[3] = {
+	12'h0,
+	wb_m2s_or1k_d_cyc, // 1
+	wb_m2s_or1k_d_stb, // 1
+	wb_m2s_or1k_d_we,  // 1
+	wb_m2s_or1k_d_sel, // 4
+	wb_s2m_or1k_d_ack, // 1
+	fpga_ddr3_avl_read,  // 1
+	fpga_ddr3_avl_write, // 1
+	fpga_ddr3_avl_readdatavalid, // 1
+	fpga_ddr3_avl_waitrequest, // 1
+	wb_m2s_fpga_ddr3_cyc, // 1
+	wb_m2s_fpga_ddr3_stb, // 1
+	wb_m2s_fpga_ddr3_we,  // 1
+	wb_m2s_fpga_ddr3_sel, // 4
+	wb_s2m_fpga_ddr3_ack  // 1
+};
+
+diila
+      #(
+	.DATA_WIDTH(32*6)
+)
+diila (
+	.wb_rst_i             (wb_rst),
+	.wb_clk_i             (wb_clk),
+	.wb_dat_i             (wb_m2s_diila_dat),
+	.wb_adr_i             (wb_m2s_diila_adr[23:2]),
+	.wb_sel_i             (wb_m2s_diila_sel),
+	.wb_we_i              (wb_m2s_diila_we),
+	.wb_cyc_i             (wb_m2s_diila_cyc),
+	.wb_stb_i             (wb_m2s_diila_stb),
+	.wb_dat_o             (wb_s2m_diila_dat),
+	.wb_ack_o             (wb_s2m_diila_ack),
+	.wb_err_o             (wb_s2m_diila_err),
+	.wb_rty_o             (wb_s2m_diila_rty),
+	.storage_en           (1'b1/*tracer_storage_en*/),
+	.trig_i               (diila_trig),
+	.data_i               ({
+				diila_data[0],
+				diila_data[1],
+				diila_data[2],
+				diila_data[3],
+				diila_data[4],
+				diila_data[5]
+				})
+);
 endmodule // orpsoc_top
