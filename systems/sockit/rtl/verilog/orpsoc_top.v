@@ -759,40 +759,69 @@ sockit hps
 	.fpga_ddr3_avl_write		(fpga_ddr3_avl_write),
 	.fpga_ddr3_avl_burstcount	(fpga_ddr3_avl_burstcount[5:0]));
 
-// TODO: support for burst accesses (and possibly create a seperate wb<->avalon
-// bridge with resize capabilities)
-
 // HPS DDR3 interface
-assign hps_0_f2h_sdram0_data_address = {2'h0, wb_m2s_hps_ddr3_adr[29:2]};
-assign hps_0_f2h_sdram0_data_burstcount = 8'h1;
-assign hps_0_f2h_sdram0_data_byteenable = wb_m2s_hps_ddr3_sel;
-assign hps_0_f2h_sdram0_data_write = wb_m2s_hps_ddr3_cyc & wb_m2s_hps_ddr3_stb &
-				     wb_m2s_hps_ddr3_we;
-assign hps_0_f2h_sdram0_data_writedata = wb_m2s_hps_ddr3_dat;
-assign hps_0_f2h_sdram0_data_read = wb_m2s_hps_ddr3_cyc & wb_m2s_hps_ddr3_stb &
-				    !wb_m2s_hps_ddr3_we;
-assign wb_s2m_hps_ddr3_dat = hps_0_f2h_sdram0_data_readdata;
-assign wb_s2m_hps_ddr3_ack = !hps_0_f2h_sdram0_data_waitrequest &
-			     (hps_0_f2h_sdram0_data_readdatavalid |
-			      wb_m2s_hps_ddr3_we);
-assign wb_s2m_hps_ddr3_i_err = 0;
-assign wb_s2m_hps_ddr3_i_rty = 0;
+wb_to_avalon_bridge #(
+	.DW			(32),
+ 	.AW			(30)
+) hps_ddr3_wb2avl_bridge (
+	.clk			(wb_clk),
+	.rst			(wb_rst),
+	// Wishbone Master Input
+	.wbm_adr_i		({2'h0, wb_m2s_hps_ddr3_adr[29:2]}),
+	.wbm_dat_i		(wb_m2s_hps_ddr3_dat),
+	.wbm_sel_i		(wb_m2s_hps_ddr3_sel),
+	.wbm_we_i		(wb_m2s_hps_ddr3_we),
+	.wbm_cyc_i		(wb_m2s_hps_ddr3_cyc),
+	.wbm_stb_i		(wb_m2s_hps_ddr3_stb),
+	.wbm_cti_i		(wb_m2s_hps_ddr3_cti),
+	.wbm_bte_i		(wb_m2s_hps_ddr3_bte),
+	.wbm_dat_o		(wb_s2m_hps_ddr3_dat),
+	.wbm_ack_o		(wb_s2m_hps_ddr3_ack),
+	.wbm_err_o		(wb_s2m_hps_ddr3_err),
+	.wbm_rty_o		(wb_s2m_hps_ddr3_rty),
+	// Avalon Master Output
+	.avm_address_o		(hps_o_f2h_sdram0_data_address),
+	.avm_byteenable_o	(hps_o_f2h_sdram0_data_byteenable),
+	.avm_read_o		(hps_o_f2h_sdram0_data_read),
+	.avm_readdata_i		(hps_o_f2h_sdram0_data_readdata),
+	.avm_burstcount_o	(hps_o_f2h_sdram0_data_burstcount),
+	.avm_write_o		(hps_o_f2h_sdram0_data_write),
+	.avm_writedata_o	(hps_o_f2h_sdram0_data_writedata),
+	.avm_waitrequest_i	(hps_o_f2h_sdram0_data_waitrequest),
+	.avm_readdatavalid_i	(hps_o_f2h_sdram0_data_readdatavalid)
+);
 
 // FPGA DDR3 interface
-assign fpga_ddr3_avl_address = wb_m2s_fpga_ddr3_adr[29:2];
-assign fpga_ddr3_avl_burstcount = 6'h1;
-assign fpga_ddr3_avl_byteenable = wb_m2s_fpga_ddr3_sel;
-assign fpga_ddr3_avl_write = wb_m2s_fpga_ddr3_cyc & wb_m2s_fpga_ddr3_stb &
-			     wb_m2s_fpga_ddr3_we;
-assign fpga_ddr3_avl_writedata = wb_m2s_fpga_ddr3_dat;
-assign fpga_ddr3_avl_read = wb_m2s_fpga_ddr3_cyc & wb_m2s_fpga_ddr3_stb &
-			    !wb_m2s_fpga_ddr3_we;
-assign wb_s2m_fpga_ddr3_dat = fpga_ddr3_avl_readdata;
-assign wb_s2m_fpga_ddr3_ack = !fpga_ddr3_avl_waitrequest &
-			      (fpga_ddr3_avl_readdatavalid |
-			       wb_m2s_fpga_ddr3_we);
-assign wb_s2m_fpga_ddr3_i_err = 0;
-assign wb_s2m_fpga_ddr3_i_rty = 0;
+wb_to_avalon_bridge #(
+	.DW			(32),
+ 	.AW			(28)
+) fpga_ddr3_wb2avl_bridge (
+	.clk			(wb_clk),
+	.rst			(wb_rst),
+	// Wishbone Master Input
+	.wbm_adr_i		(wb_m2s_fpga_ddr3_adr[29:2]),
+	.wbm_dat_i		(wb_m2s_fpga_ddr3_dat),
+	.wbm_sel_i		(wb_m2s_fpga_ddr3_sel),
+	.wbm_we_i		(wb_m2s_fpga_ddr3_we),
+	.wbm_cyc_i		(wb_m2s_fpga_ddr3_cyc),
+	.wbm_stb_i		(wb_m2s_fpga_ddr3_stb),
+	.wbm_cti_i		(wb_m2s_fpga_ddr3_cti),
+	.wbm_bte_i		(wb_m2s_fpga_ddr3_bte),
+	.wbm_dat_o		(wb_s2m_fpga_ddr3_dat),
+	.wbm_ack_o		(wb_s2m_fpga_ddr3_ack),
+	.wbm_err_o		(wb_s2m_fpga_ddr3_err),
+	.wbm_rty_o		(wb_s2m_fpga_ddr3_rty),
+	// Avalon Master Output
+	.avm_address_o		(fpga_ddr3_avl_address),
+	.avm_byteenable_o	(fpga_ddr3_avl_byteenable),
+	.avm_read_o		(fpga_ddr3_avl_read),
+	.avm_readdata_i		(fpga_ddr3_avl_readdata),
+	.avm_burstcount_o	(fpga_ddr3_avl_burstcount),
+	.avm_write_o		(fpga_ddr3_avl_write),
+	.avm_writedata_o	(fpga_ddr3_avl_writedata),
+	.avm_waitrequest_i	(fpga_ddr3_avl_waitrequest),
+	.avm_readdatavalid_i	(fpga_ddr3_avl_readdatavalid)
+);
 
 ////////////////////////////////////////////////////////////////////////
 //

@@ -3,6 +3,7 @@ CAPI=1
 depend =
  jtag_tap
  wb_intercon
+ wb_avalon_bridge
  adv_debug_sys
  mor1kx
  uart16550
