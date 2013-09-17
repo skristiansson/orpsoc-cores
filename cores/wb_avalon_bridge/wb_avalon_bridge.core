@@ -1,0 +1,7 @@
+CAPI=1
+[main]
+description = Wishbone <-> Avalon bus bridges
+
+[verilog]
+src_files =
+ verilog/wb_to_avalon_bridge.v
