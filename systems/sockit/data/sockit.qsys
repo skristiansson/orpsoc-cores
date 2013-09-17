@@ -12,6 +12,14 @@
    element $${FILENAME}
    {
    }
+   element mem_if_ddr3_emif_0.avl_1
+   {
+      datum _lockedAddress
+      {
+         value = "0";
+         type = "boolean";
+      }
+   }
    element clk_0
    {
       datum _sortIndex
@@ -942,16 +950,6 @@
    start="mem_if_ddr3_emif_0.afi_reset"
    end="mem_if_ddr3_emif_0.mp_cmd_reset_n_0" />
  <connection
-   kind="reset"
-   version="13.0"
-   start="mem_if_ddr3_emif_0.afi_reset"
-   end="mem_if_ddr3_emif_0.mp_rfifo_reset_n_0" />
- <connection
-   kind="reset"
-   version="13.0"
-   start="mem_if_ddr3_emif_0.afi_reset"
-   end="mem_if_ddr3_emif_0.mp_wfifo_reset_n_0" />
- <connection
    kind="clock"
    version="13.0"
    start="clk_0.clk"
@@ -1025,11 +1023,6 @@
    version="13.0"
    start="hps_0.h2f_reset"
    end="mem_if_ddr3_emif_0.mp_rfifo_reset_n_1" />
- <connection
-   kind="reset"
-   version="13.0"
-   start="hps_0.h2f_reset"
-   end="mem_if_ddr3_emif_0.mp_cmd_reset_n_1" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
 </system>
