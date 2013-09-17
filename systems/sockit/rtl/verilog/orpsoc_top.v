@@ -880,14 +880,14 @@ or1200_top0 (
 	.dwb_rty_i			(wb_s2m_or1k_d_rty),
 	.dwb_dat_i			(wb_s2m_or1k_d_dat),
 
-	.dwb_cyc_o			(wb_m2s_or1k_d_cyc_i),
-	.dwb_adr_o			(wb_m2s_or1k_d_adr_i),
-	.dwb_stb_o			(wb_m2s_or1k_d_stb_i),
-	.dwb_we_o			(wb_m2s_or1k_d_we_i),
-	.dwb_sel_o			(wb_m2s_or1k_d_sel_i),
-	.dwb_dat_o			(wb_m2s_or1k_d_dat_i),
-	.dwb_cti_o			(wb_m2s_or1k_d_cti_i),
-	.dwb_bte_o			(wb_m2s_or1k_d_bte_i),
+	.dwb_cyc_o			(wb_m2s_or1k_d_cyc),
+	.dwb_adr_o			(wb_m2s_or1k_d_adr),
+	.dwb_stb_o			(wb_m2s_or1k_d_stb),
+	.dwb_we_o			(wb_m2s_or1k_d_we),
+	.dwb_sel_o			(wb_m2s_or1k_d_sel),
+	.dwb_dat_o			(wb_m2s_or1k_d_dat),
+	.dwb_cti_o			(wb_m2s_or1k_d_cti),
+	.dwb_bte_o			(wb_m2s_or1k_d_bte),
 
 	// Debug interface ports
 	.dbg_stall_i			(or1k_dbg_stall_i),
@@ -921,7 +921,7 @@ or1200_top0 (
 	.clmode_i			(2'b00),
 
 	// Interrupts
-	.pic_ints_i			(or1k_irq}),
+	.pic_ints_i			(or1k_irq),
 	.sig_tick			(sig_tick),
 
 	.pm_cpustall_i			(1'b0)
