@@ -7,6 +7,7 @@ depend =
  adv_debug_sys
  mor1kx
  uart16550
+ or1200
  or1k-elf-loader
  vlog_tb_utils
  jtag_vpi
@@ -30,6 +31,7 @@ tb_private_src_files =
  bench/uart_decoder.v
 
 include_files =
+ rtl/verilog/include/or1200_defines.v
  rtl/verilog/include/orpsoc-defines.v
  rtl/verilog/include/orpsoc-params.v
  rtl/verilog/include/timescale.v

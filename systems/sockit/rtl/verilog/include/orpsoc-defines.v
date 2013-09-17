@@ -34,6 +34,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // Included modules: define to include
+//`define OR1200
 `define ALTERA_JTAG_TAP
 `define UART0
 `define RAM_WB
