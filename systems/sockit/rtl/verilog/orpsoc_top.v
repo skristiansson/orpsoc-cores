@@ -1419,12 +1419,20 @@ assign or1k_irq[31] = 0;
 wire [31:0] diila_trig;
 wire [31:0] diila_data [5:0];
 
-assign diila_trig = wb_m2s_fpga_ddr3_adr;
+assign diila_trig = {11'h0,h2f_lw_avl_address};//wb_m2s_h2f_lw_adr;//wb_m2s_fpga_ddr3_adr;
 assign diila_data[0] = wb_m2s_fpga_ddr3_dat;
 assign diila_data[1] = wb_s2m_fpga_ddr3_dat;
 assign diila_data[2] = wb_m2s_or1k_d_adr;
 assign diila_data[3] = {
-	12'h0,
+	h2f_lw_avl_read,  // 1
+	h2f_lw_avl_write, // 1
+	h2f_lw_avl_readdatavalid, // 1
+	h2f_lw_avl_waitrequest, // 1
+	wb_m2s_h2f_lw_cyc, // 1
+	wb_m2s_h2f_lw_stb, // 1
+	wb_m2s_h2f_lw_we,  // 1
+	wb_m2s_h2f_lw_sel, // 4
+	wb_s2m_h2f_lw_ack, // 1
 	wb_m2s_or1k_d_cyc, // 1
 	wb_m2s_or1k_d_stb, // 1
 	wb_m2s_or1k_d_we,  // 1
@@ -1440,6 +1448,7 @@ assign diila_data[3] = {
 	wb_m2s_fpga_ddr3_sel, // 4
 	wb_s2m_fpga_ddr3_ack  // 1
 };
+assign diila_data[4] = wb_m2s_h2f_lw_adr;
 
 diila
       #(
