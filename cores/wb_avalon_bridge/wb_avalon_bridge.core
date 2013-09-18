@@ -5,3 +5,4 @@ description = Wishbone <-> Avalon bus bridges
 [verilog]
 src_files =
  verilog/wb_to_avalon_bridge.v
+ verilog/avalon_to_wb_bridge.v
