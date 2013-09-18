@@ -12,12 +12,25 @@
    element $${FILENAME}
    {
    }
-   element mem_if_ddr3_emif_0.avl_1
+   element mem_if_ddr3_emif_0.avl_0
    {
       datum _lockedAddress
       {
          value = "0";
          type = "boolean";
+      }
+   }
+   element mem_if_ddr3_emif_0.avl_1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "0";
+         type = "String";
       }
    }
    element clk_0
@@ -40,8 +53,29 @@
    {
       datum _sortIndex
       {
+         value = "3";
+         type = "int";
+      }
+   }
+   element mm_bridge_0
+   {
+      datum _sortIndex
+      {
          value = "2";
          type = "int";
+      }
+   }
+   element mm_bridge_0.s0
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "0";
+         type = "String";
       }
    }
 }
@@ -139,6 +173,7 @@
    internal="mem_if_ddr3_emif_0.avl_0"
    type="avalon"
    dir="end" />
+ <interface name="h2f_lw_avl" internal="mm_bridge_0.m0" type="avalon" dir="start" />
  <module kind="clock_source" version="13.0" enabled="1" name="clk_0">
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="clockFrequencyKnown" value="true" />
@@ -909,6 +944,23 @@
   <parameter name="NUM_OCT_SHARING_INTERFACES" value="1" />
   <parameter name="AUTO_DEVICE" value="5CSXFC6D6F31C8ES" />
  </module>
+ <module
+   kind="altera_avalon_mm_bridge"
+   version="13.0"
+   enabled="1"
+   name="mm_bridge_0">
+  <parameter name="DATA_WIDTH" value="32" />
+  <parameter name="SYMBOL_WIDTH" value="8" />
+  <parameter name="ADDRESS_WIDTH" value="21" />
+  <parameter name="ADDRESS_UNITS" value="SYMBOLS" />
+  <parameter name="MAX_BURST_SIZE" value="1" />
+  <parameter name="MAX_PENDING_RESPONSES" value="4" />
+  <parameter name="LINEWRAPBURSTS" value="1" />
+  <parameter name="PIPELINE_COMMAND" value="1" />
+  <parameter name="PIPELINE_RESPONSE" value="1" />
+  <parameter name="AUTO_CLK_CLOCK_RATE" value="50000000" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
+ </module>
  <connection
    kind="clock"
    version="13.0"
@@ -980,15 +1032,6 @@
    start="clk_0.clk_reset"
    end="mem_if_ddr3_emif_0.mp_wfifo_reset_n_0" />
  <connection
-   kind="avalon"
-   version="13.0"
-   start="hps_0.h2f_axi_master"
-   end="mem_if_ddr3_emif_0.avl_1">
-  <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0000" />
-  <parameter name="defaultConnection" value="false" />
- </connection>
- <connection
    kind="clock"
    version="13.0"
    start="clk_0.clk"
@@ -1023,6 +1066,30 @@
    version="13.0"
    start="hps_0.h2f_reset"
    end="mem_if_ddr3_emif_0.mp_rfifo_reset_n_1" />
+ <connection
+   kind="avalon"
+   version="13.0"
+   start="hps_0.h2f_axi_master"
+   end="mem_if_ddr3_emif_0.avl_1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="reset"
+   version="13.0"
+   start="clk_0.clk_reset"
+   end="mm_bridge_0.reset" />
+ <connection
+   kind="avalon"
+   version="13.0"
+   start="hps_0.h2f_lw_axi_master"
+   end="mm_bridge_0.s0">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection kind="clock" version="13.0" start="clk_0.clk" end="mm_bridge_0.clk" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
 </system>

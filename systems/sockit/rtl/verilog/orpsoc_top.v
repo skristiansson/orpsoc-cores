@@ -331,6 +331,19 @@ wire [31:0]		wb_s2m_or1k_i_dat;
 wire			wb_s2m_or1k_i_err;
 wire			wb_s2m_or1k_i_rty;
 
+wire [31:0]		wb_m2s_h2f_lw_adr;
+wire [31:0]		wb_m2s_h2f_lw_dat;
+wire [3:0]		wb_m2s_h2f_lw_sel;
+wire			wb_m2s_h2f_lw_we;
+wire			wb_m2s_h2f_lw_cyc;
+wire			wb_m2s_h2f_lw_stb;
+wire [2:0]		wb_m2s_h2f_lw_cti;
+wire [1:0]		wb_m2s_h2f_lw_bte;
+wire			wb_s2m_h2f_lw_ack;
+wire [31:0]		wb_s2m_h2f_lw_dat;
+wire			wb_s2m_h2f_lw_err;
+wire			wb_s2m_h2f_lw_rty;
+
 /* wb_intercon AUTO_TEMPLATE (
 	.wb_clk_i			(wb_clk),
 	.wb_rst_i			(wb_rst),
@@ -342,6 +355,10 @@ wb_intercon wb_intercon0 (
 	.wb_s2m_or1k_i_ack		(wb_s2m_or1k_i_ack),
 	.wb_s2m_or1k_i_err		(wb_s2m_or1k_i_err),
 	.wb_s2m_or1k_i_rty		(wb_s2m_or1k_i_rty),
+	.wb_s2m_h2f_lw_dat		(wb_s2m_h2f_lw_dat[31:0]),
+	.wb_s2m_h2f_lw_ack		(wb_s2m_h2f_lw_ack),
+	.wb_s2m_h2f_lw_err		(wb_s2m_h2f_lw_err),
+	.wb_s2m_h2f_lw_rty		(wb_s2m_h2f_lw_rty),
 	.wb_s2m_or1k_d_dat		(wb_s2m_or1k_d_dat[31:0]),
 	.wb_s2m_or1k_d_ack		(wb_s2m_or1k_d_ack),
 	.wb_s2m_or1k_d_err		(wb_s2m_or1k_d_err),
@@ -417,6 +434,14 @@ wb_intercon wb_intercon0 (
 	.wb_m2s_or1k_i_stb		(wb_m2s_or1k_i_stb),
 	.wb_m2s_or1k_i_cti		(wb_m2s_or1k_i_cti[2:0]),
 	.wb_m2s_or1k_i_bte		(wb_m2s_or1k_i_bte[1:0]),
+	.wb_m2s_h2f_lw_adr		(wb_m2s_h2f_lw_adr[31:0]),
+	.wb_m2s_h2f_lw_dat		(wb_m2s_h2f_lw_dat[31:0]),
+	.wb_m2s_h2f_lw_sel		(wb_m2s_h2f_lw_sel[3:0]),
+	.wb_m2s_h2f_lw_we		(wb_m2s_h2f_lw_we),
+	.wb_m2s_h2f_lw_cyc		(wb_m2s_h2f_lw_cyc),
+	.wb_m2s_h2f_lw_stb		(wb_m2s_h2f_lw_stb),
+	.wb_m2s_h2f_lw_cti		(wb_m2s_h2f_lw_cti[2:0]),
+	.wb_m2s_h2f_lw_bte		(wb_m2s_h2f_lw_bte[1:0]),
 	.wb_m2s_or1k_d_adr		(wb_m2s_or1k_d_adr[31:0]),
 	.wb_m2s_or1k_d_dat		(wb_m2s_or1k_d_dat[31:0]),
 	.wb_m2s_or1k_d_sel		(wb_m2s_or1k_d_sel[3:0]),
@@ -558,6 +583,16 @@ wire [31:0] fpga_ddr3_avl_writedata;
 wire [3:0]  fpga_ddr3_avl_byteenable;
 wire        fpga_ddr3_avl_write;
 
+wire [20:0] h2f_lw_avl_address;
+wire [0:0]  h2f_lw_avl_burstcount;
+wire        h2f_lw_avl_waitrequest;
+wire [31:0] h2f_lw_avl_readdata;
+wire        h2f_lw_avl_readdatavalid;
+wire        h2f_lw_avl_read;
+wire [31:0] h2f_lw_avl_writedata;
+wire [3:0]  h2f_lw_avl_byteenable;
+wire        h2f_lw_avl_write;
+
 // Instantiate the qsys generated system.
 /* sockit AUTO_TEMPLATE (
 	.clk_clk			(wb_clk),
@@ -675,6 +710,13 @@ sockit hps
 	.fpga_ddr3_avl_waitrequest_n	(fpga_ddr3_avl_waitrequest_n),
 	.fpga_ddr3_avl_readdatavalid	(fpga_ddr3_avl_readdatavalid),
 	.fpga_ddr3_avl_readdata		(fpga_ddr3_avl_readdata[31:0]),
+	.h2f_lw_avl_burstcount		(h2f_lw_avl_burstcount[0:0]),
+	.h2f_lw_avl_writedata		(h2f_lw_avl_writedata[31:0]),
+	.h2f_lw_avl_address		(h2f_lw_avl_address[20:0]),
+	.h2f_lw_avl_write		(h2f_lw_avl_write),
+	.h2f_lw_avl_read		(h2f_lw_avl_read),
+	.h2f_lw_avl_byteenable		(h2f_lw_avl_byteenable[3:0]),
+	.h2f_lw_avl_debugaccess		(h2f_lw_avl_debugaccess),
 	// Inouts
 	.memory_mem_dq			(memory_mem_dq[31:0]),
 	.memory_mem_dqs			(memory_mem_dqs[3:0]),
@@ -757,7 +799,10 @@ sockit hps
 	.fpga_ddr3_avl_byteenable	(fpga_ddr3_avl_byteenable[3:0]),
 	.fpga_ddr3_avl_read		(fpga_ddr3_avl_read),
 	.fpga_ddr3_avl_write		(fpga_ddr3_avl_write),
-	.fpga_ddr3_avl_burstcount	(fpga_ddr3_avl_burstcount[5:0]));
+	.fpga_ddr3_avl_burstcount	(fpga_ddr3_avl_burstcount[5:0]),
+	.h2f_lw_avl_waitrequest		(h2f_lw_avl_waitrequest),
+	.h2f_lw_avl_readdata		(h2f_lw_avl_readdata[31:0]),
+	.h2f_lw_avl_readdatavalid	(h2f_lw_avl_readdatavalid));
 
 // HPS DDR3 interface
 wb_to_avalon_bridge #(
@@ -821,6 +866,49 @@ wb_to_avalon_bridge #(
 	.avm_writedata_o	(fpga_ddr3_avl_writedata),
 	.avm_waitrequest_i	(fpga_ddr3_avl_waitrequest),
 	.avm_readdatavalid_i	(fpga_ddr3_avl_readdatavalid)
+);
+
+// HPS lightweight bus to wishbone bridge
+//
+// The 8 MSB of the 21-bit lw avalon address is remapped to the 8 MSB of
+// the 32-bit wb address to gain access to the peripheral address space.
+// 13-bits of the address (4096 bytes) is used to pick individual registers
+// within peripherals.
+//
+// TODO: currently the native AXI bus of the HPS is bridged to an avalon bus
+// inside the qsys system, we should bridge directly from AXI to WB here
+// instead.
+avalon_to_wb_bridge #(
+	.DW			(32),
+ 	.AW			(32)
+) h2f_lw_avl2wb_bridge (
+	.clk			(wb_clk),
+	.rst			(wb_rst),
+	// Avalon Master Input
+	.avm_address_i		({h2f_lw_avl_address[20:13],
+				  11'h0,
+				  h2f_lw_avl_address[12:0]}),
+	.avm_byteenable_i	(h2f_lw_avl_byteenable),
+	.avm_read_i		(h2f_lw_avl_read),
+	.avm_readdata_o		(h2f_lw_avl_readdata),
+	.avm_burstcount_i	(h2f_lw_avl_burstcount),
+	.avm_write_i		(h2f_lw_avl_write),
+	.avm_writedata_i	(h2f_lw_avl_writedata),
+	.avm_waitrequest_o	(h2f_lw_avl_waitrequest),
+	.avm_readdatavalid_o	(h2f_lw_avl_readdatavalid),
+	// Wishbone Master Output
+	.wbm_adr_o		(wb_m2s_h2f_lw_adr),
+	.wbm_dat_o		(wb_m2s_h2f_lw_dat),
+	.wbm_sel_o		(wb_m2s_h2f_lw_sel),
+	.wbm_we_o		(wb_m2s_h2f_lw_we),
+	.wbm_cyc_o		(wb_m2s_h2f_lw_cyc),
+	.wbm_stb_o		(wb_m2s_h2f_lw_stb),
+	.wbm_cti_o		(wb_m2s_h2f_lw_cti),
+	.wbm_bte_o		(wb_m2s_h2f_lw_bte),
+	.wbm_dat_i		(wb_s2m_h2f_lw_dat),
+	.wbm_ack_i		(wb_s2m_h2f_lw_ack),
+	.wbm_err_i		(wb_s2m_h2f_lw_err),
+	.wbm_rty_i		(wb_s2m_h2f_lw_rty)
 );
 
 ////////////////////////////////////////////////////////////////////////
