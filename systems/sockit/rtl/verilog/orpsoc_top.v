@@ -825,15 +825,15 @@ wb_to_avalon_bridge #(
 	.wbm_err_o		(wb_s2m_hps_ddr3_err),
 	.wbm_rty_o		(wb_s2m_hps_ddr3_rty),
 	// Avalon Master Output
-	.avm_address_o		(hps_o_f2h_sdram0_data_address),
-	.avm_byteenable_o	(hps_o_f2h_sdram0_data_byteenable),
-	.avm_read_o		(hps_o_f2h_sdram0_data_read),
-	.avm_readdata_i		(hps_o_f2h_sdram0_data_readdata),
-	.avm_burstcount_o	(hps_o_f2h_sdram0_data_burstcount),
-	.avm_write_o		(hps_o_f2h_sdram0_data_write),
-	.avm_writedata_o	(hps_o_f2h_sdram0_data_writedata),
-	.avm_waitrequest_i	(hps_o_f2h_sdram0_data_waitrequest),
-	.avm_readdatavalid_i	(hps_o_f2h_sdram0_data_readdatavalid)
+	.avm_address_o		(hps_0_f2h_sdram0_data_address),
+	.avm_byteenable_o	(hps_0_f2h_sdram0_data_byteenable),
+	.avm_read_o		(hps_0_f2h_sdram0_data_read),
+	.avm_readdata_i		(hps_0_f2h_sdram0_data_readdata),
+	.avm_burstcount_o	(hps_0_f2h_sdram0_data_burstcount),
+	.avm_write_o		(hps_0_f2h_sdram0_data_write),
+	.avm_writedata_o	(hps_0_f2h_sdram0_data_writedata),
+	.avm_waitrequest_i	(hps_0_f2h_sdram0_data_waitrequest),
+	.avm_readdatavalid_i	(hps_0_f2h_sdram0_data_readdatavalid)
 );
 
 // FPGA DDR3 interface
