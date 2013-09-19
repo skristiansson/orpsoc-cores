@@ -38,22 +38,49 @@
 module clkgen
 (
 	// Main clocks in, depending on board
-	input	sys_clk_pad_i,
+	input 		  sys_clk_pad_i,
 	// Asynchronous, active low reset in
-	input	rst_n_pad_i,
+	input 		  rst_n_pad_i,
 	// Input reset - through a buffer, asynchronous
-	output	async_rst_o,
+	output 		  async_rst_o,
 
 `ifdef SIM
 	// JTAG clock
-	input	tck_pad_i,
-	output	dbg_tck_o,
+	input 		  tck_pad_i,
+	output 		  dbg_tck_o,
 `endif
 
+	output 		  hps_sys_rst_o,
+	output 		  hps_cold_rst_o,
+
 	// Wishbone clock and reset out
-	output	wb_clk_o,
-	output	wb_rst_o
+	output 		  wb_clk_o,
+	output 		  wb_rst_o,
+
+	// Wishbone Slave Interface
+	input [31:0] 	  wb_adr_i,
+	input [31:0] 	  wb_dat_i,
+	input [3:0] 	  wb_sel_i,
+	input 		  wb_we_i,
+	input 		  wb_cyc_i,
+	input 		  wb_stb_i,
+	input [2:0] 	  wb_cti_i,
+	input [1:0] 	  wb_bte_i,
+	output reg [31:0] wb_dat_o,
+	output reg 	  wb_ack_o,
+	output 		  wb_err_o,
+	output 		  wb_rty_o
 );
+
+//
+// Registers accesible via wishbone
+//
+// Reset Control register
+// [31:2] Reserved
+// [2]    HPS system reset (i.e. Qsys generated system reset)
+// [1]    HPS cold reset request
+// [0]    Wishbone reset
+reg [31:0] rst_ctrl;
 
 // First, deal with the asychronous reset
 wire	async_rst;
@@ -177,6 +204,45 @@ always @(posedge wb_clk_o or posedge async_rst)
 	else
 		wb_rst_shr <= {wb_rst_shr[14:0], ~(sync_rst_n)};
 
-assign wb_rst_o = wb_rst_shr[15];
+assign wb_rst_o = wb_rst_shr[15] | rst_ctrl[0];
+
+// HPS related resets
+assign hps_sys_rst_o = rst_ctrl[2];
+assign hps_cold_rst_o = rst_ctrl[1];
+
+//
+// Wishbone interface
+//
+
+// Counter for automatic reset deassertion
+reg [8:0] rst_cnt;
+
+always @(posedge wb_clk_o)
+	wb_ack_o <= wb_cyc_i & wb_stb_i;
+
+always @(posedge wb_clk_o) begin
+	rst_cnt <= rst_cnt - 8'd1;
+	if (wb_rst_shr[15]) begin
+		rst_ctrl <= 32'hffffffff;
+		rst_cnt <= 8'hff;
+	end else if (wb_cyc_i & wb_stb_i & wb_we_i) begin
+		if (wb_adr_i[7:2] == 6'h00)
+			rst_ctrl <= wb_dat_i;
+		rst_cnt <= 8'hff;
+	end else if (rst_cnt == 0) begin
+		rst_ctrl <= 32'h00000000;
+	end
+end
+
+always @(*)
+	case (wb_adr_i[7:2])
+	6'h00:
+		wb_dat_o = rst_ctrl;
+	default:
+		wb_dat_o = 32'h00000000;
+	endcase
+
+assign wb_rty_o = 0;
+assign wb_err_o = 0;
 
 endmodule // clkgen

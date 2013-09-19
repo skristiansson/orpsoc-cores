@@ -177,6 +177,8 @@ parameter	IDCODE_VALUE=32'h14951185;
 wire	async_rst;
 wire	wb_clk, wb_rst;
 wire	dbg_tck;
+wire	hps_sys_rst;
+wire	hps_cold_rst;
 
 clkgen clkgen0 (
 	.sys_clk_pad_i	(sys_clk_pad_i),
@@ -186,8 +188,22 @@ clkgen clkgen0 (
 	.tck_pad_i	(tck_pad_i),
 	.dbg_tck_o	(dbg_tck),
 `endif
+	.hps_sys_rst_o	(hps_sys_rst),
+	.hps_cold_rst_o	(hps_cold_rst),
 	.wb_clk_o	(wb_clk),
-	.wb_rst_o	(wb_rst)
+	.wb_rst_o	(wb_rst),
+	// Wishbone Slave Interface
+	.wb_adr_i	(wb_m2s_clkgen_adr[7:0]),
+	.wb_dat_i	(wb_m2s_clkgen_dat),
+	.wb_we_i	(wb_m2s_clkgen_we),
+	.wb_cyc_i	(wb_m2s_clkgen_cyc),
+	.wb_stb_i	(wb_m2s_clkgen_stb),
+	.wb_cti_i	(wb_m2s_clkgen_cti),
+	.wb_bte_i	(wb_m2s_clkgen_bte),
+	.wb_dat_o	(wb_s2m_clkgen_dat),
+	.wb_ack_o	(wb_s2m_clkgen_ack),
+	.wb_err_o	(wb_s2m_clkgen_err),
+	.wb_rty_o	(wb_s2m_clkgen_rty)
 );
 
 ////////////////////////////////////////////////////////////////////////
@@ -265,6 +281,18 @@ wire			wb_s2m_rom0_ack;
 wire			wb_s2m_rom0_err;
 wire			wb_s2m_rom0_rty;
 
+wire [31:0]		wb_m2s_clkgen_adr;
+wire [1:0]		wb_m2s_clkgen_bte;
+wire [2:0]		wb_m2s_clkgen_cti;
+wire			wb_m2s_clkgen_cyc;
+wire [31:0]		wb_m2s_clkgen_dat;
+wire [3:0]		wb_m2s_clkgen_sel;
+wire			wb_m2s_clkgen_stb;
+wire			wb_m2s_clkgen_we;
+wire [31:0] 		wb_s2m_clkgen_dat;
+wire			wb_s2m_clkgen_ack;
+wire			wb_s2m_clkgen_err;
+wire			wb_s2m_clkgen_rty;
 
 wire [31:0]		wb_m2s_uart0_adr;
 wire [1:0]		wb_m2s_uart0_bte;
@@ -391,6 +419,14 @@ wb_intercon wb_intercon0 (
 	.wb_m2s_hps_ddr3_stb		(wb_m2s_hps_ddr3_stb),
 	.wb_m2s_hps_ddr3_cti		(wb_m2s_hps_ddr3_cti[2:0]),
 	.wb_m2s_hps_ddr3_bte		(wb_m2s_hps_ddr3_bte[1:0]),
+	.wb_m2s_clkgen_adr		(wb_m2s_clkgen_adr[31:0]),
+	.wb_m2s_clkgen_dat		(wb_m2s_clkgen_dat[31:0]),
+	.wb_m2s_clkgen_sel		(wb_m2s_clkgen_sel[3:0]),
+	.wb_m2s_clkgen_we		(wb_m2s_clkgen_we),
+	.wb_m2s_clkgen_cyc		(wb_m2s_clkgen_cyc),
+	.wb_m2s_clkgen_stb		(wb_m2s_clkgen_stb),
+	.wb_m2s_clkgen_cti		(wb_m2s_clkgen_cti[2:0]),
+	.wb_m2s_clkgen_bte		(wb_m2s_clkgen_bte[1:0]),
 	.wb_m2s_rom0_adr		(wb_m2s_rom0_adr[31:0]),
 	.wb_m2s_rom0_dat		(wb_m2s_rom0_dat[31:0]),
 	.wb_m2s_rom0_sel		(wb_m2s_rom0_sel[3:0]),
@@ -470,6 +506,10 @@ wb_intercon wb_intercon0 (
 	.wb_s2m_hps_ddr3_ack		(wb_s2m_hps_ddr3_ack),
 	.wb_s2m_hps_ddr3_err		(wb_s2m_hps_ddr3_err),
 	.wb_s2m_hps_ddr3_rty		(wb_s2m_hps_ddr3_rty),
+	.wb_s2m_clkgen_dat		(wb_s2m_clkgen_dat[31:0]),
+	.wb_s2m_clkgen_ack		(wb_s2m_clkgen_ack),
+	.wb_s2m_clkgen_err		(wb_s2m_clkgen_err),
+	.wb_s2m_clkgen_rty		(wb_s2m_clkgen_rty),
 	.wb_s2m_rom0_dat		(wb_s2m_rom0_dat[31:0]),
 	.wb_s2m_rom0_ack		(wb_s2m_rom0_ack),
 	.wb_s2m_rom0_err		(wb_s2m_rom0_err),
@@ -596,7 +636,7 @@ wire        h2f_lw_avl_write;
 // Instantiate the qsys generated system.
 /* sockit AUTO_TEMPLATE (
 	.clk_clk			(wb_clk),
-	.reset_reset_n			(!wb_rst),
+	.reset_reset_n			(!hps_sys_rst),
 	.hps_0_uart1_cts		(1'b0),
 	.hps_0_uart1_dsr		(1'b0),
 	.hps_0_uart1_dcd		(1'b0),
@@ -627,8 +667,7 @@ wire        h2f_lw_avl_write;
 	.hps_0_emac0_tx_reset_reset_n	(),
 	.hps_0_emac0_rx_reset_reset_n	(),
 	.hps_0_emac_ptp_ref_clock_clk	(),
-	.clk_0_clk_reset_reset_n	(),
-	.hps_0_f2h_cold_reset_req_reset_n(!wb_rst),
+	.hps_0_f2h_cold_reset_req_reset_n(!hps_cold_rst),
 );*/
 sockit hps
        (
@@ -756,7 +795,7 @@ sockit hps
 	.fpga_ddr3_mem_dqs_n		(fpga_ddr3_mem_dqs_n[3:0]),
 	// Inputs
 	.clk_clk			(wb_clk),		 // Templated
-	.reset_reset_n			(!wb_rst),		 // Templated
+	.reset_reset_n			(!hps_sys_rst),		 // Templated
 	.memory_oct_rzqin		(memory_oct_rzqin),
 	.hps_io_hps_io_emac1_inst_RXD0	(hps_io_hps_io_emac1_inst_RXD0),
 	.hps_io_hps_io_emac1_inst_RX_CTL(hps_io_hps_io_emac1_inst_RX_CTL),
@@ -791,7 +830,7 @@ sockit hps
 	.hps_0_f2h_sdram0_data_writedata(hps_0_f2h_sdram0_data_writedata[31:0]),
 	.hps_0_f2h_sdram0_data_byteenable(hps_0_f2h_sdram0_data_byteenable[3:0]),
 	.hps_0_f2h_sdram0_data_write	(hps_0_f2h_sdram0_data_write),
-	.hps_0_f2h_cold_reset_req_reset_n(!wb_rst),		 // Templated
+	.hps_0_f2h_cold_reset_req_reset_n(!hps_cold_rst),	 // Templated
 	.fpga_ddr3_oct_rzqin		(fpga_ddr3_oct_rzqin),
 	.fpga_ddr3_avl_beginbursttransfer(fpga_ddr3_avl_beginbursttransfer),
 	.fpga_ddr3_avl_address		(fpga_ddr3_avl_address[27:0]),
