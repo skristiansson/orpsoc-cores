@@ -5,6 +5,7 @@ depend =
  wb_intercon
  wb_avalon_bridge
  adv_debug_sys
+ altera_virtual_jtag
  mor1kx
  uart16550
  or1200
