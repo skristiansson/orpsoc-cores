@@ -21,7 +21,6 @@ simulators =
 
 [verilog]
 src_files =
- rtl/verilog/altera_virtual_jtag.v
  rtl/verilog/clkgen.v
  rtl/verilog/orpsoc_top.v
  rtl/verilog/rom.v
