@@ -52,6 +52,7 @@ module clkgen
 
 	output 		  hps_sys_rst_o,
 	output 		  hps_cold_rst_o,
+	output 		  or1k_cpu_rst_o,
 
 	// Wishbone clock and reset out
 	output 		  wb_clk_o,
@@ -194,6 +195,10 @@ assign sync_rst_n = pll0_lock;
 // Reset generation
 //
 //
+localparam WB_RST	= 0;
+localparam HPS_SYS_RST	= 1;
+localparam HPS_COLD_RST	= 2;
+localparam OR1K_CPU_RST	= 3;
 
 // Reset generation for wishbone
 reg [15:0]	wb_rst_shr;
@@ -204,12 +209,14 @@ always @(posedge wb_clk_o or posedge async_rst)
 	else
 		wb_rst_shr <= {wb_rst_shr[14:0], ~(sync_rst_n)};
 
-assign wb_rst_o = wb_rst_shr[15] | rst_ctrl[0];
+assign wb_rst_o = wb_rst_shr[15] | rst_ctrl[WB_RST];
 
 // HPS related resets
-assign hps_sys_rst_o = rst_ctrl[2];
-assign hps_cold_rst_o = rst_ctrl[1];
+assign hps_sys_rst_o = rst_ctrl[HPS_SYS_RST];
+assign hps_cold_rst_o = rst_ctrl[HPS_COLD_RST];
 
+// OR1K cpu reset
+assign or1k_cpu_rst_o = rst_ctrl[OR1K_CPU_RST];
 //
 // Wishbone interface
 //
@@ -220,17 +227,29 @@ reg [8:0] rst_cnt;
 always @(posedge wb_clk_o)
 	wb_ack_o <= wb_cyc_i & wb_stb_i;
 
+/*
+always @(posedge wb_clk_o) begin
+	if (wb_rst_shr[15]) begin
+		rst_ctrl <= 32'h0;
+	end else if (wb_cyc_i & wb_stb_i & wb_we_i) begin
+		if (wb_adr_i[7:2] == 6'h00)
+			rst_ctrl <= wb_dat_i;
+	end
+end
+*/
+
 always @(posedge wb_clk_o) begin
 	rst_cnt <= rst_cnt - 8'd1;
 	if (wb_rst_shr[15]) begin
-		rst_ctrl <= 32'hffffffff;
+		rst_ctrl <= 32'h00000000;
 		rst_cnt <= 8'hff;
 	end else if (wb_cyc_i & wb_stb_i & wb_we_i) begin
 		if (wb_adr_i[7:2] == 6'h00)
 			rst_ctrl <= wb_dat_i;
 		rst_cnt <= 8'hff;
 	end else if (rst_cnt == 0) begin
-		rst_ctrl <= 32'h00000000;
+		// Resets with automatic deassertion go here
+		rst_ctrl[WB_RST] <= 0;
 	end
 end
 

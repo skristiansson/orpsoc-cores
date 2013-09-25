@@ -185,6 +185,7 @@ wire	wb_clk, wb_rst;
 wire	dbg_tck;
 wire	hps_sys_rst;
 wire	hps_cold_rst;
+wire	or1k_cpu_rst;
 
 clkgen clkgen0 (
 	.sys_clk_pad_i	(sys_clk_pad_i),
@@ -196,6 +197,7 @@ clkgen clkgen0 (
 `endif
 	.hps_sys_rst_o	(hps_sys_rst),
 	.hps_cold_rst_o	(hps_cold_rst),
+	.or1k_cpu_rst_o	(or1k_cpu_rst),
 	.wb_clk_o	(wb_clk),
 	.wb_rst_o	(wb_rst),
 	// Wishbone Slave Interface
@@ -662,11 +664,10 @@ wire		or1k_dbg_bp_o;
 wire		or1k_dbg_rst;
 
 wire		sig_tick;
-
-`ifdef OR1200
 wire		or1k_rst;
 
-assign	or1k_rst= wb_rst | or1k_dbg_rst;
+`ifdef OR1200
+assign or1k_rst = wb_rst | or1k_dbg_rst | or1k_cpu_rst;
 
 or1200_top #(.boot_adr(32'hf0000100))
 or1200_top0 (
@@ -742,6 +743,8 @@ or1200_top0 (
 	.pm_cpustall_i			(1'b0)
 );
 `else // !`ifdef OR1200
+assign or1k_rst = wb_rst | or1k_cpu_rst;
+
 mor1kx #(
 	.FEATURE_DEBUGUNIT("ENABLED"),
 	.FEATURE_CMOV("ENABLED"),
@@ -783,7 +786,7 @@ mor1kx #(
 	.dwbm_dat_o(wb_m2s_or1k_d_dat),
 
 	.clk(wb_clk),
-	.rst(wb_rst),
+	.rst(or1k_rst),
 
 	.iwbm_err_i(wb_s2m_or1k_i_err),
 	.iwbm_ack_i(wb_s2m_or1k_i_ack),
