@@ -742,7 +742,9 @@ or1200_top0 (
 
 	.pm_cpustall_i			(1'b0)
 );
-`else // !`ifdef OR1200
+`endif
+
+`ifdef MOR1KX
 assign or1k_rst = wb_rst | or1k_cpu_rst;
 
 mor1kx #(
@@ -809,8 +811,8 @@ mor1kx #(
 	.du_stall_i(or1k_dbg_stall_i),
 	.du_stall_o(or1k_dbg_bp_o)
 );
-
 `endif
+
 ////////////////////////////////////////////////////////////////////////
 //
 // Debug Interface

@@ -34,7 +34,10 @@
 //////////////////////////////////////////////////////////////////////
 
 // Included modules: define to include
-//`define OR1200
+`define MOR1KX
+`ifndef MOR1KX
+`define OR1200
+`endif
 `define ALTERA_JTAG_TAP
 `define UART0
 `define RAM_WB
