@@ -64,6 +64,16 @@ module orpsoc_top (
 	output [0:0]  fpga_ddr3_mem_odt,
 	input 	      fpga_ddr3_oct_rzqin,
 
+	// VGA
+	output 	      vga0_clk_pad_o,
+	output 	      vga0_hsync_pad_o,
+	output 	      vga0_vsync_pad_o,
+	output 	      vga0_csync_n_pad_o,
+	output 	      vga0_blank_n_pad_o,
+	output [7:0]  vga0_r_pad_o,
+	output [7:0]  vga0_g_pad_o,
+	output [7:0]  vga0_b_pad_o,
+
 	//
 	// HPS I/O ports
 	//
@@ -182,6 +192,7 @@ parameter	IDCODE_VALUE=32'h14951185;
 
 wire	async_rst;
 wire	wb_clk, wb_rst;
+wire	vga0_clk;
 wire	dbg_tck;
 wire	hps_sys_rst;
 wire	hps_cold_rst;
@@ -195,6 +206,9 @@ clkgen clkgen0 (
 	.tck_pad_i	(tck_pad_i),
 	.dbg_tck_o	(dbg_tck),
 `endif
+
+	.vga0_clk_o	(vga0_clk),
+
 	.hps_sys_rst_o	(hps_sys_rst),
 	.hps_cold_rst_o	(hps_cold_rst),
 	.or1k_cpu_rst_o	(or1k_cpu_rst),
@@ -1108,6 +1122,58 @@ wb_data_resize wb_data_resize_gpio0 (
 	.wbs_ack_i	(wb8_s2m_gpio0_ack),
 	.wbs_err_i	(wb8_s2m_gpio0_err),
 	.wbs_rty_i	(wb8_s2m_gpio0_rty)
+);
+
+////////////////////////////////////////////////////////////////////////
+//
+// VGA
+//
+////////////////////////////////////////////////////////////////////////
+wire	vga0_csync_pad;
+wire	vga0_blank_pad;
+wire	vga0_irq;
+
+assign vga0_csync_n_pad_o = !vga0_csync_pad;
+assign vga0_blank_n_pad_o = !vga0_blank_pad;
+
+vga_enh_top #(
+	.LINE_FIFO_AWIDTH(10)
+) vga0 (
+	.wb_clk_i	(wb_clk),
+	.wb_rst_i	(wb_rst),
+	.rst_i		(1'b1),
+	.wb_inta_o	(vga0_irq),
+	// Wishbone slave connections
+	.wbs_adr_i	(wb_m2s_vga0_slave_adr),
+	.wbs_dat_i	(wb_m2s_vga0_slave_dat),
+	.wbs_sel_i	(wb_m2s_vga0_slave_sel),
+	.wbs_we_i	(wb_m2s_vga0_slave_we),
+	.wbs_stb_i	(wb_m2s_vga0_slave_stb),
+	.wbs_cyc_i	(wb_m2s_vga0_slave_cyc),
+	.wbs_dat_o	(wb_s2m_vga0_slave_dat),
+	.wbs_ack_o	(wb_s2m_vga0_slave_ack),
+	.wbs_rty_o	(wb_s2m_vga0_slave_rty),
+	.wbs_err_o	(wb_s2m_vga0_slave_err),
+	// Wishbone master connections
+	.wbm_adr_o	(wb_m2s_vga0_master_adr),
+	.wbm_cti_o	(wb_m2s_vga0_master_cti),
+	.wbm_bte_o	(wb_m2s_vga0_master_bte),
+	.wbm_sel_o	(wb_m2s_vga0_master_sel),
+	.wbm_we_o	(wb_m2s_vga0_master_we),
+	.wbm_stb_o	(wb_m2s_vga0_master_stb),
+	.wbm_cyc_o	(wb_m2s_vga0_master_cyc),
+	.wbm_dat_i	(wb_s2m_vga0_master_dat),
+	.wbm_ack_i	(wb_s2m_vga0_master_ack),
+	.wbm_err_i	(wb_s2m_vga0_master_err),
+	.clk_p_i	(vga0_clk),
+	.clk_p_o	(vga0_clk_pad_o),
+	.hsync_pad_o	(vga0_hsync_pad_o),
+	.vsync_pad_o	(vga0_vsync_pad_o),
+	.csync_pad_o	(vga0_csync_pad),
+	.blank_pad_o	(vga0_blank_pad),
+	.r_pad_o	(vga0_r_pad_o),
+	.g_pad_o	(vga0_g_pad_o),
+	.b_pad_o	(vga0_b_pad_o)
 );
 
 ////////////////////////////////////////////////////////////////////////

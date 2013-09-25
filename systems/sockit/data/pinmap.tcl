@@ -27,6 +27,69 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to gpio0_io[3]
 #set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to gpio0_io[7]
 
 #
+# VGA
+#
+set_location_assignment PIN_W20 -to vga0_clk_pad_o
+set_location_assignment PIN_AD12 -to vga0_hsync_pad_o
+set_location_assignment PIN_AC12 -to vga0_vsync_pad_o
+set_location_assignment PIN_AG2 -to vga0_csync_n_pad_o
+set_location_assignment PIN_AH3 -to vga0_blank_n_pad_o
+set_location_assignment PIN_AG5 -to vga0_r_pad_o[0]
+set_location_assignment PIN_AA12 -to vga0_r_pad_o[1]
+set_location_assignment PIN_AB12 -to vga0_r_pad_o[2]
+set_location_assignment PIN_AF6 -to vga0_r_pad_o[3]
+set_location_assignment PIN_AG6 -to vga0_r_pad_o[4]
+set_location_assignment PIN_AJ2 -to vga0_r_pad_o[5]
+set_location_assignment PIN_AH5 -to vga0_r_pad_o[6]
+set_location_assignment PIN_AJ1 -to vga0_r_pad_o[7]
+set_location_assignment PIN_Y21 -to vga0_g_pad_o[0]
+set_location_assignment PIN_AA25 -to vga0_g_pad_o[1]
+set_location_assignment PIN_AB26 -to vga0_g_pad_o[2]
+set_location_assignment PIN_AB22 -to vga0_g_pad_o[3]
+set_location_assignment PIN_AB23 -to vga0_g_pad_o[4]
+set_location_assignment PIN_AA24 -to vga0_g_pad_o[5]
+set_location_assignment PIN_AB25 -to vga0_g_pad_o[6]
+set_location_assignment PIN_AE27 -to vga0_g_pad_o[7]
+set_location_assignment PIN_AE28 -to vga0_b_pad_o[0]
+set_location_assignment PIN_Y23 -to vga0_b_pad_o[1]
+set_location_assignment PIN_Y24 -to vga0_b_pad_o[2]
+set_location_assignment PIN_AG28 -to vga0_b_pad_o[3]
+set_location_assignment PIN_AF28 -to vga0_b_pad_o[4]
+set_location_assignment PIN_V23 -to vga0_b_pad_o[5]
+set_location_assignment PIN_W24 -to vga0_b_pad_o[6]
+set_location_assignment PIN_AF29 -to vga0_b_pad_o[7]
+
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_clk_pad_o
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_hsync_pad_o
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_vsync_pad_o
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_csync_n_pad_o
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_blank_n_pad_o
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_r_pad_o[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_r_pad_o[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_r_pad_o[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_r_pad_o[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_r_pad_o[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_r_pad_o[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_r_pad_o[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_r_pad_o[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_g_pad_o[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_g_pad_o[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_g_pad_o[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_g_pad_o[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_g_pad_o[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_g_pad_o[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_g_pad_o[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_g_pad_o[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_b_pad_o[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_b_pad_o[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_b_pad_o[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_b_pad_o[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_b_pad_o[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_b_pad_o[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_b_pad_o[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga0_b_pad_o[0]
+
+#
 # DDR3 SDRAM (FPGA)
 #
 set_location_assignment PIN_AJ14 -to fpga_ddr3_mem_a[0]

@@ -15,6 +15,7 @@ depend =
  ram_wb
  gpio
  diila
+ vga_lcd
 
 simulators =
  icarus
