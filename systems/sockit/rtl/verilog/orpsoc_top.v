@@ -597,19 +597,19 @@ wb_to_avalon_bridge #(
 	.avm_readdatavalid_i	(fpga_ddr3_avl_readdatavalid)
 );
 
-// HPS lightweight bus to wishbone bridge
 //
+// HPS lightweight bus to wishbone bridge
 //
 // TODO: currently the native AXI bus of the HPS is bridged to an avalon bus
 // inside the qsys system, we should bridge directly from AXI to WB here
 // instead.
 
 // Adress recoding
-// The LWHPS2FPGA bridge is mapped at:
+// The LWHPS2FPGA bridge is mapped (on the ARM side) at:
 // 0xff200000 - 0xff3fffff
 // We translate that into the wishbone bus in the following way:
 // 0xff200000 - 0xff2fffff = 0x96000000 - 0x960fffff (DIILA)
-// 0xff300000 - 0xff3fffff = [20:13] : 11'h0 : [12:0]
+// 0xff300000 - 0xff3fffff = h2f[20:13] : 11'h0 : h2f[12:0]
 wire [31:0] h2f_lw_avm_address;
 assign h2f_lw_avm_address = !h2f_lw_avl_address[20] ?
 			    {8'h96, 3'h0, h2f_lw_avl_address} :
