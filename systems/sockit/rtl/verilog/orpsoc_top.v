@@ -599,14 +599,22 @@ wb_to_avalon_bridge #(
 
 // HPS lightweight bus to wishbone bridge
 //
-// The 8 MSB of the 21-bit lw avalon address is remapped to the 8 MSB of
-// the 32-bit wb address to gain access to the peripheral address space.
-// 13-bits of the address (4096 bytes) is used to pick individual registers
-// within peripherals.
 //
 // TODO: currently the native AXI bus of the HPS is bridged to an avalon bus
 // inside the qsys system, we should bridge directly from AXI to WB here
 // instead.
+
+// Adress recoding
+// The LWHPS2FPGA bridge is mapped at:
+// 0xff200000 - 0xff3fffff
+// We translate that into the wishbone bus in the following way:
+// 0xff200000 - 0xff2fffff = 0x96000000 - 0x960fffff (DIILA)
+// 0xff300000 - 0xff3fffff = [20:13] : 11'h0 : [12:0]
+wire [31:0] h2f_lw_avm_address;
+assign h2f_lw_avm_address = !h2f_lw_avl_address[20] ?
+			    {8'h96, 3'h0, h2f_lw_avl_address} :
+			    {h2f_lw_avl_address[20:13], 11'h0,
+			     h2f_lw_avl_address[12:0]};
 avalon_to_wb_bridge #(
 	.DW			(32),
  	.AW			(32)
@@ -614,9 +622,7 @@ avalon_to_wb_bridge #(
 	.clk			(wb_clk),
 	.rst			(wb_rst),
 	// Avalon Master Input
-	.avm_address_i		({h2f_lw_avl_address[20:13],
-				  11'h0,
-				  h2f_lw_avl_address[12:0]}),
+	.avm_address_i		(h2f_lw_avm_address),
 	.avm_byteenable_i	(h2f_lw_avl_byteenable),
 	.avm_read_i		(h2f_lw_avl_read),
 	.avm_readdata_o		(h2f_lw_avl_readdata),
