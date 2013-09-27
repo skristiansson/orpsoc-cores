@@ -549,14 +549,18 @@ sockit hps
 	.h2f_lw_avl_readdatavalid	(h2f_lw_avl_readdatavalid));
 
 // HPS DDR3 interface
+wire [31:0] avm_hps_ddr3_address;
+assign hps_0_f2h_sdram0_data_address = {2'h0, avm_hps_ddr3_address[29:2]};
+
 wb_to_avalon_bridge #(
 	.DW			(32),
- 	.AW			(30)
+ 	.AW			(32),
+	.BURST_SUPPORT		(1)
 ) hps_ddr3_wb2avl_bridge (
 	.clk			(wb_clk),
 	.rst			(wb_rst),
 	// Wishbone Master Input
-	.wbm_adr_i		({2'h0, wb_m2s_hps_ddr3_adr[29:2]}),
+	.wbm_adr_i		(wb_m2s_hps_ddr3_adr),
 	.wbm_dat_i		(wb_m2s_hps_ddr3_dat),
 	.wbm_sel_i		(wb_m2s_hps_ddr3_sel),
 	.wbm_we_i		(wb_m2s_hps_ddr3_we),
@@ -569,7 +573,7 @@ wb_to_avalon_bridge #(
 	.wbm_err_o		(wb_s2m_hps_ddr3_err),
 	.wbm_rty_o		(wb_s2m_hps_ddr3_rty),
 	// Avalon Master Output
-	.avm_address_o		(hps_0_f2h_sdram0_data_address),
+	.avm_address_o		(avm_hps_ddr3_address),
 	.avm_byteenable_o	(hps_0_f2h_sdram0_data_byteenable),
 	.avm_read_o		(hps_0_f2h_sdram0_data_read),
 	.avm_readdata_i		(hps_0_f2h_sdram0_data_readdata),
@@ -581,14 +585,18 @@ wb_to_avalon_bridge #(
 );
 
 // FPGA DDR3 interface
+wire [31:0] avm_fpga_ddr3_address;
+assign fpga_ddr3_avl_address = avm_fpga_ddr3_address[29:2];
+
 wb_to_avalon_bridge #(
 	.DW			(32),
- 	.AW			(28)
+ 	.AW			(32),
+	.BURST_SUPPORT		(1)
 ) fpga_ddr3_wb2avl_bridge (
 	.clk			(wb_clk),
 	.rst			(wb_rst),
 	// Wishbone Master Input
-	.wbm_adr_i		(wb_m2s_fpga_ddr3_adr[29:2]),
+	.wbm_adr_i		(wb_m2s_fpga_ddr3_adr),
 	.wbm_dat_i		(wb_m2s_fpga_ddr3_dat),
 	.wbm_sel_i		(wb_m2s_fpga_ddr3_sel),
 	.wbm_we_i		(wb_m2s_fpga_ddr3_we),
@@ -601,7 +609,7 @@ wb_to_avalon_bridge #(
 	.wbm_err_o		(wb_s2m_fpga_ddr3_err),
 	.wbm_rty_o		(wb_s2m_fpga_ddr3_rty),
 	// Avalon Master Output
-	.avm_address_o		(fpga_ddr3_avl_address),
+	.avm_address_o		(avm_fpga_ddr3_address),
 	.avm_byteenable_o	(fpga_ddr3_avl_byteenable),
 	.avm_read_o		(fpga_ddr3_avl_read),
 	.avm_readdata_i		(fpga_ddr3_avl_readdata),
