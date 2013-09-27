@@ -319,7 +319,8 @@ wire        hps_0_f2h_sdram0_data_write;
 
 wire [27:0] fpga_ddr3_avl_address;
 wire [5:0]  fpga_ddr3_avl_burstcount;
-wire        fpga_ddr3_avl_waitrequest;
+wire        fpga_ddr3_avl_waitrequest_n;
+wire        fpga_ddr3_avl_waitrequest = !fpga_ddr3_avl_waitrequest_n;
 wire [31:0] fpga_ddr3_avl_readdata;
 wire        fpga_ddr3_avl_readdatavalid;
 wire        fpga_ddr3_avl_read;
