@@ -328,6 +328,17 @@ wire [31:0] fpga_ddr3_avl_writedata;
 wire [3:0]  fpga_ddr3_avl_byteenable;
 wire        fpga_ddr3_avl_write;
 
+wire [27:0] vga0_ddr3_avl_address;
+wire [5:0]  vga0_ddr3_avl_burstcount;
+wire        vga0_ddr3_avl_waitrequest_n;
+wire        vga0_ddr3_avl_waitrequest = !vga0_ddr3_avl_waitrequest_n;
+wire [31:0] vga0_ddr3_avl_readdata;
+wire        vga0_ddr3_avl_readdatavalid;
+wire        vga0_ddr3_avl_read;
+wire [31:0] vga0_ddr3_avl_writedata;
+wire [3:0]  vga0_ddr3_avl_byteenable;
+wire        vga0_ddr3_avl_write;
+
 wire [20:0] h2f_lw_avl_address;
 wire [0:0]  h2f_lw_avl_burstcount;
 wire        h2f_lw_avl_waitrequest;
@@ -461,6 +472,9 @@ sockit hps
 	.h2f_lw_avl_read		(h2f_lw_avl_read),
 	.h2f_lw_avl_byteenable		(h2f_lw_avl_byteenable[3:0]),
 	.h2f_lw_avl_debugaccess		(h2f_lw_avl_debugaccess),
+	.vga0_ddr3_avl_waitrequest_n	(vga0_ddr3_avl_waitrequest_n),
+	.vga0_ddr3_avl_readdatavalid	(vga0_ddr3_avl_readdatavalid),
+	.vga0_ddr3_avl_readdata		(vga0_ddr3_avl_readdata[31:0]),
 	// Inouts
 	.memory_mem_dq			(memory_mem_dq[31:0]),
 	.memory_mem_dqs			(memory_mem_dqs[3:0]),
@@ -546,7 +560,14 @@ sockit hps
 	.fpga_ddr3_avl_burstcount	(fpga_ddr3_avl_burstcount[5:0]),
 	.h2f_lw_avl_waitrequest		(h2f_lw_avl_waitrequest),
 	.h2f_lw_avl_readdata		(h2f_lw_avl_readdata[31:0]),
-	.h2f_lw_avl_readdatavalid	(h2f_lw_avl_readdatavalid));
+	.h2f_lw_avl_readdatavalid	(h2f_lw_avl_readdatavalid),
+	.vga0_ddr3_avl_beginbursttransfer(vga0_ddr3_avl_beginbursttransfer),
+	.vga0_ddr3_avl_address		(vga0_ddr3_avl_address[27:0]),
+	.vga0_ddr3_avl_writedata	(vga0_ddr3_avl_writedata[31:0]),
+	.vga0_ddr3_avl_byteenable	(vga0_ddr3_avl_byteenable[3:0]),
+	.vga0_ddr3_avl_read		(vga0_ddr3_avl_read),
+	.vga0_ddr3_avl_write		(vga0_ddr3_avl_write),
+	.vga0_ddr3_avl_burstcount	(vga0_ddr3_avl_burstcount[5:0]));
 
 // HPS DDR3 interface
 wire [31:0] avm_hps_ddr3_address;
@@ -584,7 +605,7 @@ wb_to_avalon_bridge #(
 	.avm_readdatavalid_i	(hps_0_f2h_sdram0_data_readdatavalid)
 );
 
-// FPGA DDR3 interface
+// FPGA DDR3 interface - common port
 wire [31:0] avm_fpga_ddr3_address;
 assign fpga_ddr3_avl_address = avm_fpga_ddr3_address[29:2];
 
@@ -618,6 +639,43 @@ wb_to_avalon_bridge #(
 	.avm_writedata_o	(fpga_ddr3_avl_writedata),
 	.avm_waitrequest_i	(fpga_ddr3_avl_waitrequest),
 	.avm_readdatavalid_i	(fpga_ddr3_avl_readdatavalid)
+);
+
+// FPGA DDR3 interface - VGA port
+
+wire [31:0] avm_vga0_ddr3_address;
+assign vga0_ddr3_avl_address = avm_vga0_ddr3_address[29:2];
+
+wb_to_avalon_bridge #(
+	.DW			(32),
+ 	.AW			(32),
+	.BURST_SUPPORT		(1)
+) vga0_ddr3_wb2avl_bridge (
+	.clk			(wb_clk),
+	.rst			(wb_rst),
+	// Wishbone Master Input
+	.wbm_adr_i		(wb_m2s_vga0_ddr3_adr),
+	.wbm_dat_i		(wb_m2s_vga0_ddr3_dat),
+	.wbm_sel_i		(wb_m2s_vga0_ddr3_sel),
+	.wbm_we_i		(wb_m2s_vga0_ddr3_we),
+	.wbm_cyc_i		(wb_m2s_vga0_ddr3_cyc),
+	.wbm_stb_i		(wb_m2s_vga0_ddr3_stb),
+	.wbm_cti_i		(wb_m2s_vga0_ddr3_cti),
+	.wbm_bte_i		(wb_m2s_vga0_ddr3_bte),
+	.wbm_dat_o		(wb_s2m_vga0_ddr3_dat),
+	.wbm_ack_o		(wb_s2m_vga0_ddr3_ack),
+	.wbm_err_o		(wb_s2m_vga0_ddr3_err),
+	.wbm_rty_o		(wb_s2m_vga0_ddr3_rty),
+	// Avalon Master Output
+	.avm_address_o		(avm_vga0_ddr3_address),
+	.avm_byteenable_o	(vga0_ddr3_avl_byteenable),
+	.avm_read_o		(vga0_ddr3_avl_read),
+	.avm_readdata_i		(vga0_ddr3_avl_readdata),
+	.avm_burstcount_o	(vga0_ddr3_avl_burstcount),
+	.avm_write_o		(vga0_ddr3_avl_write),
+	.avm_writedata_o	(vga0_ddr3_avl_writedata),
+	.avm_waitrequest_i	(vga0_ddr3_avl_waitrequest),
+	.avm_readdatavalid_i	(vga0_ddr3_avl_readdatavalid)
 );
 
 //
@@ -1261,7 +1319,7 @@ assign diila_data[3] = {
 	wb_m2s_fpga_ddr3_sel, // 4
 	wb_s2m_fpga_ddr3_ack  // 1
 };
-assign diila_data[4] = wb_m2s_h2f_lw_adr;
+assign diila_data[4] = fpga_ddr3_avl_address;
 assign diila_data[5] = wb_m2s_fpga_ddr3_adr;
 diila
       #(

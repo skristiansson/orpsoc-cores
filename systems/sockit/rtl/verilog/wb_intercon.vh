@@ -118,6 +118,18 @@ wire [31:0] wb_s2m_rom0_dat;
 wire        wb_s2m_rom0_ack;
 wire        wb_s2m_rom0_err;
 wire        wb_s2m_rom0_rty;
+wire [31:0] wb_m2s_vga0_ddr3_adr;
+wire [31:0] wb_m2s_vga0_ddr3_dat;
+wire  [3:0] wb_m2s_vga0_ddr3_sel;
+wire        wb_m2s_vga0_ddr3_we;
+wire        wb_m2s_vga0_ddr3_cyc;
+wire        wb_m2s_vga0_ddr3_stb;
+wire  [2:0] wb_m2s_vga0_ddr3_cti;
+wire  [1:0] wb_m2s_vga0_ddr3_bte;
+wire [31:0] wb_s2m_vga0_ddr3_dat;
+wire        wb_s2m_vga0_ddr3_ack;
+wire        wb_s2m_vga0_ddr3_err;
+wire        wb_s2m_vga0_ddr3_rty;
 wire [31:0] wb_m2s_uart0_adr;
 wire [31:0] wb_m2s_uart0_dat;
 wire  [3:0] wb_m2s_uart0_sel;
@@ -290,6 +302,18 @@ wb_intercon wb_intercon0
     .wb_rom0_ack_i        (wb_s2m_rom0_ack),
     .wb_rom0_err_i        (wb_s2m_rom0_err),
     .wb_rom0_rty_i        (wb_s2m_rom0_rty),
+    .wb_vga0_ddr3_adr_o   (wb_m2s_vga0_ddr3_adr),
+    .wb_vga0_ddr3_dat_o   (wb_m2s_vga0_ddr3_dat),
+    .wb_vga0_ddr3_sel_o   (wb_m2s_vga0_ddr3_sel),
+    .wb_vga0_ddr3_we_o    (wb_m2s_vga0_ddr3_we),
+    .wb_vga0_ddr3_cyc_o   (wb_m2s_vga0_ddr3_cyc),
+    .wb_vga0_ddr3_stb_o   (wb_m2s_vga0_ddr3_stb),
+    .wb_vga0_ddr3_cti_o   (wb_m2s_vga0_ddr3_cti),
+    .wb_vga0_ddr3_bte_o   (wb_m2s_vga0_ddr3_bte),
+    .wb_vga0_ddr3_dat_i   (wb_s2m_vga0_ddr3_dat),
+    .wb_vga0_ddr3_ack_i   (wb_s2m_vga0_ddr3_ack),
+    .wb_vga0_ddr3_err_i   (wb_s2m_vga0_ddr3_err),
+    .wb_vga0_ddr3_rty_i   (wb_s2m_vga0_ddr3_rty),
     .wb_uart0_adr_o       (wb_m2s_uart0_adr),
     .wb_uart0_dat_o       (wb_m2s_uart0_dat),
     .wb_uart0_sel_o       (wb_m2s_uart0_sel),

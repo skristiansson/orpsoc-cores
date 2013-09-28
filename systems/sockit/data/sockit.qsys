@@ -174,6 +174,11 @@
    type="avalon"
    dir="end" />
  <interface name="h2f_lw_avl" internal="mm_bridge_0.m0" type="avalon" dir="start" />
+ <interface
+   name="vga0_ddr3_avl"
+   internal="mem_if_ddr3_emif_0.avl_2"
+   type="avalon"
+   dir="end" />
  <module kind="clock_source" version="13.0" enabled="1" name="clk_0">
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="clockFrequencyKnown" value="true" />
@@ -772,13 +777,13 @@
   <parameter name="CTL_CMD_QUEUE_DEPTH" value="8" />
   <parameter name="CTL_CSR_READ_ONLY" value="1" />
   <parameter name="CFG_DATA_REORDERING_TYPE" value="INTER_BANK" />
-  <parameter name="NUM_OF_PORTS" value="2" />
+  <parameter name="NUM_OF_PORTS" value="3" />
   <parameter name="ENABLE_BONDING" value="false" />
   <parameter name="ENABLE_USER_ECC" value="false" />
   <parameter name="AVL_DATA_WIDTH_PORT" value="32,32,32,32,32,32" />
   <parameter name="PRIORITY_PORT" value="1,1,1,1,1,1" />
   <parameter name="WEIGHT_PORT" value="0,0,0,0,0,0" />
-  <parameter name="CPORT_TYPE_PORT">Bidirectional,Bidirectional,Bidirectional,Bidirectional,Bidirectional,Bidirectional</parameter>
+  <parameter name="CPORT_TYPE_PORT">Bidirectional,Bidirectional,Read-only,Bidirectional,Bidirectional,Bidirectional</parameter>
   <parameter name="ENABLE_EMIT_BFM_MASTER" value="false" />
   <parameter name="FORCE_SEQUENCER_TCL_DEBUG_MODE" value="false" />
   <parameter name="ENABLE_SEQUENCER_MARGINING_ON_BY_DEFAULT" value="false" />
@@ -1090,6 +1095,26 @@
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection kind="clock" version="13.0" start="clk_0.clk" end="mm_bridge_0.clk" />
+ <connection
+   kind="clock"
+   version="13.0"
+   start="clk_0.clk"
+   end="mem_if_ddr3_emif_0.mp_rfifo_clk_2" />
+ <connection
+   kind="reset"
+   version="13.0"
+   start="clk_0.clk_reset"
+   end="mem_if_ddr3_emif_0.mp_rfifo_reset_n_2" />
+ <connection
+   kind="clock"
+   version="13.0"
+   start="clk_0.clk"
+   end="mem_if_ddr3_emif_0.mp_cmd_clk_2" />
+ <connection
+   kind="reset"
+   version="13.0"
+   start="clk_0.clk_reset"
+   end="mem_if_ddr3_emif_0.mp_cmd_reset_n_2" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
 </system>
