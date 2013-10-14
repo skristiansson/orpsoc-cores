@@ -351,6 +351,8 @@ wire        h2f_lw_avl_write;
 
 // Instantiate the qsys generated system.
 /* sockit AUTO_TEMPLATE (
+	.osc_clk_clk			(wb_clk),
+	.osc_reset_reset_n		(!hps_sys_rst),
 	.clk_clk			(wb_clk),
 	.reset_reset_n			(!hps_sys_rst),
 	.hps_0_uart1_cts		(1'b0),
@@ -567,7 +569,9 @@ sockit hps
 	.vga0_ddr3_avl_byteenable	(vga0_ddr3_avl_byteenable[3:0]),
 	.vga0_ddr3_avl_read		(vga0_ddr3_avl_read),
 	.vga0_ddr3_avl_write		(vga0_ddr3_avl_write),
-	.vga0_ddr3_avl_burstcount	(vga0_ddr3_avl_burstcount[5:0]));
+	.vga0_ddr3_avl_burstcount	(vga0_ddr3_avl_burstcount[5:0]),
+	.osc_clk_clk			(wb_clk),		 // Templated
+	.osc_reset_reset_n		(!hps_sys_rst));		 // Templated
 
 // HPS DDR3 interface
 wire [31:0] avm_hps_ddr3_address;

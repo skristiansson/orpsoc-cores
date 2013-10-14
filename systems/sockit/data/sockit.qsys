@@ -37,7 +37,7 @@
    {
       datum _sortIndex
       {
-         value = "0";
+         value = "1";
          type = "int";
       }
    }
@@ -45,7 +45,7 @@
    {
       datum _sortIndex
       {
-         value = "1";
+         value = "2";
          type = "int";
       }
    }
@@ -53,7 +53,7 @@
    {
       datum _sortIndex
       {
-         value = "3";
+         value = "4";
          type = "int";
       }
    }
@@ -61,7 +61,15 @@
    {
       datum _sortIndex
       {
-         value = "2";
+         value = "3";
+         type = "int";
+      }
+   }
+   element osc_clk_0
+   {
+      datum _sortIndex
+      {
+         value = "0";
          type = "int";
       }
    }
@@ -178,6 +186,12 @@
    name="vga0_ddr3_avl"
    internal="mem_if_ddr3_emif_0.avl_2"
    type="avalon"
+   dir="end" />
+ <interface name="osc_clk" internal="osc_clk_0.clk_in" type="clock" dir="end" />
+ <interface
+   name="osc_reset"
+   internal="osc_clk_0.clk_in_reset"
+   type="reset"
    dir="end" />
  <module kind="clock_source" version="13.0" enabled="1" name="clk_0">
   <parameter name="clockFrequency" value="50000000" />
@@ -966,6 +980,12 @@
   <parameter name="AUTO_CLK_CLOCK_RATE" value="50000000" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
  </module>
+ <module kind="clock_source" version="13.0" enabled="1" name="osc_clk_0">
+  <parameter name="clockFrequency" value="50000000" />
+  <parameter name="clockFrequencyKnown" value="true" />
+  <parameter name="inputClockFrequency" value="0" />
+  <parameter name="resetSynchronousEdges" value="NONE" />
+ </module>
  <connection
    kind="clock"
    version="13.0"
@@ -996,11 +1016,6 @@
    version="13.0"
    start="clk_0.clk_reset"
    end="mem_if_ddr3_emif_0.soft_reset" />
- <connection
-   kind="clock"
-   version="13.0"
-   start="clk_0.clk"
-   end="mem_if_ddr3_emif_0.pll_ref_clk" />
  <connection
    kind="reset"
    version="13.0"
@@ -1115,6 +1130,11 @@
    version="13.0"
    start="clk_0.clk_reset"
    end="mem_if_ddr3_emif_0.mp_cmd_reset_n_2" />
+ <connection
+   kind="clock"
+   version="13.0"
+   start="osc_clk_0.clk"
+   end="mem_if_ddr3_emif_0.pll_ref_clk" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
 </system>
