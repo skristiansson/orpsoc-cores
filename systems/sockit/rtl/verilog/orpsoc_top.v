@@ -74,6 +74,18 @@ module orpsoc_top (
 	output [7:0]  vga0_g_pad_o,
 	output [7:0]  vga0_b_pad_o,
 
+	// AUDIO
+	inout 	      i2c0_sda_io,
+	inout 	      i2c0_scl_io,
+
+	output 	      i2s0_mclk,
+	output 	      i2s0_sclk,
+
+	output 	      i2s0_tx_lrclk,
+	output 	      i2s0_tx_sdata,
+
+	output 	      mute_n,
+
 	//
 	// HPS I/O ports
 	//
@@ -208,6 +220,8 @@ clkgen clkgen0 (
 `endif
 
 	.vga0_clk_o	(vga0_clk),
+
+	.i2s0_mclk_o	(i2s0_mclk),
 
 	.hps_sys_rst_o	(hps_sys_rst),
 	.hps_cold_rst_o	(hps_cold_rst),
@@ -1197,6 +1211,87 @@ wb_data_resize wb_data_resize_gpio0 (
 
 ////////////////////////////////////////////////////////////////////////
 //
+// I2C
+//
+////////////////////////////////////////////////////////////////////////
+wire		i2c0_irq;
+wire		scl0_pad_o;
+wire		scl0_padoen_o;
+wire		sda0_pad_o;
+wire		sda0_padoen_o;
+
+wire [31:0]	wb8_m2s_i2c0_adr;
+wire [1:0]	wb8_m2s_i2c0_bte;
+wire [2:0]	wb8_m2s_i2c0_cti;
+wire		wb8_m2s_i2c0_cyc;
+wire [7:0]	wb8_m2s_i2c0_dat;
+wire		wb8_m2s_i2c0_stb;
+wire		wb8_m2s_i2c0_we;
+wire [7:0] 	wb8_s2m_i2c0_dat;
+wire		wb8_s2m_i2c0_ack;
+wire		wb8_s2m_i2c0_err;
+wire		wb8_s2m_i2c0_rty;
+
+assign wb8_s2m_i2c0_err = 0;
+assign wb8_s2m_i2c0_rty = 0;
+
+assign i2c0_scl_io = scl0_padoen_o ? 1'bz : scl0_pad_o;
+assign i2c0_sda_io = sda0_padoen_o ? 1'bz : sda0_pad_o;
+
+i2c_master_top #(
+	.ARST_LVL	(1'b0)
+) i2c0 (
+	.wb_clk_i	(wb_clk),
+	.wb_rst_i	(wb_rst),
+	.arst_i		(1'b1),
+	.wb_adr_i	(wb8_m2s_i2c0_adr),
+	.wb_dat_i	(wb8_m2s_i2c0_dat),
+	.wb_we_i	(wb8_m2s_i2c0_we),
+	.wb_cyc_i	(wb8_m2s_i2c0_cyc),
+	.wb_stb_i	(wb8_m2s_i2c0_stb),
+	.wb_dat_o	(wb8_s2m_i2c0_dat),
+	.wb_ack_o	(wb8_s2m_i2c0_ack),
+	.scl_pad_i	(i2c0_scl_io),
+	.scl_pad_o	(scl0_pad_o),
+	.scl_padoen_o	(scl0_padoen_o),
+	.sda_pad_i	(i2c0_sda_io),
+	.sda_pad_o	(sda0_pad_o),
+	.sda_padoen_o	(sda0_padoen_o),
+
+	// Interrupt
+	.wb_inta_o	(i2c0_irq)
+);
+
+// 32-bit to 8-bit wishbone bus resize
+wb_data_resize wb_data_resize_i2c0 (
+	// Wishbone Master interface
+	.wbm_adr_i	(wb_m2s_i2c0_adr),
+	.wbm_dat_i	(wb_m2s_i2c0_dat),
+	.wbm_sel_i	(wb_m2s_i2c0_sel),
+	.wbm_we_i	(wb_m2s_i2c0_we ),
+	.wbm_cyc_i	(wb_m2s_i2c0_cyc),
+	.wbm_stb_i	(wb_m2s_i2c0_stb),
+	.wbm_cti_i	(wb_m2s_i2c0_cti),
+	.wbm_bte_i	(wb_m2s_i2c0_bte),
+	.wbm_dat_o	(wb_s2m_i2c0_dat),
+	.wbm_ack_o	(wb_s2m_i2c0_ack),
+	.wbm_err_o	(wb_s2m_i2c0_err),
+	.wbm_rty_o	(wb_s2m_i2c0_rty),
+	// Wishbone Slave interface
+	.wbs_adr_o	(wb8_m2s_i2c0_adr),
+	.wbs_dat_o	(wb8_m2s_i2c0_dat),
+	.wbs_we_o	(wb8_m2s_i2c0_we ),
+	.wbs_cyc_o	(wb8_m2s_i2c0_cyc),
+	.wbs_stb_o	(wb8_m2s_i2c0_stb),
+	.wbs_cti_o	(wb8_m2s_i2c0_cti),
+	.wbs_bte_o	(wb8_m2s_i2c0_bte),
+	.wbs_dat_i	(wb8_s2m_i2c0_dat),
+	.wbs_ack_i	(wb8_s2m_i2c0_ack),
+	.wbs_err_i	(wb8_s2m_i2c0_err),
+	.wbs_rty_i	(wb8_s2m_i2c0_rty)
+);
+////////////////////////////////////////////////////////////////////////
+//
 // VGA
 //
 ////////////////////////////////////////////////////////////////////////
@@ -1249,6 +1344,40 @@ vga_enh_top #(
 
 ////////////////////////////////////////////////////////////////////////
 //
+// I2S
+//
+////////////////////////////////////////////////////////////////////////
+parameter AUDIO_DW = 32;
+wire [31:0] i2s0_left_chan;
+wire [31:0] i2s0_right_chan;
+
+// Divide i2s0_mclk with 2 to get the sclk
+// NOTE: this is specific to 32-bit word length and  96KHz lrclk with ssm2603.
+// i.e. mclk = 12,288 MHz , SR = 0111 = mclk/128 => lrclk 96 KHz
+// and 128/(2*32) = 2.
+reg sclk = 0;
+always @(posedge i2s0_mclk)
+	sclk <= ~sclk;
+
+assign i2s0_sclk = sclk;
+
+i2s_tx #(
+	.AUDIO_DW	(AUDIO_DW)
+) i2s_tx0 (
+	.sclk		(i2s0_sclk),
+	.rst		(wb_rst),
+
+	.lrclk		(i2s0_tx_lrclk),
+	.sdata		(i2s0_tx_sdata),
+
+	.left_chan	(i2s0_left_chan),
+	.right_chan	(i2s0_right_chan)
+);
+
+assign mute_n = 1;
+
+////////////////////////////////////////////////////////////////////////
+//
 // Interrupt assignment
 //
 ////////////////////////////////////////////////////////////////////////
@@ -1263,7 +1392,7 @@ assign or1k_irq[6] = 0;
 assign or1k_irq[7] = 0;
 assign or1k_irq[8] = 0;
 assign or1k_irq[9] = 0;
-assign or1k_irq[10] = 0;
+assign or1k_irq[10] = i2c0_irq;
 assign or1k_irq[11] = 0;
 assign or1k_irq[12] = 0;
 assign or1k_irq[13] = 0;

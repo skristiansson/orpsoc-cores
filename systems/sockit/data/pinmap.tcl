@@ -27,6 +27,30 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to gpio0_io[3]
 #set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to gpio0_io[7]
 
 #
+# AUDIO (I2S and I2C)
+#
+
+set_location_assignment PIN_AF30 -to i2c0_sda_io
+set_location_assignment PIN_AH30 -to i2c0_scl_io
+set_location_assignment PIN_AC9 -to i2s0_mclk
+set_location_assignment PIN_AE7 -to i2s0_sclk
+set_location_assignment PIN_AG3 -to i2s0_tx_sdata
+set_location_assignment PIN_AH4 -to i2s0_tx_lrclk
+#set_location_assignment PIN_AC27 -to i2s0_rx_sdata
+#set_location_assignment PIN_AG30 -to i2s0_rx_lrclk
+set_location_assignment PIN_AD26 -to mute_n
+
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i2c0_sda_io
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i2c0_scl_io
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i2s0_mclk
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i2s0_sclk
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i2s0_tx_sdata
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i2s0_tx_lrclk
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i2s0_rx_sdata
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i2s0_rx_lrclk
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to mute_n
+
+#
 # VGA
 #
 set_location_assignment PIN_W20 -to vga0_clk_pad_o

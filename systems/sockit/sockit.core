@@ -16,6 +16,8 @@ depend =
  gpio
  diila
  vga_lcd
+ i2c
+ i2s
 
 simulators =
  icarus
