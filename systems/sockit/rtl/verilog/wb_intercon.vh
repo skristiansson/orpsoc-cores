@@ -94,18 +94,18 @@ wire [31:0] wb_s2m_hps_ddr3_dat;
 wire        wb_s2m_hps_ddr3_ack;
 wire        wb_s2m_hps_ddr3_err;
 wire        wb_s2m_hps_ddr3_rty;
-wire [31:0] wb_m2s_clkgen_adr;
-wire [31:0] wb_m2s_clkgen_dat;
-wire  [3:0] wb_m2s_clkgen_sel;
-wire        wb_m2s_clkgen_we;
-wire        wb_m2s_clkgen_cyc;
-wire        wb_m2s_clkgen_stb;
-wire  [2:0] wb_m2s_clkgen_cti;
-wire  [1:0] wb_m2s_clkgen_bte;
-wire [31:0] wb_s2m_clkgen_dat;
-wire        wb_s2m_clkgen_ack;
-wire        wb_s2m_clkgen_err;
-wire        wb_s2m_clkgen_rty;
+wire [31:0] wb_m2s_vga0_slave_adr;
+wire [31:0] wb_m2s_vga0_slave_dat;
+wire  [3:0] wb_m2s_vga0_slave_sel;
+wire        wb_m2s_vga0_slave_we;
+wire        wb_m2s_vga0_slave_cyc;
+wire        wb_m2s_vga0_slave_stb;
+wire  [2:0] wb_m2s_vga0_slave_cti;
+wire  [1:0] wb_m2s_vga0_slave_bte;
+wire [31:0] wb_s2m_vga0_slave_dat;
+wire        wb_s2m_vga0_slave_ack;
+wire        wb_s2m_vga0_slave_err;
+wire        wb_s2m_vga0_slave_rty;
 wire [31:0] wb_m2s_rom0_adr;
 wire [31:0] wb_m2s_rom0_dat;
 wire  [3:0] wb_m2s_rom0_sel;
@@ -130,6 +130,18 @@ wire [31:0] wb_s2m_vga0_ddr3_dat;
 wire        wb_s2m_vga0_ddr3_ack;
 wire        wb_s2m_vga0_ddr3_err;
 wire        wb_s2m_vga0_ddr3_rty;
+wire [31:0] wb_m2s_midi_if0_adr;
+wire [31:0] wb_m2s_midi_if0_dat;
+wire  [3:0] wb_m2s_midi_if0_sel;
+wire        wb_m2s_midi_if0_we;
+wire        wb_m2s_midi_if0_cyc;
+wire        wb_m2s_midi_if0_stb;
+wire  [2:0] wb_m2s_midi_if0_cti;
+wire  [1:0] wb_m2s_midi_if0_bte;
+wire [31:0] wb_s2m_midi_if0_dat;
+wire        wb_s2m_midi_if0_ack;
+wire        wb_s2m_midi_if0_err;
+wire        wb_s2m_midi_if0_rty;
 wire [31:0] wb_m2s_uart0_adr;
 wire [31:0] wb_m2s_uart0_dat;
 wire  [3:0] wb_m2s_uart0_sel;
@@ -154,18 +166,30 @@ wire [31:0] wb_s2m_sram0_dat;
 wire        wb_s2m_sram0_ack;
 wire        wb_s2m_sram0_err;
 wire        wb_s2m_sram0_rty;
-wire [31:0] wb_m2s_vga0_slave_adr;
-wire [31:0] wb_m2s_vga0_slave_dat;
-wire  [3:0] wb_m2s_vga0_slave_sel;
-wire        wb_m2s_vga0_slave_we;
-wire        wb_m2s_vga0_slave_cyc;
-wire        wb_m2s_vga0_slave_stb;
-wire  [2:0] wb_m2s_vga0_slave_cti;
-wire  [1:0] wb_m2s_vga0_slave_bte;
-wire [31:0] wb_s2m_vga0_slave_dat;
-wire        wb_s2m_vga0_slave_ack;
-wire        wb_s2m_vga0_slave_err;
-wire        wb_s2m_vga0_slave_rty;
+wire [31:0] wb_m2s_sublime0_adr;
+wire [31:0] wb_m2s_sublime0_dat;
+wire  [3:0] wb_m2s_sublime0_sel;
+wire        wb_m2s_sublime0_we;
+wire        wb_m2s_sublime0_cyc;
+wire        wb_m2s_sublime0_stb;
+wire  [2:0] wb_m2s_sublime0_cti;
+wire  [1:0] wb_m2s_sublime0_bte;
+wire [31:0] wb_s2m_sublime0_dat;
+wire        wb_s2m_sublime0_ack;
+wire        wb_s2m_sublime0_err;
+wire        wb_s2m_sublime0_rty;
+wire [31:0] wb_m2s_clkgen_adr;
+wire [31:0] wb_m2s_clkgen_dat;
+wire  [3:0] wb_m2s_clkgen_sel;
+wire        wb_m2s_clkgen_we;
+wire        wb_m2s_clkgen_cyc;
+wire        wb_m2s_clkgen_stb;
+wire  [2:0] wb_m2s_clkgen_cti;
+wire  [1:0] wb_m2s_clkgen_bte;
+wire [31:0] wb_s2m_clkgen_dat;
+wire        wb_s2m_clkgen_ack;
+wire        wb_s2m_clkgen_err;
+wire        wb_s2m_clkgen_rty;
 wire [31:0] wb_m2s_i2c0_adr;
 wire [31:0] wb_m2s_i2c0_dat;
 wire  [3:0] wb_m2s_i2c0_sel;
@@ -290,18 +314,18 @@ wb_intercon wb_intercon0
     .wb_hps_ddr3_ack_i    (wb_s2m_hps_ddr3_ack),
     .wb_hps_ddr3_err_i    (wb_s2m_hps_ddr3_err),
     .wb_hps_ddr3_rty_i    (wb_s2m_hps_ddr3_rty),
-    .wb_clkgen_adr_o      (wb_m2s_clkgen_adr),
-    .wb_clkgen_dat_o      (wb_m2s_clkgen_dat),
-    .wb_clkgen_sel_o      (wb_m2s_clkgen_sel),
-    .wb_clkgen_we_o       (wb_m2s_clkgen_we),
-    .wb_clkgen_cyc_o      (wb_m2s_clkgen_cyc),
-    .wb_clkgen_stb_o      (wb_m2s_clkgen_stb),
-    .wb_clkgen_cti_o      (wb_m2s_clkgen_cti),
-    .wb_clkgen_bte_o      (wb_m2s_clkgen_bte),
-    .wb_clkgen_dat_i      (wb_s2m_clkgen_dat),
-    .wb_clkgen_ack_i      (wb_s2m_clkgen_ack),
-    .wb_clkgen_err_i      (wb_s2m_clkgen_err),
-    .wb_clkgen_rty_i      (wb_s2m_clkgen_rty),
+    .wb_vga0_slave_adr_o  (wb_m2s_vga0_slave_adr),
+    .wb_vga0_slave_dat_o  (wb_m2s_vga0_slave_dat),
+    .wb_vga0_slave_sel_o  (wb_m2s_vga0_slave_sel),
+    .wb_vga0_slave_we_o   (wb_m2s_vga0_slave_we),
+    .wb_vga0_slave_cyc_o  (wb_m2s_vga0_slave_cyc),
+    .wb_vga0_slave_stb_o  (wb_m2s_vga0_slave_stb),
+    .wb_vga0_slave_cti_o  (wb_m2s_vga0_slave_cti),
+    .wb_vga0_slave_bte_o  (wb_m2s_vga0_slave_bte),
+    .wb_vga0_slave_dat_i  (wb_s2m_vga0_slave_dat),
+    .wb_vga0_slave_ack_i  (wb_s2m_vga0_slave_ack),
+    .wb_vga0_slave_err_i  (wb_s2m_vga0_slave_err),
+    .wb_vga0_slave_rty_i  (wb_s2m_vga0_slave_rty),
     .wb_rom0_adr_o        (wb_m2s_rom0_adr),
     .wb_rom0_dat_o        (wb_m2s_rom0_dat),
     .wb_rom0_sel_o        (wb_m2s_rom0_sel),
@@ -326,6 +350,18 @@ wb_intercon wb_intercon0
     .wb_vga0_ddr3_ack_i   (wb_s2m_vga0_ddr3_ack),
     .wb_vga0_ddr3_err_i   (wb_s2m_vga0_ddr3_err),
     .wb_vga0_ddr3_rty_i   (wb_s2m_vga0_ddr3_rty),
+    .wb_midi_if0_adr_o    (wb_m2s_midi_if0_adr),
+    .wb_midi_if0_dat_o    (wb_m2s_midi_if0_dat),
+    .wb_midi_if0_sel_o    (wb_m2s_midi_if0_sel),
+    .wb_midi_if0_we_o     (wb_m2s_midi_if0_we),
+    .wb_midi_if0_cyc_o    (wb_m2s_midi_if0_cyc),
+    .wb_midi_if0_stb_o    (wb_m2s_midi_if0_stb),
+    .wb_midi_if0_cti_o    (wb_m2s_midi_if0_cti),
+    .wb_midi_if0_bte_o    (wb_m2s_midi_if0_bte),
+    .wb_midi_if0_dat_i    (wb_s2m_midi_if0_dat),
+    .wb_midi_if0_ack_i    (wb_s2m_midi_if0_ack),
+    .wb_midi_if0_err_i    (wb_s2m_midi_if0_err),
+    .wb_midi_if0_rty_i    (wb_s2m_midi_if0_rty),
     .wb_uart0_adr_o       (wb_m2s_uart0_adr),
     .wb_uart0_dat_o       (wb_m2s_uart0_dat),
     .wb_uart0_sel_o       (wb_m2s_uart0_sel),
@@ -350,18 +386,30 @@ wb_intercon wb_intercon0
     .wb_sram0_ack_i       (wb_s2m_sram0_ack),
     .wb_sram0_err_i       (wb_s2m_sram0_err),
     .wb_sram0_rty_i       (wb_s2m_sram0_rty),
-    .wb_vga0_slave_adr_o  (wb_m2s_vga0_slave_adr),
-    .wb_vga0_slave_dat_o  (wb_m2s_vga0_slave_dat),
-    .wb_vga0_slave_sel_o  (wb_m2s_vga0_slave_sel),
-    .wb_vga0_slave_we_o   (wb_m2s_vga0_slave_we),
-    .wb_vga0_slave_cyc_o  (wb_m2s_vga0_slave_cyc),
-    .wb_vga0_slave_stb_o  (wb_m2s_vga0_slave_stb),
-    .wb_vga0_slave_cti_o  (wb_m2s_vga0_slave_cti),
-    .wb_vga0_slave_bte_o  (wb_m2s_vga0_slave_bte),
-    .wb_vga0_slave_dat_i  (wb_s2m_vga0_slave_dat),
-    .wb_vga0_slave_ack_i  (wb_s2m_vga0_slave_ack),
-    .wb_vga0_slave_err_i  (wb_s2m_vga0_slave_err),
-    .wb_vga0_slave_rty_i  (wb_s2m_vga0_slave_rty),
+    .wb_sublime0_adr_o    (wb_m2s_sublime0_adr),
+    .wb_sublime0_dat_o    (wb_m2s_sublime0_dat),
+    .wb_sublime0_sel_o    (wb_m2s_sublime0_sel),
+    .wb_sublime0_we_o     (wb_m2s_sublime0_we),
+    .wb_sublime0_cyc_o    (wb_m2s_sublime0_cyc),
+    .wb_sublime0_stb_o    (wb_m2s_sublime0_stb),
+    .wb_sublime0_cti_o    (wb_m2s_sublime0_cti),
+    .wb_sublime0_bte_o    (wb_m2s_sublime0_bte),
+    .wb_sublime0_dat_i    (wb_s2m_sublime0_dat),
+    .wb_sublime0_ack_i    (wb_s2m_sublime0_ack),
+    .wb_sublime0_err_i    (wb_s2m_sublime0_err),
+    .wb_sublime0_rty_i    (wb_s2m_sublime0_rty),
+    .wb_clkgen_adr_o      (wb_m2s_clkgen_adr),
+    .wb_clkgen_dat_o      (wb_m2s_clkgen_dat),
+    .wb_clkgen_sel_o      (wb_m2s_clkgen_sel),
+    .wb_clkgen_we_o       (wb_m2s_clkgen_we),
+    .wb_clkgen_cyc_o      (wb_m2s_clkgen_cyc),
+    .wb_clkgen_stb_o      (wb_m2s_clkgen_stb),
+    .wb_clkgen_cti_o      (wb_m2s_clkgen_cti),
+    .wb_clkgen_bte_o      (wb_m2s_clkgen_bte),
+    .wb_clkgen_dat_i      (wb_s2m_clkgen_dat),
+    .wb_clkgen_ack_i      (wb_s2m_clkgen_ack),
+    .wb_clkgen_err_i      (wb_s2m_clkgen_err),
+    .wb_clkgen_rty_i      (wb_s2m_clkgen_rty),
     .wb_i2c0_adr_o        (wb_m2s_i2c0_adr),
     .wb_i2c0_dat_o        (wb_m2s_i2c0_dat),
     .wb_i2c0_sel_o        (wb_m2s_i2c0_sel),

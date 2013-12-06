@@ -18,6 +18,8 @@ depend =
  vga_lcd
  i2c
  i2s
+ sublime
+ wb_fifo
 
 simulators =
  icarus

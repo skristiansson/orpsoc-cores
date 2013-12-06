@@ -1,0 +1,11 @@
+CAPI=1
+[main]
+description = Wishbone FIFO
+depend =
+ vlog_tb_utils
+ wb_bfm
+simulators = icarus modelsim
+
+[verilog]
+src_files =
+ wb_fifo.v

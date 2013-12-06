@@ -1378,6 +1378,69 @@ assign mute_n = 1;
 
 ////////////////////////////////////////////////////////////////////////
 //
+// Sublime synth
+//
+////////////////////////////////////////////////////////////////////////
+
+sublime #(
+	.NUM_VOICES		(16),
+	.WAVETABLE_SIZE		(8192),
+	.WB_AW			(32),
+	.WB_DW			(32)
+) sublime0 (
+	.clk			(wb_clk),
+	.rst			(wb_rst),
+
+	.left_sample		(i2s0_left_chan),
+	.right_sample		(i2s0_right_chan),
+
+	// Wishbone slave interface
+	.wb_adr_i		({8'h0, wb_m2s_sublime0_adr[23:0]}),
+	.wb_dat_i		(wb_m2s_sublime0_dat),
+	.wb_sel_i		(wb_m2s_sublime0_sel),
+	.wb_we_i		(wb_m2s_sublime0_we),
+	.wb_cyc_i		(wb_m2s_sublime0_cyc),
+	.wb_stb_i		(wb_m2s_sublime0_stb),
+	.wb_cti_i		(wb_m2s_sublime0_cti),
+	.wb_bte_i		(wb_m2s_sublime0_bte),
+	.wb_dat_o		(wb_s2m_sublime0_dat),
+	.wb_ack_o		(wb_s2m_sublime0_ack),
+	.wb_err_o		(wb_s2m_sublime0_err),
+	.wb_rty_o		(wb_s2m_sublime0_rty)
+);
+
+////////////////////////////////////////////////////////////////////////
+//
+// MIDI
+//
+////////////////////////////////////////////////////////////////////////
+//
+// Interface between hps and or1k, just a simple fifo with an interrupt
+// indicating that there are valid date
+//
+wb_fifo midi_if0 (
+	.clk			(wb_clk),
+	.rst			(wb_rst),
+
+	.irq_o			(midi_if0_irq),
+
+	// Wishbone slave interface
+	.wb_adr_i		({8'h0, wb_m2s_midi_if0_adr[23:0]}),
+	.wb_dat_i		(wb_m2s_midi_if0_dat),
+	.wb_sel_i		(wb_m2s_midi_if0_sel),
+	.wb_we_i		(wb_m2s_midi_if0_we),
+	.wb_cyc_i		(wb_m2s_midi_if0_cyc),
+	.wb_stb_i		(wb_m2s_midi_if0_stb),
+	.wb_cti_i		(wb_m2s_midi_if0_cti),
+	.wb_bte_i		(wb_m2s_midi_if0_bte),
+	.wb_dat_o		(wb_s2m_midi_if0_dat),
+	.wb_ack_o		(wb_s2m_midi_if0_ack),
+	.wb_err_o		(wb_s2m_midi_if0_err),
+	.wb_rty_o		(wb_s2m_midi_if0_rty)
+);
+
+////////////////////////////////////////////////////////////////////////
+//
 // Interrupt assignment
 //
 ////////////////////////////////////////////////////////////////////////
@@ -1413,7 +1476,7 @@ assign or1k_irq[27] = 0;
 assign or1k_irq[28] = 0;
 assign or1k_irq[29] = 0;
 assign or1k_irq[30] = 0;
-assign or1k_irq[31] = 0;
+assign or1k_irq[31] = midi_if0_irq;
 
 ////////////////////////////////////////////////////////////////////////
 //
