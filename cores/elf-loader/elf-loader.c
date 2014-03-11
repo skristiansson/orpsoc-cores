@@ -28,6 +28,7 @@
 
 uint8_t *dump_program_data(Elf *elf_object, int *size)
 {
+	int i;
 	uint8_t *buffer = NULL;
 	Elf_Data *data = NULL;
 	size_t phdr_num;
@@ -45,11 +46,15 @@ uint8_t *dump_program_data(Elf *elf_object, int *size)
 	if (phdr_num == 0)
 		return NULL;
 
-	for (int i = 0; i < phdr_num; i++) {
+	for (i = 0; i < phdr_num; i++) {
 		if (gelf_getphdr(elf_object, i, &phdr) != &phdr) {
 			printf("Problem during ELF parsing\n");
 			return NULL;
 		}
+
+		// QDH
+		if ((phdr.p_paddr & 0xc0000000) == 0xc0000000)
+			phdr.p_paddr &= ~0xc0000000;
 
 		printf("Program header %d: addr 0x%08X,", i, (unsigned int)phdr.p_paddr);
 		printf(" size 0x%08X\n", (unsigned int)phdr.p_filesz);
