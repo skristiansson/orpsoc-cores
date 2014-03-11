@@ -1,0 +1,17 @@
+CAPI=1
+[main]
+description = "Uart from the ECO32 reference SoC"
+
+[verilog]
+src_files =
+ rcv.v
+ rcvbuf.v
+ ser.v
+ xmt.v
+ xmtbuf.v
+
+[provider]
+name = opencores
+repo_name = eco32
+repo_root = trunk/fpga/src/ser
+revision = 66
