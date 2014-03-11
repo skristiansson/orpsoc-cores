@@ -1,0 +1,13 @@
+CAPI=1
+[main]
+description = "Timer from the ECO32 reference SoC"
+
+[verilog]
+src_files =
+ tmr.v
+
+[provider]
+name = opencores
+repo_name = eco32
+repo_root = trunk/fpga/src/tmr
+revision = 69
