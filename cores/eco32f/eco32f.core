@@ -1,0 +1,25 @@
+CAPI=1
+[main]
+description = eco32f CPU
+
+[verilog]
+src_files =
+ rtl/verilog/eco32f.v
+ rtl/verilog/eco32f_registerfile.v
+ rtl/verilog/eco32f_ctrl.v
+ rtl/verilog/eco32f_lsu.v
+ rtl/verilog/eco32f_cache.v
+ rtl/verilog/eco32f_simple_dpram_sclk.v
+ rtl/verilog/eco32f_writeback.v
+ rtl/verilog/eco32f_decode.v
+ rtl/verilog/eco32f_mmu.v
+ rtl/verilog/eco32f_fetch.v
+ rtl/verilog/eco32f_alu.v
+include_files =
+ rtl/verilog/eco32f.vh
+
+[provider]
+name = github
+user = skristiansson
+repo = eco32f
+version = master
