@@ -1,0 +1,13 @@
+CAPI=1
+[main]
+description = "Original eco32 cpu core"
+
+[verilog]
+src_files =
+ cpu.v
+
+[provider]
+name = opencores
+repo_name = eco32
+repo_root = trunk/fpga/src/cpu
+revision = 108
