@@ -1,0 +1,31 @@
+CAPI=1
+[main]
+description = "Minimal eco32 simulation environment"
+depend =
+ mmuart
+ eco32
+ eco32f
+ eco32-uart
+ eco32-timer
+ elf-loader
+ ram_wb
+ vlog_tb_utils
+ wb_bfm
+ wb_intercon
+
+simulators = icarus modelsim
+
+[verilog]
+src_files =
+ bench/verilog/wb_intercon.v
+ bench/verilog/orpsoc_top.v
+tb_private_src_files =
+ bench/verilog/orpsoc_tb.v
+include_files =
+ bench/verilog/include/uart_defines.v
+ bench/verilog/include/timescale.v
+ bench/verilog/wb_intercon.vh
+
+[verilator]
+verilator_options = -Wno-fatal --trace
+tb_toplevel   = bench/verilator/tb.cpp
