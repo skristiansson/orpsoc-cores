@@ -1,0 +1,28 @@
+From 988d9829140c1b054678040d89bb550f68116bf4 Mon Sep 17 00:00:00 2001
+From: Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>
+Date: Sat, 15 Mar 2014 12:19:21 +0200
+Subject: [PATCH 2/2] Set reset PC to 0xc0000000
+
+This is a quick and dirty hack to make the cpu work in systems
+that doesn't have a ROM.
+The nice and clean fix would be to add a parameter to the core.
+---
+ cpu.v | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/cpu.v b/cpu.v
+index 40cadff..7adc3ad 100644
+--- a/cpu.v
++++ b/cpu.v
+@@ -110,7 +110,7 @@ module cpu(clk, reset,
+ 
+   // program counter
+   assign pc_next = (pc_src == 3'b000) ? alu_res :
+-                   (pc_src == 3'b001) ? 32'hE0000000 :
++                   (pc_src == 3'b001) ? 32'hc0000000 :
+                    (pc_src == 3'b010) ? 32'hE0000004 :
+                    (pc_src == 3'b011) ? 32'hC0000004 :
+                    (pc_src == 3'b100) ? 32'hE0000008 :
+-- 
+1.8.3.2
+

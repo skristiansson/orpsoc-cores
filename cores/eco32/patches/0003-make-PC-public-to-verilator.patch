@@ -1,0 +1,25 @@
+From 4336406cf17263872e50da480e658a4bb2d23006 Mon Sep 17 00:00:00 2001
+From: Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>
+Date: Sat, 15 Mar 2014 12:27:14 +0200
+Subject: [PATCH 3/3] make PC public to verilator
+
+---
+ cpu.v | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/cpu.v b/cpu.v
+index 7adc3ad..c0dce4a 100644
+--- a/cpu.v
++++ b/cpu.v
+@@ -19,7 +19,7 @@ module cpu(clk, reset,
+     input [15:0] irq;			// interrupt requests
+ 
+   // program counter
+-  wire [31:0] pc;		// program counter
++  wire [31:0] pc /* verilator public */;	// program counter
+   wire pc_we;			// pc write enable
+   wire [2:0] pc_src;		// pc source selector
+   wire [31:0] pc_next;		// value written into pc
+-- 
+1.8.3.2
+

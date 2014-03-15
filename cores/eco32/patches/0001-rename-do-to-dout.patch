@@ -1,0 +1,57 @@
+From 04b865bc3a13faaf8ee42e9179660cb397776f0e Mon Sep 17 00:00:00 2001
+From: Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>
+Date: Sat, 15 Mar 2014 12:18:03 +0200
+Subject: [PATCH 1/2] rename do to dout
+
+verilator dislikes this, since 'do' is a reserved word in
+systemverilog.
+di is also renamed to din for consistancy.
+---
+ cpu.v | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/cpu.v b/cpu.v
+index a17e7b1..40cadff 100644
+--- a/cpu.v
++++ b/cpu.v
+@@ -2450,7 +2450,7 @@ endmodule
+ 
+ 
+ module sregs(clk, reset,
+-             rn, we, di, do,
++             rn, we, din, dout,
+              psw, psw_we, psw_new,
+              tlb_index, tlb_index_we, tlb_index_new,
+              tlb_entry_hi, tlb_entry_hi_we, tlb_entry_hi_new,
+@@ -2460,8 +2460,8 @@ module sregs(clk, reset,
+     input reset;
+     input [2:0] rn;
+     input we;
+-    input [31:0] di;
+-    output [31:0] do;
++    input [31:0] din;
++    output [31:0] dout;
+     output [31:0] psw;
+     input psw_we;
+     input [31:0] psw_new;
+@@ -2489,7 +2489,7 @@ module sregs(clk, reset,
+ 
+   reg [31:0] sr[0:7];
+ 
+-  assign do = sr[rn];
++  assign dout = sr[rn];
+   assign psw = sr[0];
+   assign tlb_index = sr[1];
+   assign tlb_entry_hi = sr[2];
+@@ -2501,7 +2501,7 @@ module sregs(clk, reset,
+       sr[0] <= 32'h00000000;
+     end else begin
+       if (we == 1) begin
+-        sr[rn] <= di;
++        sr[rn] <= din;
+       end else begin
+         if (psw_we) begin
+           sr[0] <= psw_new;
+-- 
+1.8.3.2
+
