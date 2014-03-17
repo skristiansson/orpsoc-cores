@@ -35,10 +35,7 @@
 
 // Included modules: define to include
 
-`define MOR1KX
-`ifndef MOR1KX
-`define OR1200
-`endif
+`define ECO32F
 `define ALTERA_JTAG_TAP
 `define UART0
 `define I2C0

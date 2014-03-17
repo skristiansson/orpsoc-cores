@@ -1,6 +1,7 @@
 CAPI=1
 [main]
 depend =
+ eco32
  eco32f
  eco32-uart
  eco32-timer

@@ -230,6 +230,7 @@ altera_virtual_jtag jtag_tap0 (
 ////////////////////////////////////////////////////////////////////////
 wire [15:0]				eco32_irq;
 
+`ifdef ECO32F
 eco32f #(
 	.RESET_PC			(32'hc0000000)
 ) eco32f0 (
@@ -267,6 +268,81 @@ eco32f #(
 	// Interrupts
 	.irq				(eco32_irq)
 );
+
+`else // !ECO32F
+
+wire		eco32_bus_en;		// bus enable
+wire		eco32_bus_wr;		// bus write
+wire [1:0]	eco32_bus_size;		// 00: byte, 01: halfword, 10: word
+wire [31:0]	eco32_bus_addr;		// bus address
+wire [31:0]	eco32_bus_data_in;	// bus data input, for reads
+wire [31:0]	eco32_bus_data_out;	// bus data output, for writes
+wire		eco32_bus_wt;		// bus wait
+
+assign wb_m2s_eco32_i_adr = 0;
+assign wb_m2s_eco32_i_dat = 0;
+assign wb_m2s_eco32_i_sel = 0;
+assign wb_m2s_eco32_i_we = 0;
+assign wb_m2s_eco32_i_cyc = 0;
+assign wb_m2s_eco32_i_stb = 0;
+assign wb_m2s_eco32_i_cti = 0;
+assign wb_m2s_eco32_i_bte = 0;
+
+assign wb_m2s_eco32_d_adr = eco32_bus_addr;
+assign wb_m2s_eco32_d_dat = eco32_bus_size == 2'b00 ? // byte
+			    {4{eco32_bus_data_out[7:0]}} :
+			    eco32_bus_size == 2'b01 ? // halfword
+			    {2{eco32_bus_data_out[15:0]}} :
+			    eco32_bus_data_out;
+assign wb_m2s_eco32_d_sel = eco32_bus_size == 2'b00 ? // byte
+			    (eco32_bus_addr[1:0] == 2'b00 ? 4'b1000 :
+			     eco32_bus_addr[1:0] == 2'b01 ? 4'b0100 :
+			     eco32_bus_addr[1:0] == 2'b10 ? 4'b0010 :
+			     4'b0001) :
+			    eco32_bus_size == 2'b01 ? // half word
+			    (eco32_bus_addr[1] == 1'b0 ? 4'b1100 : 4'b0011) :
+			    4'b1111;
+assign wb_m2s_eco32_d_we = eco32_bus_wr;
+assign wb_m2s_eco32_d_cyc = eco32_bus_en;
+assign wb_m2s_eco32_d_stb = eco32_bus_en;
+assign wb_m2s_eco32_d_cti = 0;
+assign wb_m2s_eco32_d_bte = 0;
+
+assign eco32_bus_data_in = wb_m2s_eco32_d_sel == 4'b1000 ?
+			   {4{wb_s2m_eco32_d_dat[31:24]}} :
+			   wb_m2s_eco32_d_sel == 4'b0100 ?
+			   {4{wb_s2m_eco32_d_dat[23:16]}} :
+			   wb_m2s_eco32_d_sel == 4'b0010 ?
+			   {4{wb_s2m_eco32_d_dat[15:8]}} :
+			   wb_m2s_eco32_d_sel == 4'b0001 ?
+			   {4{wb_s2m_eco32_d_dat[7:0]}} :
+			   wb_m2s_eco32_d_sel == 4'b1100 ?
+			   {2{wb_s2m_eco32_d_dat[31:16]}} :
+			   wb_m2s_eco32_d_sel == 4'b0011 ?
+			   {2{wb_s2m_eco32_d_dat[15:0]}} :
+			   wb_s2m_eco32_d_dat;
+
+assign eco32_bus_wt = !wb_s2m_eco32_d_ack;
+
+cpu eco32_0
+       (
+	// Core clocks, resets
+	.clk				(wb_clk),
+	.reset				(wb_rst),
+
+	// Bus
+	.bus_en				(eco32_bus_en),
+	.bus_wr				(eco32_bus_wr),
+	.bus_size			(eco32_bus_size),
+	.bus_addr			(eco32_bus_addr),
+	.bus_data_in			(eco32_bus_data_in),
+	.bus_data_out			(eco32_bus_data_out),
+	.bus_wt				(eco32_bus_wt),
+
+	// Interrupts
+	.irq				(eco32_irq)
+);
+`endif
 
 ////////////////////////////////////////////////////////////////////////
 //
