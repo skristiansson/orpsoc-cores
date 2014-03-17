@@ -1,0 +1,44 @@
+From c00b00bc23f52d6005709b7e5900886d4fa0cf5b Mon Sep 17 00:00:00 2001
+From: Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>
+Date: Mon, 17 Mar 2014 21:08:01 +0200
+Subject: [PATCH 4/4] increase bus timeout
+
+SDRAM chips have a long startup delay after reset,
+the 255 clock cycles delay isn't enough
+---
+ cpu.v | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/cpu.v b/cpu.v
+index c0dce4a..f76aa0e 100644
+--- a/cpu.v
++++ b/cpu.v
+@@ -332,7 +332,7 @@ module ctrl(clk, reset,
+ 				// and interrupts are globally enabled
+   reg [3:0] irq_priority;	// highest priority of pending interrupts
+   reg [3:0] exc_priority;	// exception, when entering state 25 or 26
+-  reg [7:0] bus_count;		// counter to detect bus timeout
++  reg [31:0] bus_count;		// counter to detect bus timeout
+   wire bus_timeout;		// bus timeout detected
+   wire exc_prv_addr;		// privileged address exception detected
+   wire exc_ill_addr;		// illegal address exception detected
+@@ -851,14 +851,14 @@ module ctrl(clk, reset,
+   end
+ 
+   // bus timeout detector
+-  assign bus_timeout = (bus_count == 8'h00) ? 1 : 0;
++  assign bus_timeout = (bus_count == 32'h00) ? 1 : 0;
+   always @(posedge clk) begin
+     if (bus_en == 1 && bus_wt == 1) begin
+       // bus is waiting
+       bus_count <= bus_count - 1;
+     end else begin
+       // bus is not waiting
+-      bus_count <= 8'hFF;
++      bus_count <= 32'hffffffff;
+     end
+   end
+ 
+-- 
+1.8.3.2
+
