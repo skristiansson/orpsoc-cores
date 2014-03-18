@@ -81,9 +81,10 @@ module clkgen
 // Registers accesible via wishbone
 //
 // Reset Control register
-// [31:2] Reserved
-// [2]    HPS system reset (i.e. Qsys generated system reset)
-// [1]    HPS cold reset request
+// [31:4] Reserved
+// [3]    OR1K cpu reset
+// [2]    HPS cold reset request
+// [1]    HPS system reset (i.e. Qsys generated system reset)
 // [0]    Wishbone reset
 reg [31:0] rst_ctrl;
 
