@@ -13,10 +13,9 @@
 
 #include <stdint.h>
 #include <signal.h>
-#include <elf-loader.h>
+#include <verilator_tb_utils.h>
 
 #include "Vorpsoc_top__Syms.h"
-#include "verilated_vcd_c.h"
 
 static bool done;
 
@@ -35,106 +34,33 @@ static bool done;
 
 #define RESET_TIME		2
 
-#define VCD_DEFAULT_NAME	"../sim.vcd"
-
 void INThandler(int signal)
 {
 	printf("\nCaught ctrl-c\n");
 	done = true;
 }
 
-void parseArgs(int argc, char **argv);
-
-unsigned int timeout;
-char *elf_file_name;
-char *bin_file_name;
-bool vcd_enabled;
-char *vcd_name;
-
-unsigned long dump_start, dump_end;
-
 int main(int argc, char **argv, char **env)
 {
-	int i;
-	unsigned int t = 0;
-	int size;
-	uint8_t *bin_data;
-	bool dump = false;
-	VerilatedVcdC* tfp;
 	uint32_t insn = 0;
 	uint32_t ex_pc = 0;
 
-	Verilated::commandArgs(argc, argv);
-
 	Vorpsoc_top* top = new Vorpsoc_top;
+	VerilatorTbUtils* tbUtils =
+		new VerilatorTbUtils(argc, argv, top->v->wb_bfm_memory0->mem);
 
 	signal(SIGINT, INThandler);
-
-	parseArgs(argc, argv);
-
-	if (elf_file_name) {
-		printf("Loading %s\n",elf_file_name);
-		bin_data = load_elf_file(elf_file_name, &size);
-		if (bin_data == NULL) {
-			printf("Error loading elf file\n");
-			exit(1);
-		}
-
-		for (int i = 0; i < size; i += 4)
-			top->v->wb_bfm_memory0->mem[i/4] = read_32(bin_data, i);
-	}
-
-	if (bin_file_name) {
-		printf("Loading %s\n", bin_file_name);
-		FILE *bin_file = fopen(bin_file_name, "rb");
-
-		if (bin_file == NULL) {
-			printf("Error opening bin file\n");
-			exit(1);
-		}
-		fseek(bin_file, 0, SEEK_END);
-		size = ftell(bin_file);
-		rewind(bin_file);
-		bin_data = (uint8_t *)malloc(size);
-		if (fread(bin_data, 1, size, bin_file) != size) {
-			printf("Error reading bin file\n");
-			exit(1);
-		}
-
-		for (int i=0; i <size;i+=4) {
-			top->v->wb_bfm_memory0->mem[i/4] = read_32(bin_data, i);
-		}
-	}
 
 	top->wb_clk_i = 0;
 	top->wb_rst_i = 1;
 
-	if (vcd_enabled) {
-		Verilated::traceEverOn(true);
-		tfp = new VerilatedVcdC;
-		top->trace (tfp, 99);
-		tfp->open(vcd_name);
-	}
+	top->trace(tbUtils->tfp, 99);
 
-	while (!done) {
-
-		if (dump_end && t >= dump_end) {
-			if (dump)
-				printf("VCD dump stopped (%u)\n", t);
-			dump = false;
-		} else if (vcd_enabled && t >= dump_start) {
-			if (!dump)
-				printf("VCD dump started (%u)\n", t);
-			dump = true;
-		}
-
-		if (dump)
-			tfp->dump(t);
+	while (tbUtils->doCycle() && !done) {
+		if (tbUtils->getTime() > RESET_TIME)
+			top->wb_rst_i = 0;
 
 		top->eval();
-
-		if (t > RESET_TIME)
-			top->wb_rst_i = 0;
 
 		top->wb_clk_i = !top->wb_clk_i;
 
@@ -142,85 +68,15 @@ int main(int argc, char **argv, char **env)
 		ex_pc = top->v->or1200_top0->or1200_cpu->or1200_except->ex_pc;
 
 		if (insn == (0x15000000 | NOP_EXIT)) {
-			printf("Success! Got NOP_EXIT. Exiting (%u)\n", t);
+			printf("Success! Got NOP_EXIT. Exiting (%lu)\n",
+			       tbUtils->getTime());
 			done = true;
 		}
-
-		if (timeout && t > timeout) {
-			printf("Timeout reached (%u)\n", t);
-			done = true;
-		}
-		if (Verilated::gotFinish()) {
-			printf("Caught $finish()\n");
-			done = true;
-		}
-		t++;
 	}
 
-	printf("Simulation ended at PC = %08x, t = %d\n", ex_pc, t);
-	tfp->close();
-	free(vcd_name);
+	printf("Simulation ended at PC = %08x (%lu)\n",
+	       ex_pc, tbUtils->getTime());
+
+	delete tbUtils;
 	exit(0);
-}
-
-void parseArgs(int argc, char **argv)
-{
-	int i = 1;
-
-	while (i < argc) {
-		if (strcmp(argv[i], "--timeout") == 0) {
-			timeout = strtod(argv[++i], NULL);
-		} else if (strcmp(argv[i], "--elf-load") == 0) {
-			elf_file_name = argv[++i];
-		} else if (strcmp(argv[i], "--bin-load") == 0) {
-			bin_file_name = argv[++i];
-		} else if ((strcmp(argv[i], "-d") == 0) ||
-			   (strcmp(argv[i], "--vcdfile") == 0) ||
-			   (strcmp(argv[i], "-v") == 0) ||
-			   (strcmp(argv[i], "--vcd") == 0)) {
-			vcd_enabled = true;
-			if (((i + 1) < argc) && (argv[i+1][0] != '-'))
-				vcd_name = strdup(argv[++i]);
-			else
-				vcd_name = strdup(VCD_DEFAULT_NAME);
-		} else if ((strcmp(argv[i], "-s") == 0) ||
-			   (strcmp(argv[i], "--vcdstart") == 0)) {
-			dump_start = strtod(argv[++i], NULL);
-		} else if ((strcmp(argv[i], "-t") == 0) ||
-			   (strcmp(argv[i], "--vcdstop") == 0)) {
-			dump_end = strtod(argv[++i], NULL);
-#ifdef JTAG_DEBUG
-		} else if ((strcmp(argv[i], "-r") == 0) ||
-			 (strcmp(argv[i], "--rsp") == 0)) {
-			rsp_server_enabled = true;
-			if (++i < argc)
-				if (argv[i][0] != '-') {
-				rsp_server_port = atoi(argv[i]);
-			}
-#endif
-		} else if ((strcmp(argv[i], "-h") == 0) ||
-			   (strcmp(argv[i], "--help") == 0)) {
-			printf("Usage: %s [options]\n", argv[0]);
-			printf("\n  or1200-generic cycle accurate model\n");
-			printf("\n");
-			printf("Options:\n");
-			printf("  -h, --help\t\tPrint this help message\n");
-			printf("\nSimulation control:\n");
-			printf("  --elf-load <file> \tLoad program from ELF <file>\n");
-			printf("  --bin-load <file> \tLoad program from binary <file>\n");
-			printf("  --timeout <val> \tStop the sim at <val> ns\n");
-			printf("\nVCD generation:\n");
-			printf("  -v, --vcd [<file>]\tEnable and save VCD to <file>\n");
-			printf("  -s, --vcdstart <val>\tEnable and delay VCD generation until <val> ns\n");
-			printf("  -t, --vcdstop <val> \tEnable and terminate VCD generation at <val> ns\n");
-#ifdef JTAG_DEBUG
-			printf("\nRemote debugging:\n");
-			printf("  -r, --rsp [<port>]\tEnable RSP debugging server, opt. specify <port>\n");
-#endif
-			printf("\n");
-			exit(0);
-		}
-
-		i++;
-	}
 }
