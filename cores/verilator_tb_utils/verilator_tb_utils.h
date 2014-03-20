@@ -5,30 +5,7 @@
 #include <verilated_vcd_c.h>
 
 class VerilatorTbUtils {
-  private:
-  unsigned long t;
-
-  unsigned long timeout;
-
-  bool vcdDump;
-  unsigned long vcdDumpStart;
-  unsigned long vcdDumpStop;
-  char *vcdFileName;
-  bool vcdDumping;
-
-  char *elfFileName;
-  char *binFileName;
-
-  bool rspServerEnable;
-  int rspServerPort;
-
-  uint32_t *mem;
-
-  void parseArgs(int argc, char **argv);
-  bool loadElf();
-  bool loadBin();
-
-  public:
+public:
   VerilatorTbUtils(int argc, char **argv, uint32_t *mem);
   ~VerilatorTbUtils();
 
@@ -49,6 +26,30 @@ class VerilatorTbUtils {
 
   bool getRspServerEnable() { return rspServerEnable; }
   int getRspServerPort() { return rspServerPort; }
+
+private:
+  unsigned long t;
+
+  unsigned long timeout;
+
+  bool vcdDump;
+  unsigned long vcdDumpStart;
+  unsigned long vcdDumpStop;
+  char *vcdFileName;
+  bool vcdDumping;
+
+  char *elfFileName;
+  char *binFileName;
+
+  bool rspServerEnable;
+  int rspServerPort;
+
+  uint32_t *mem;
+
+  static int parseOpts(int key, char *arg, struct argp_state *state);
+  int parseArgs(int argc, char **argv);
+  bool loadElf();
+  bool loadBin();
 };
 
 #endif

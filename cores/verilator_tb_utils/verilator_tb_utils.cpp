@@ -2,15 +2,16 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
+#include <argp.h>
 #include <elf-loader/elf-loader.h>
 #include "verilator_tb_utils.h"
 
-#define VCD_DEFAULT_NAME	"../sim.vcd"
+#define VCD_DEFAULT_NAME "../sim.vcd"
 
 VerilatorTbUtils::VerilatorTbUtils(int argc, char **argv, uint32_t *mem)
   : mem(mem), t(0), timeout(0), vcdDump(false), vcdDumpStart(0), vcdDumpStop(0),
-    vcdFileName(0), elfFileName(0), binFileName(0), rspServerEnable(false),
-    rspServerPort(0) {
+    vcdFileName((char *)VCD_DEFAULT_NAME), elfFileName(0), binFileName(0),
+    rspServerEnable(false), rspServerPort(0) {
   tfp = new VerilatedVcdC;
 
   Verilated::commandArgs(argc, argv);
@@ -25,7 +26,6 @@ VerilatorTbUtils::VerilatorTbUtils(int argc, char **argv, uint32_t *mem)
 }
 
 VerilatorTbUtils::~VerilatorTbUtils() {
-  free(vcdFileName);
 }
 
 bool VerilatorTbUtils::doCycle() {
@@ -107,61 +107,66 @@ bool VerilatorTbUtils::loadBin() {
   return true;
 }
 
-void VerilatorTbUtils::parseArgs(int argc, char **argv) {
-  int i = 1;
+#define TIMEOUT_OPT 512
+#define ELFLOAD_OPT 513
+#define BINLOAD_OPT 514
 
-  while (i < argc) {
-    if (strcmp(argv[i], "--timeout") == 0) {
-      this->timeout = strtol(argv[++i], NULL, 10);
-    } else if (strcmp(argv[i], "--elf-load") == 0) {
-      this->elfFileName = argv[++i];
-    } else if (strcmp(argv[i], "--bin-load") == 0) {
-      this->binFileName = argv[++i];
-    } else if ((strcmp(argv[i], "-v") == 0) ||
-               (strcmp(argv[i], "--vcd") == 0)) {
-      this->vcdDump = true;
-      if (((i + 1) < argc) && (argv[i+1][0] != '-'))
-        this->vcdFileName = strdup(argv[++i]);
-      else
-        this->vcdFileName = strdup(VCD_DEFAULT_NAME);
-    } else if ((strcmp(argv[i], "-s") == 0) ||
-               (strcmp(argv[i], "--vcdstart") == 0)) {
-      this->vcdDumpStart = strtol(argv[++i], NULL, 10);
-    } else if ((strcmp(argv[i], "-t") == 0) ||
-               (strcmp(argv[i], "--vcdstop") == 0)) {
-      this->vcdDumpStop = strtol(argv[++i], NULL, 10);
-#ifdef JTAG_DEBUG
-    } else if ((strcmp(argv[i], "-r") == 0) ||
-               (strcmp(argv[i], "--rsp") == 0)) {
-      this->rspServerEnable = true;
-      if (++i < argc)
-        if (argv[i][0] != '-') {
-          this->rspServerPort = atoi(argv[i]);
-        }
-#endif
-    } else if ((strcmp(argv[i], "-h") == 0) ||
-               (strcmp(argv[i], "--help") == 0)) {
-      printf("Usage: %s [options]\n", argv[0]);
-      printf("\n  or1200-generic cycle accurate model\n");
-      printf("Options:\n");
-      printf("  -h, --help\t\tPrint this help message\n");
-      printf("\nSimulation control:\n");
-      printf("  --elf-load <file> \tLoad program from ELF <file>\n");
-      printf("  --bin-load <file> \tLoad program from binary <file>\n");
-      printf("  --timeout <val> \tStop the sim at <val> ns\n");
-      printf("\nVCD generation:\n");
-      printf("  -v, --vcdon\t\tEnable VCD generation\n");
-      printf("  -d, --vcdfile <file>\tEnable and save VCD to <file>\n");
-      printf("  -s, --vcdstart <val>\tEnable and delay VCD generation until <val> ns\n");
-      printf("  -t, --vcdstop <val> \tEnable and terminate VCD generation at <val> ns\n");
-#ifdef JTAG_DEBUG
-      printf("\nRemote debugging:\n");
-      printf("  -r, --rsp [<port>]\tEnable RSP debugging server, opt. specify <port>\n");
-#endif
-      printf("\n");
-      exit(0);
-    }
-    i++;
+int VerilatorTbUtils::parseOpts(int key, char *arg, struct argp_state *state) {
+  VerilatorTbUtils *tbUtils = static_cast<VerilatorTbUtils *>(state->input);
+
+  switch (key) {
+  case TIMEOUT_OPT:
+    tbUtils->timeout = strtol(arg, NULL, 10);
+    break;
+
+  case ELFLOAD_OPT:
+    tbUtils->elfFileName = arg;
+    break;
+
+  case BINLOAD_OPT:
+    tbUtils->binFileName = arg;
+    break;
+
+  case 'v':
+    tbUtils->vcdDump = true;
+    if (arg)
+      tbUtils->vcdFileName = arg;
+    break;
+
+  case 's':
+    tbUtils->vcdDumpStart = strtol(arg, NULL, 10);
+    break;
+
+  case 't':
+    tbUtils->vcdDumpStop = strtol(arg, NULL, 10);
+    break;
+
+  case 'r':
+      tbUtils->rspServerEnable = true;
+      if (arg)
+        tbUtils->rspServerPort = atoi(arg);
+    break;
   }
 
+  return 0;
+}
+
+int VerilatorTbUtils::parseArgs(int argc, char **argv) {
+  struct argp_option options[] = {
+    { 0, 0, 0, 0, "Simulation control:", 1 },
+    { "timeout", TIMEOUT_OPT, "VAL", 0, "Stop the sim at VAL" },
+    { "elf-load", ELFLOAD_OPT, "FILE", 0, "Load program from ELF FILE" },
+    { "bin-load", BINLOAD_OPT, "FILE", 0, "Load program from binary FILE" },
+    { 0, 0, 0, 0, "VCD generation:", 2 },
+    { "vcd", 'v', "FILE", OPTION_ARG_OPTIONAL, "Enable and save VCD to FILE" },
+    { "vcdstart", 's', "VAL", 0, "Delay VCD generation until VAL" },
+    { "vcdstop", 't', "VAL", 0, "Terminate VCD generation at VAL" },
+    { 0, 0, 0, 0, "Remote debugging:", 3 },
+    { "rsp", 'r', "PORT", OPTION_ARG_OPTIONAL, "Enable RSP debugging server, opt. specify PORT" },
+    { 0 },
+  };
+
+  struct argp argp = {options, parseOpts, 0};
+
+  return argp_parse(&argp, argc, argv, 0, 0, this);
 }
