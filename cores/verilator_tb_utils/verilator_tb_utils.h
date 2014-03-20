@@ -4,9 +4,11 @@
 #include <verilated.h>
 #include <verilated_vcd_c.h>
 
+extern struct argp verilator_tb_utils_argp;
+
 class VerilatorTbUtils {
 public:
-  VerilatorTbUtils(int argc, char **argv, uint32_t *mem);
+  VerilatorTbUtils(uint32_t *mem);
   ~VerilatorTbUtils();
 
   VerilatedVcdC* tfp;
@@ -21,11 +23,10 @@ public:
   unsigned long getVcdDumpStop() { return vcdDumpStop; }
   char *getVcdFileName() { return vcdFileName; }
 
-  char *getElfFileName() { return elfFileName; }
-  char *getBinFileName() { return binFileName; }
-
   bool getRspServerEnable() { return rspServerEnable; }
   int getRspServerPort() { return rspServerPort; }
+
+  static int parseOpts(int key, char *arg, struct argp_state *state);
 
 private:
   unsigned long t;
@@ -38,18 +39,13 @@ private:
   char *vcdFileName;
   bool vcdDumping;
 
-  char *elfFileName;
-  char *binFileName;
-
   bool rspServerEnable;
   int rspServerPort;
 
   uint32_t *mem;
 
-  static int parseOpts(int key, char *arg, struct argp_state *state);
-  int parseArgs(int argc, char **argv);
-  bool loadElf();
-  bool loadBin();
+  bool loadElf(char *fileName);
+  bool loadBin(char *fileName);
 };
 
 #endif

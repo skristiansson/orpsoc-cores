@@ -8,19 +8,11 @@
 
 #define VCD_DEFAULT_NAME "../sim.vcd"
 
-VerilatorTbUtils::VerilatorTbUtils(int argc, char **argv, uint32_t *mem)
+VerilatorTbUtils::VerilatorTbUtils(uint32_t *mem)
   : mem(mem), t(0), timeout(0), vcdDump(false), vcdDumpStart(0), vcdDumpStop(0),
-    vcdFileName((char *)VCD_DEFAULT_NAME), elfFileName(0), binFileName(0),
-    rspServerEnable(false), rspServerPort(0) {
+    vcdFileName((char *)VCD_DEFAULT_NAME), rspServerEnable(false),
+    rspServerPort(0) {
   tfp = new VerilatedVcdC;
-
-  Verilated::commandArgs(argc, argv);
-  parseArgs(argc, argv);
-
-  if (elfFileName)
-    loadElf();
-  else if (binFileName)
-    loadBin();
 
   Verilated::traceEverOn(true);
 }
@@ -60,12 +52,12 @@ bool VerilatorTbUtils::doCycle() {
   return true;
 }
 
-bool VerilatorTbUtils::loadElf() {
+bool VerilatorTbUtils::loadElf(char *fileName) {
   uint8_t *bin_data;
   int size;
 
-  printf("Loading %s\n",this->elfFileName);
-  bin_data = load_elf_file(this->elfFileName, &size);
+  printf("Loading %s\n", fileName);
+  bin_data = load_elf_file(fileName, &size);
   if (bin_data == NULL) {
     printf("Error loading elf file\n");
     return false;
@@ -79,12 +71,12 @@ bool VerilatorTbUtils::loadElf() {
   return true;
 }
 
-bool VerilatorTbUtils::loadBin() {
+bool VerilatorTbUtils::loadBin(char *fileName) {
   uint8_t *bin_data;
   int size;
-  FILE *bin_file = fopen(this->binFileName, "rb");
+  FILE *bin_file = fopen(fileName, "rb");
 
-  printf("Loading %s\n", this->binFileName);
+  printf("Loading %s\n", fileName);
 
   if (bin_file == NULL) {
     printf("Error opening bin file\n");
@@ -107,24 +99,41 @@ bool VerilatorTbUtils::loadBin() {
   return true;
 }
 
-#define TIMEOUT_OPT 512
-#define ELFLOAD_OPT 513
-#define BINLOAD_OPT 514
+#define OPT_TIMEOUT 512
+#define OPT_ELFLOAD 513
+#define OPT_BINLOAD 514
+
+static struct argp_option options[] = {
+  { 0, 0, 0, 0, "Simulation control:", 1 },
+  { "timeout", OPT_TIMEOUT, "VAL", 0, "Stop the sim at VAL" },
+  { "elf-load", OPT_ELFLOAD, "FILE", 0, "Load program from ELF FILE" },
+  { "bin-load", OPT_BINLOAD, "FILE", 0, "Load program from binary FILE" },
+  { 0, 0, 0, 0, "VCD generation:", 2 },
+  { "vcd", 'v', "FILE", OPTION_ARG_OPTIONAL, "Enable and save VCD to FILE" },
+  { "vcdstart", 's', "VAL", 0, "Delay VCD generation until VAL" },
+  { "vcdstop", 't', "VAL", 0, "Terminate VCD generation at VAL" },
+  { 0, 0, 0, 0, "Remote debugging:", 3 },
+  { "rsp", 'r', "PORT", OPTION_ARG_OPTIONAL, "Enable RSP debugging server, opt. specify PORT" },
+  { 0 },
+};
+
+struct argp verilator_tb_utils_argp = {options, VerilatorTbUtils::parseOpts,
+                                       0, 0};
 
 int VerilatorTbUtils::parseOpts(int key, char *arg, struct argp_state *state) {
   VerilatorTbUtils *tbUtils = static_cast<VerilatorTbUtils *>(state->input);
 
   switch (key) {
-  case TIMEOUT_OPT:
+  case OPT_TIMEOUT:
     tbUtils->timeout = strtol(arg, NULL, 10);
     break;
 
-  case ELFLOAD_OPT:
-    tbUtils->elfFileName = arg;
+  case OPT_ELFLOAD:
+    tbUtils->loadElf(arg);
     break;
 
-  case BINLOAD_OPT:
-    tbUtils->binFileName = arg;
+  case OPT_BINLOAD:
+    tbUtils->loadBin(arg);
     break;
 
   case 'v':
@@ -146,27 +155,10 @@ int VerilatorTbUtils::parseOpts(int key, char *arg, struct argp_state *state) {
       if (arg)
         tbUtils->rspServerPort = atoi(arg);
     break;
+
+  default:
+    return ARGP_ERR_UNKNOWN;
   }
 
   return 0;
-}
-
-int VerilatorTbUtils::parseArgs(int argc, char **argv) {
-  struct argp_option options[] = {
-    { 0, 0, 0, 0, "Simulation control:", 1 },
-    { "timeout", TIMEOUT_OPT, "VAL", 0, "Stop the sim at VAL" },
-    { "elf-load", ELFLOAD_OPT, "FILE", 0, "Load program from ELF FILE" },
-    { "bin-load", BINLOAD_OPT, "FILE", 0, "Load program from binary FILE" },
-    { 0, 0, 0, 0, "VCD generation:", 2 },
-    { "vcd", 'v', "FILE", OPTION_ARG_OPTIONAL, "Enable and save VCD to FILE" },
-    { "vcdstart", 's', "VAL", 0, "Delay VCD generation until VAL" },
-    { "vcdstop", 't', "VAL", 0, "Terminate VCD generation at VAL" },
-    { 0, 0, 0, 0, "Remote debugging:", 3 },
-    { "rsp", 'r', "PORT", OPTION_ARG_OPTIONAL, "Enable RSP debugging server, opt. specify PORT" },
-    { 0 },
-  };
-
-  struct argp argp = {options, parseOpts, 0};
-
-  return argp_parse(&argp, argc, argv, 0, 0, this);
 }

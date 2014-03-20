@@ -13,6 +13,7 @@
 
 #include <stdint.h>
 #include <signal.h>
+#include <argp.h>
 #include <verilator_tb_utils.h>
 
 #include "Vorpsoc_top__Syms.h"
@@ -40,14 +41,45 @@ void INThandler(int signal)
 	done = true;
 }
 
+static int parse_opt(int key, char *arg, struct argp_state *state)
+{
+	switch (key) {
+	case ARGP_KEY_INIT:
+		state->child_inputs[0] = state->input;
+		break;
+	// Add parsing of custom options here
+	}
+
+	return 0;
+}
+
+static int parse_args(int argc, char **argv, VerilatorTbUtils* tbUtils)
+{
+	struct argp_option options[] = {
+		// Add custom options here
+		{ 0 }
+	};
+	struct argp_child child_parsers[] = {
+		{ &verilator_tb_utils_argp, 0, "", 0 },
+		{ 0 }
+	};
+	struct argp argp = { options, parse_opt, 0, 0, child_parsers };
+
+	return argp_parse(&argp, argc, argv, 0, 0, tbUtils);
+}
+
 int main(int argc, char **argv, char **env)
 {
 	uint32_t insn = 0;
 	uint32_t ex_pc = 0;
 
+	Verilated::commandArgs(argc, argv);
+
 	Vorpsoc_top* top = new Vorpsoc_top;
 	VerilatorTbUtils* tbUtils =
-		new VerilatorTbUtils(argc, argv, top->v->wb_bfm_memory0->mem);
+		new VerilatorTbUtils(top->v->wb_bfm_memory0->mem);
+
+	parse_args(argc, argv, tbUtils);
 
 	signal(SIGINT, INThandler);
 
