@@ -3,12 +3,6 @@ CAPI=1
 description = "Verilator test bench utility class"
 depend = elf-loader
 
-; ugly workaround
-[vpi]
-name = verilator_tb_utils
-src_files = verilator_tb_utils.cpp
-include_files = verilator_tb_utils.h
-
 [verilator]
 src_files = verilator_tb_utils.cpp
 source_type = CPP
