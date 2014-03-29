@@ -3,12 +3,14 @@ CAPI=1
 depend =
  adv_debug_sys
  altera_virtual_jtag
+ simple_spi
+ i2c
  gpio
  jtag_tap
  jtag_vpi
  mor1kx
  or1200
- or1k-elf-loader
+ elf-loader
  uart16550
  vlog_tb_utils
  wb_intercon
