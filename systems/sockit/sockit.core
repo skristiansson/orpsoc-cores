@@ -9,7 +9,7 @@ depend =
  mor1kx
  uart16550
  or1200
- or1k-elf-loader
+ elf-loader
  vlog_tb_utils
  jtag_vpi
  ram_wb
