@@ -4,6 +4,6 @@ description = "Verilator test bench utility class"
 depend = elf-loader
 
 [verilator]
-src_files = verilator_tb_utils.cpp
 source_type = CPP
+src_files = verilator_tb_utils.cpp
 include_files = verilator_tb_utils.h
