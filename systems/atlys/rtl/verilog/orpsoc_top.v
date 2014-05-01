@@ -315,14 +315,14 @@ mor1kx #(
 	.FEATURE_INSTRUCTIONCACHE("ENABLED"),
 	.OPTION_ICACHE_BLOCK_WIDTH(5),
 	.OPTION_ICACHE_SET_WIDTH(8),
-	.OPTION_ICACHE_WAYS(2),
+	.OPTION_ICACHE_WAYS(4),
 	.OPTION_ICACHE_LIMIT_WIDTH(32),
 	.FEATURE_IMMU("ENABLED"),
 	.OPTION_IMMU_SET_WIDTH(7),
 	.FEATURE_DATACACHE("ENABLED"),
 	.OPTION_DCACHE_BLOCK_WIDTH(5),
 	.OPTION_DCACHE_SET_WIDTH(8),
-	.OPTION_DCACHE_WAYS(2),
+	.OPTION_DCACHE_WAYS(4),
 	.OPTION_DCACHE_LIMIT_WIDTH(31),
 	.FEATURE_DMMU("ENABLED"),
 	.OPTION_DMMU_SET_WIDTH(7),
@@ -461,10 +461,10 @@ xilinx_ddr2 xilinx_ddr2_0 (
 	.wbm0_adr_i	(wb_m2s_ddr2_eth0_adr),
 	.wbm0_bte_i	(wb_m2s_ddr2_eth0_bte),
 	.wbm0_cti_i	(wb_m2s_ddr2_eth0_cti),
-	.wbm0_cyc_i	(0/*wb_m2s_ddr2_eth0_cyc*/),
+	.wbm0_cyc_i	(wb_m2s_ddr2_eth0_cyc),
 	.wbm0_dat_i	(wb_m2s_ddr2_eth0_dat),
 	.wbm0_sel_i	(wb_m2s_ddr2_eth0_sel),
-	.wbm0_stb_i	(0/*wb_m2s_ddr2_eth0_stb*/),
+	.wbm0_stb_i	(wb_m2s_ddr2_eth0_stb),
 	.wbm0_we_i	(wb_m2s_ddr2_eth0_we),
 	.wbm0_ack_o	(wb_s2m_ddr2_eth0_ack),
 	.wbm0_err_o	(wb_s2m_ddr2_eth0_err),
@@ -500,10 +500,10 @@ xilinx_ddr2 xilinx_ddr2_0 (
 	.wbm3_adr_i	(wb_m2s_ddr2_vga0_adr),
 	.wbm3_bte_i	(wb_m2s_ddr2_vga0_bte),
 	.wbm3_cti_i	(wb_m2s_ddr2_vga0_cti),
-	.wbm3_cyc_i	(0/*wb_m2s_ddr2_vga0_cyc*/),
+	.wbm3_cyc_i	(wb_m2s_ddr2_vga0_cyc),
 	.wbm3_dat_i	(wb_m2s_ddr2_vga0_dat),
 	.wbm3_sel_i	(wb_m2s_ddr2_vga0_sel),
-	.wbm3_stb_i	(0/*wb_m2s_ddr2_vga0_stb*/),
+	.wbm3_stb_i	(wb_m2s_ddr2_vga0_stb),
 	.wbm3_we_i	(wb_m2s_ddr2_vga0_we),
 	.wbm3_ack_o	(wb_s2m_ddr2_vga0_ack),
 	.wbm3_err_o	(wb_s2m_ddr2_vga0_err),
@@ -733,7 +733,7 @@ always @(posedge wb_clk)
 		hlen <= 0;
 		vlen <= 0;
 	end else if ((wb_m2s_vga0_adr[7:0] == 8'h16) &
-		 wb_m2s_vga0_stb & wb_m2s_vga0_cyc) begin
+		     wb_m2s_vga0_stb & wb_m2s_vga0_cyc) begin
 		hlen <= wb_m2s_vga0_dat[31:16];
 		vlen <= wb_m2s_vga0_dat[15:0];
 	end
@@ -804,7 +804,7 @@ ethmac ethmac0 (
 	// Wishbone Slave interface
 	.wb_clk_i	(wb_clk),
 	.wb_rst_i	(wb_rst),
-	.wb_adr_i	(wb_m2s_eth0_adr),
+	.wb_adr_i	(wb_m2s_eth0_adr[11:2]),
 	.wb_dat_i	(wb_m2s_eth0_dat),
 	.wb_sel_i	(wb_m2s_eth0_sel),
 	.wb_we_i 	(wb_m2s_eth0_we),

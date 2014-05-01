@@ -320,7 +320,7 @@ NET "sys_clk_pad_i" TNM_NET = "sys_clk_pad_i";
 TIMESPEC TS_sys_clk_pad_i = PERIOD "sys_clk_pad_i" 100 MHz HIGH 50 %;
 
 NET "wb_clk" TNM_NET = "wb_clk";
-TIMESPEC TS_wb_clk = PERIOD "wb_clk" 50 MHz high 50%;
+TIMESPEC TS_wb_clk = PERIOD "wb_clk" 75 MHz high 50%;
 
 NET rst_n_pad_i TIG;
 

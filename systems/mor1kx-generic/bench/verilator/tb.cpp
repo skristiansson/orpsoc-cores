@@ -35,6 +35,8 @@ static bool done;
 
 #define RESET_TIME		2
 
+int exit_code;
+
 void INThandler(int signal)
 {
 	printf("\nCaught ctrl-c\n");
@@ -68,10 +70,45 @@ static int parse_args(int argc, char **argv, VerilatorTbUtils* tbUtils)
 	return argp_parse(&argp, argc, argv, 0, 0, tbUtils);
 }
 
+bool mor1kx_monitor(Vorpsoc_top* top)
+{
+	uint32_t insn = top->v->mor1kx0->mor1kx_cpu->monitor_execute_insn;
+	bool stall = !top->v->mor1kx0->mor1kx_cpu->monitor_execute_advance;
+	uint32_t r3;
+
+	if (stall)
+		return false;
+
+	if ((insn & 0xff000000) != 0x15000000)
+		return false;
+
+	r3 = top->v->mor1kx0->mor1kx_cpu->cappuccino__DOT__mor1kx_cpu->
+		get_gpr(3);
+
+	switch (insn & 0xffff) {
+	case NOP_EXIT:
+		exit_code = r3;
+		printf("exit(%u)\n", exit_code);
+		return true;
+
+	case NOP_REPORT:
+		printf("report(0x%08x)\n", r3);
+		return false;
+
+	default:
+		return false;
+	}
+
+	return false;
+}
+
 int main(int argc, char **argv, char **env)
 {
-	uint32_t insn = 0;
 	uint32_t ex_pc = 0;
+	uint32_t last_pc = 0;
+	uint32_t cnt = 0;
+
+	exit_code = 0;
 
 	Verilated::commandArgs(argc, argv);
 
@@ -96,19 +133,27 @@ int main(int argc, char **argv, char **env)
 
 		top->wb_clk_i = !top->wb_clk_i;
 
-		insn = top->v->mor1kx0->mor1kx_cpu->monitor_execute_insn;
-		ex_pc = top->v->mor1kx0->mor1kx_cpu->monitor_execute_pc;
-
-		if (insn == (0x15000000 | NOP_EXIT)) {
-			printf("Success! Got NOP_EXIT. Exiting (%lu)\n",
-			       tbUtils->getTime());
+		if (top->wb_clk_i && mor1kx_monitor(top))
 			done = true;
-		}
+
+		ex_pc = top->v->mor1kx0->mor1kx_cpu->monitor_execute_pc;
+/*
+		if (ex_pc == 0xc0003c7c)
+			printf("ex_pc = %x (%lu)\n", ex_pc, tbUtils->getTime());
+		if (last_pc == ex_pc && ex_pc == 0xc0003c7c)
+			cnt++;
+		else
+			cnt = 0;
+		if (cnt > 200)
+			done = true;
+		last_pc = ex_pc;
+*/
 	}
 
+	ex_pc = top->v->mor1kx0->mor1kx_cpu->monitor_execute_pc;
 	printf("Simulation ended at PC = %08x (%lu)\n",
 	       ex_pc, tbUtils->getTime());
 
 	delete tbUtils;
-	exit(0);
+	exit(exit_code);
 }

@@ -94,14 +94,25 @@ DCM_SP dcm0 (
 	.RST		(async_rst_o)
 );
 
+//`define CLK_FREQ80 1
+`define CLK_FREQ75 1
+//`define CLK_FREQ50 1
+
 // Daisy chain DCM-PLL to reduce jitter
 PLL_BASE #(
 	.BANDWIDTH("OPTIMIZED"),
-	// .CLKFBOUT_MULT(8), // 80 MHz
-	.CLKFBOUT_MULT(5), // 50 MHz
+`ifdef CLK_FREQ80
+	//.CLKFBOUT_MULT(8), // 80 MHz
+`endif
+	//.CLKFBOUT_MULT(5), // 50 MHz
+	.CLKFBOUT_MULT(9), // 75 MHz
 	.CLKFBOUT_PHASE(0.0),
 	.CLKIN_PERIOD(10),
-	.CLKOUT1_DIVIDE(10),
+`ifdef CLK_FREQ75
+	.CLKOUT1_DIVIDE(12), // 75 Mhz
+`else
+	.CLKOUT1_DIVIDE(10), // 50 & 80 Mhz
+`endif
 	.CLKOUT2_DIVIDE(1),
 	.CLKOUT3_DIVIDE(1),
 	.CLKOUT4_DIVIDE(1),

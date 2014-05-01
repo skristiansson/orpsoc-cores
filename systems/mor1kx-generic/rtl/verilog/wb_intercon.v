@@ -90,7 +90,7 @@ wire        wb_s2m_resize_uart_rty;
 wb_mux
   #(.num_slaves (2),
     .MATCH_ADDR ({32'h00000000, 32'h90000000}),
-    .MATCH_MASK ({32'hff800000, 32'hfffffff8}))
+    .MATCH_MASK ({32'hfe000000, 32'hfffffff8}))
  wb_mux_or1k_d
    (.wb_clk_i  (wb_clk_i),
     .wb_rst_i  (wb_rst_i),
@@ -122,7 +122,7 @@ wb_mux
 wb_mux
   #(.num_slaves (1),
     .MATCH_ADDR ({32'h00000000}),
-    .MATCH_MASK ({32'hff800000}))
+    .MATCH_MASK ({32'hfe000000}))
  wb_mux_or1k_i
    (.wb_clk_i  (wb_clk_i),
     .wb_rst_i  (wb_rst_i),

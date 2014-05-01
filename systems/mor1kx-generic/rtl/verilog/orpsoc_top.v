@@ -8,7 +8,7 @@ module orpsoc_top #(
 localparam wb_aw = 32;
 localparam wb_dw = 32;
 
-localparam MEM_SIZE_BITS = 23;
+localparam MEM_SIZE_BITS = 25;
 
 ////////////////////////////////////////////////////////////////////////
 //
@@ -39,13 +39,13 @@ mor1kx #(
 	.FEATURE_INSTRUCTIONCACHE	("ENABLED"),
 	.OPTION_ICACHE_BLOCK_WIDTH	(5),
 	.OPTION_ICACHE_SET_WIDTH	(8),
-	.OPTION_ICACHE_WAYS		(2),
+	.OPTION_ICACHE_WAYS		(4),
 	.OPTION_ICACHE_LIMIT_WIDTH	(32),
 	.FEATURE_IMMU			("ENABLED"),
 	.FEATURE_DATACACHE		("ENABLED"),
 	.OPTION_DCACHE_BLOCK_WIDTH	(5),
 	.OPTION_DCACHE_SET_WIDTH	(8),
-	.OPTION_DCACHE_WAYS		(2),
+	.OPTION_DCACHE_WAYS		(4),
 	.OPTION_DCACHE_LIMIT_WIDTH	(31),
 	.FEATURE_DMMU			("ENABLED"),
 	.OPTION_PIC_TRIGGER		("LATCHED_LEVEL"),
