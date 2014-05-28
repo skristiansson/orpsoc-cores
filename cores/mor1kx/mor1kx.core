@@ -52,8 +52,8 @@ tb_src_files = bench/verilog/mor1kx_monitor.v
 trace_enable = bool "Enable trace"
 trace_to_screen = bool "Output trace to screen"
 
-[provider]
-name = github
-user = openrisc
-repo = mor1kx
-version = master
+;[provider]
+;name = github
+;user = openrisc
+;repo = mor1kx
+;version = master
