@@ -121,7 +121,8 @@ module wb_port #(
 		READ		= 3'd1,
 		WRITE		= 3'd2,
 		REFILL		= 3'd3,
-		WAIT_LATENCY	= 3'd4;
+		WAIT_LATENCY	= 3'd4,
+		READ_DONE	= 3'd5;
 
 
 	localparam [2:0]
@@ -214,14 +215,20 @@ dual_clock_fifo #(
 	.empty_o	(wrfifo_empty)
 );
 
+	reg	read_done_wb;
+	reg	read_done_r;
+
 	//
 	// WB clock domain
 	//
 	always @(posedge wb_clk)
-		if (read_done)
-			read_done_ack <= 1'b1;
-		else
-			read_done_ack <= 1'b0;
+		if (wb_rst) begin
+			read_done_r <= 1'b0;
+			read_done_wb <= 1'b0;
+		end else begin
+			read_done_r  <= read_done;
+			read_done_wb <= read_done_r;
+		end
 
 	always @(posedge wb_clk)
 		if (wb_rst) begin
@@ -247,13 +254,17 @@ dual_clock_fifo #(
 				if (wb_cyc_i & wb_stb_i & !wb_we_i) begin
 					if (bufhit & !first_req) begin
 						wb_read_ack <= 1'b1;
-						wb_state <= READ;
+						if ((wb_cti_i == CLASSIC) | read_done_wb)
+							wb_state <= READ_DONE;
+						else
+							wb_state <= READ;
+
 					/*
 					 * wait for the ongoing refill to finish
 					 * until issuing a new request
 					 */
-					end else if (buf_clean_wb[wb_adr_i[BUF_WIDTH+1:2]] |
-						     first_req) begin
+					end else if ((buf_clean_wb[wb_adr_i[BUF_WIDTH+1:2]] |
+						     first_req) & !read_done_wb) begin
 						first_req <= 1'b0;
 						read_req_wb <= 1'b1;
 						wb_state <= REFILL;
@@ -267,8 +278,10 @@ dual_clock_fifo #(
 					if (bufhit)
 						wb_write_bufram <= 1'b1;
 
-					wb_state <= WRITE;
+					if (!read_done_wb)
+						wb_state <= WRITE;
 				end
+
 			end
 
 			READ: begin
@@ -282,7 +295,7 @@ dual_clock_fifo #(
 
 			REFILL: begin
 				buf_adr <= wb_adr[31:BUF_WIDTH+2];
-				if (read_done) begin
+				if (read_done_wb) begin
 					read_req_wb <= 1'b0;
 					wb_state <= IDLE;
 				end
@@ -307,6 +320,12 @@ dual_clock_fifo #(
 					wb_write_ack <= 0;
 				end
 			end
+
+			READ_DONE: begin
+				wb_read_ack <= 1'b0;
+				wb_state <= IDLE;
+			end
+
 			endcase
 		end
 
@@ -380,6 +399,7 @@ dual_clock_fifo #(
 
 			WAIT_LATENCY: begin
 				if (!read_req_sdram) begin
+					read_done <= 1'b0;
 					sdram_state <= IDLE;
 				end
 			end
@@ -388,9 +408,6 @@ dual_clock_fifo #(
 				sdram_state <= IDLE;
 			end
 			endcase
-
-			if (read_done_ack)
-				read_done <= 1'b0;
 		end
 	end
 endmodule

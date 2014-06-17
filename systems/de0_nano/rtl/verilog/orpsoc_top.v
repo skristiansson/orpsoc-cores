@@ -254,6 +254,7 @@ wire		or1k_rst;
 assign or1k_rst = wb_rst | or1k_dbg_rst;
 
 `ifdef OR1200
+
 or1200_top #(.boot_adr(32'hf0000100))
 or1200_top0 (
 	// Instruction bus, clocks, reset
